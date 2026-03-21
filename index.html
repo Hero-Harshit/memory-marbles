@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Map</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <button onclick="window.location.href='museum.html'">My Museum</button>
+        <button onclick="window.location.href='settings.html'">Settings</button>
+    </nav>
+
+    <div class="top-container"> 
+
+        <h1>Create A Memory Marble</h1>
+        <h3>Your created memory will be displayed at our museum.</h3>
+
+    </div>
+
+    <div class="memory-input-container">
+
+        <select id="selected-emotion">
+            <option value="none" disabled selected>Select an emotion</option>
+            <option value="joy">Joy</option>
+            <option value="sadness">Sadness</option>
+            <option value="anger">Anger</option>
+            <option value="disgust">Disgust</option>
+            <option value="fear">Fear</option>
+        </select>
+        <textarea rows="10" id="memory-description"class="memory-description-textarea" placeholder="Describe your memory"></textarea>
+        <div>
+            <button class="add-memory-button" id="add-memory-button">Add Memory</button>
+        </div>
+        
+
+    </div>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

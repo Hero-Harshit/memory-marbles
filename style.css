@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius&family=Fredoka:wght@300..700&display=swap');
+
+/* general styles */
+
+body{
+    font-family: 'Delius';
+    margin: 0px;
+}
+
+h1{
+    text-align: center;
+}
+
+input{
+    font-family: 'Delius';
+    font-weight: 600;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+}
+
+nav button{
+    font-family: 'Delius';
+    font-weight: 600;
+    border-radius: 35px;
+    padding: 10px;
+    margin: 10px;
+    background-color: yellow;
+}
+
+/* navigation bar */
+
+nav{
+    text-align: center;
+
+}
+
+
+/* index.html */
+
+.top-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.memory-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+.memory-description-textarea {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    display: inline;
+    margin: 20px;
+    text-align: center;
+    width: 80vw;
+}
+
+.add-memory-button {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+
+/* museum.html */
+
+
+
+
+.all-memories-container {
+    margin: 0px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.memory-list-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+    flex-wrap: wrap;
+}
+
+.memory-element {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    height: 10vw;
+    width: 10vw;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.joy {
+    background: radial-gradient(circle, white, yellow);
+    box-shadow: 
+    inset 0px 10px 20px rgba(255,255,255,0.5),
+    inset 0px -10px 20px rgba(0,0,0,0.3),
+    5px 10px 20px rgba(0,0,0,0.4);
+}
+
+.sadness {
+    background: radial-gradient(circle, white, blue);
+    box-shadow: 
+    inset 0px 10px 20px rgba(255,255,255,0.5),
+    inset 0px -10px 20px rgba(0,0,0,0.3),
+    5px 10px 20px rgba(0,0,0,0.4); 
+}
+
+.anger {
+    background: radial-gradient(circle, white, #cf0000);
+    box-shadow: 
+    inset 0px 10px 20px rgba(255,255,255,0.5),
+    inset 0px -10px 20px rgba(0,0,0,0.3), 
+    5px 10px 20px rgba(0,0,0,0.4);
+}
+
+.disgust {
+    background: radial-gradient(circle, white, #086808);
+    box-shadow: 
+    inset 0px 10px 20px rgba(255,255,255,0.5),
+    inset 0px -10px 20px rgba(0,0,0,0.3),
+    5px 10px 20px rgba(0,0,0,0.4);              
+}
+
+.fear {
+    background: radial-gradient(circle, white, #430577);
+    box-shadow: 
+    inset 0px 10px 20px rgba(255,255,255,0.5),
+    inset 0px -10px 20px rgba(0,0,0,0.3),       
+    5px 10px 20px rgba(0,0,0,0.4);               
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 40vw;
+}
+
+.modal-overlay.active {
+    display: block;
+}
+
+
+
+/* settings.html */
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.clear-museum-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -51,6 +51,15 @@ nav{
     text-align: center;
 }
 
+.emotion-button {
+    width: 12vw;
+    background: none;
+    border: none;
+}    
+
+.emotion-image {
+    height: 12vw;
+}
 
 .memory-description-textarea {
     padding: 5px;

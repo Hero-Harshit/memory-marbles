@@ -22,14 +22,36 @@
 
     <div class="memory-input-container">
 
-        <select id="selected-emotion">
-            <option value="none" disabled selected>Select an emotion</option>
-            <option value="joy">Joy</option>
-            <option value="sadness">Sadness</option>
-            <option value="anger">Anger</option>
-            <option value="disgust">Disgust</option>
-            <option value="fear">Fear</option>
-        </select>
+        <div id="memory-emotion" class="all-emotions-container">
+            
+            <h3>How are you feeling?</h3>
+
+            <div class="emotions-container">
+
+                <button class="emotion-button" data-emotion="Joy">
+                    <img class="emotion-image" src="assests/Joy.png" />
+                </button>
+
+                <button class="emotion-button" data-emotion="Sadness">
+                    <img class="emotion-image" src="assests/Sadness.png" />
+                </button>
+
+                <button class="emotion-button" data-emotion="Anger">
+                    <img class="emotion-image" src="assests/Anger.png" />
+                </button>
+
+                <button class="emotion-button" data-emotion="Fear">
+                    <img class="emotion-image" src="assests/Fear.png" />
+                </button>
+
+                <button class="emotion-button" data-emotion="Disgust">
+                    <img class="emotion-image" src="assests/Disgust.png" />
+                </button>
+
+            </div>
+
+        </div>
+
         <textarea rows="10" id="memory-description"class="memory-description-textarea" placeholder="Describe your memory"></textarea>
         <div>
             <button class="add-memory-button" id="add-memory-button">Add Memory</button>

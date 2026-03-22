@@ -1,19 +1,21 @@
 // *******************Main Things************************ //
 
 
+
 // Main DataBase
 
 let allMemories = localStorage.getItem('allmemories') ? JSON.parse(localStorage.getItem('allmemories')) : [];
 
 
-// All Functions
+
+// All Functions Hoisted
 
 let saveMemories = function() {
     localStorage.setItem('allmemories', JSON.stringify(allMemories));
 };
 
 let addMemory = function() {
-    let emotion = selectedEmotion.value;
+    let emotion = selectedEmotion;
     let description = memoryDescription.value;
     let date = Date.now();
 
@@ -48,7 +50,6 @@ let getAllMemories = function() {
         memoryElement.addEventListener('click', () => openMemoryModal(memory));
         memoryList.appendChild(memoryElement);
     }
-
 };
 
 let openMemoryModal = function(memory) {
@@ -67,7 +68,7 @@ let clearMuseum = function() {
 
 // index.html page
 
-let selectedEmotion = document.getElementById('selected-emotion');
+let selectedEmotionButton = null
 let memoryDescription = document.getElementById('memory-description');
 let addMemoryButton = document.getElementById('add-memory-button');
 

@@ -69,7 +69,7 @@ This is that thing. It's imperfect, it's growing, and it's mine. Maybe it'll bec
 - [ ] Multi-emotion combination marbles with dynamic conic gradients.
 - [ ] Photo attachments inside memories.
 - [ ] Export & import your marble collection as JSON.
-- [ ] Inside Out 2 emotions — Anxiety, Nostalgia, Envy and more.
+- [ ] Inside Out 2 emotions.
 - [ ] A more magical, Pixar-inspired visual theme.
 - [ ] Floating marble animations.
       

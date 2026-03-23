@@ -10,16 +10,26 @@ let allMemories = localStorage.getItem('allmemories') ? JSON.parse(localStorage.
 
 // All Functions Hoisted
 
+// Index.html page
+
 let saveMemories = function() {
     localStorage.setItem('allmemories', JSON.stringify(allMemories));
 };
+
+let buttonSelection = function(btn) {
+
+    selectedEmotion = btn.dataset.emotion;
+    emotionButtons.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+
+}
 
 let addMemory = function() {
     let emotion = selectedEmotion;
     let description = memoryDescription.value;
     let date = Date.now();
 
-    if (emotion === 'none' || description=== '') {
+    if (!emotion || description=== '') {
         alert('Please select an emotion and write a description for your memory.');
         return;
     }
@@ -32,12 +42,16 @@ let addMemory = function() {
 
     allMemories.push(memory);
 
-    selectedEmotion.value = 'none';
+    selectedEmotion = null;
     memoryDescription.value = '';
+    emotionButtons.forEach(b => b.classList.remove('selected'));
     saveMemories();
     
     
 };
+
+
+// Museum.html page
 
 let getAllMemories = function() {
     for (let memory of allMemories) {
@@ -58,17 +72,19 @@ let openMemoryModal = function(memory) {
     memoryModal.classList.add('active');
 }
 
+// Settings.html page
+
 let clearMuseum = function() {
     allMemories = [];
     saveMemories();
-    location.reload();
 }
 
 // ********************Dom elements*********************** // 
 
 // index.html page
 
-let selectedEmotionButton = null
+let emotionButtons = document.querySelectorAll('.emotion-button');
+let selectedEmotion = null
 let memoryDescription = document.getElementById('memory-description');
 let addMemoryButton = document.getElementById('add-memory-button');
 
@@ -93,6 +109,12 @@ if (addMemoryButton) {
     addMemoryButton.addEventListener('click', addMemory);
 
 };
+
+if (emotionButtons.length > 0) {
+    emotionButtons.forEach(btn => {
+        btn.addEventListener('click', () => buttonSelection(btn));
+    });
+}
 
 // museum.html page
 

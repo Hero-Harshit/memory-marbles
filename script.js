@@ -80,6 +80,17 @@ let clearMuseum = function() {
     saveMemories();
 }
 
+let exportMemories = function() {
+    let data = JSON.stringify(allMemories);
+    let file = new Blob([data], { type: "application/json" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(file);
+    let now = new Date();
+    let date = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
+    link.download = `MyMemories ${date}.json`;
+    link.click();
+};
+
 // ********************Dom elements*********************** // 
 
 // index.html page
@@ -101,6 +112,7 @@ let modalClose = document.getElementById('modal-close');
 // settings.html page
 
 let clearMuseumButton = document.getElementById('clear-museum-button');
+let exportButton = document.getElementById('export-button');
 
 // ********************Event Listeners********************* //
 
@@ -134,8 +146,15 @@ if (modalClose) {
 
 };    
 
+
+// settings.html page
+
 if (clearMuseumButton) {
 
     clearMuseumButton.addEventListener('click', clearMuseum);
 
-};    
+};  
+
+if (exportButton) {
+    exportButton.addEventListener('click', exportMemories);
+}

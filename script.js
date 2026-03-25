@@ -91,6 +91,17 @@ let exportMemories = function() {
     link.click();
 };
 
+let importMemories = function(event) {
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.onload = function() {
+        let importedMemories = JSON.parse(reader.result);
+        allMemories = importedMemories;
+        saveMemories();
+    };
+    reader.readAsText(file);
+};
+
 // ********************Dom elements*********************** // 
 
 // index.html page
@@ -113,6 +124,8 @@ let modalClose = document.getElementById('modal-close');
 
 let clearMuseumButton = document.getElementById('clear-museum-button');
 let exportButton = document.getElementById('export-button');
+let importButton = document.getElementById('import-button');
+let importInput = document.getElementById('import-input');
 
 // ********************Event Listeners********************* //
 
@@ -157,4 +170,14 @@ if (clearMuseumButton) {
 
 if (exportButton) {
     exportButton.addEventListener('click', exportMemories);
+}
+
+if (importInput) {
+    importInput.addEventListener('change', importMemories);
+}
+
+if (importButton) {
+    importButton.addEventListener('click', () => {
+        importInput.click();
+    });
 }

@@ -28,10 +28,14 @@ nav button{
     background-color: yellow;
 }
 
-/* navigation bar */
+.error-msg {
+    color: red;
+    font-weight: 600;
+    margin: 10px;
+}
 
 nav{
-    text-align: center;
+    text-align: right;
 
 }
 
@@ -89,13 +93,6 @@ nav{
     text-align: center;
     width: 80vw;
     font-family: 'Delius';
-}
-
-.error-msg {
-    color: red;
-    font-weight: 600;
-    margin: 10px;
-    margin: 10px;
 }
 
 .add-memory-button {
@@ -224,5 +221,5 @@ nav{
     border-radius: 5px;
     cursor: pointer;
     margin: 20px;
-    min-width: 25vw
+    min-width: 25vw;
 }

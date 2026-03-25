@@ -30,7 +30,7 @@ let addMemory = function() {
     let date = Date.now();
 
     if (!emotion || description=== '') {
-        alert('Please select an emotion and write a description for your memory.');
+        addMemoryErrorMsg.textContent = 'Please select an emotion and write a description.';
         return;
     }
         
@@ -45,6 +45,7 @@ let addMemory = function() {
     selectedEmotion = null;
     memoryDescription.value = '';
     emotionButtons.forEach(b => b.classList.remove('selected'));
+    addMemoryErrorMsg.textContent = '';
     saveMemories();
     
     
@@ -86,6 +87,7 @@ let clearMuseum = function() {
 let emotionButtons = document.querySelectorAll('.emotion-button');
 let selectedEmotion = null
 let memoryDescription = document.getElementById('memory-description');
+let addMemoryErrorMsg = document.getElementById('add-memory-error-msg');
 let addMemoryButton = document.getElementById('add-memory-button');
 
 // museum.html page

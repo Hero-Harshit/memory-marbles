@@ -65,11 +65,13 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid transparent;
 
 }    
 
 .selected {
-    border: 2px solid black;
+    border: 1px solid black;
+    transform: scale(1.5);
 }
 
 .emotion-image {
@@ -87,6 +89,13 @@ nav{
     text-align: center;
     width: 80vw;
     font-family: 'Delius';
+}
+
+.error-msg {
+    color: red;
+    font-weight: 600;
+    margin: 10px;
+    margin: 10px;
 }
 
 .add-memory-button {
@@ -198,10 +207,16 @@ nav{
 /* settings.html */
 
 .settings-container {
+    padding: 20px;
+}
+
+.settings-card {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    margin-top: 20px;
+    justify-content: space-between;
+    border-top: black solid 2px;
+    margin: 20px;
 }
 
 .clear-museum-button {
@@ -209,4 +224,5 @@ nav{
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin: 20px;
 }

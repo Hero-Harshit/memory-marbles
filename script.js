@@ -104,6 +104,11 @@ let importMemories = function(event) {
 
 // ********************Dom elements*********************** // 
 
+// Global elements
+
+let hamburger = document.getElementById('hamburger');
+let navLinks = document.getElementById('nav-links');
+
 // index.html page
 
 let emotionButtons = document.querySelectorAll('.emotion-button');
@@ -128,6 +133,14 @@ let importButton = document.getElementById('import-button');
 let importInput = document.getElementById('import-input');
 
 // ********************Event Listeners********************* //
+
+// Global event listeners
+
+if (hamburger) {
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+}
 
 // index.html page
 

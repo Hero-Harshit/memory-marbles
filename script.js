@@ -104,10 +104,13 @@ let importMemories = function(event) {
 
 // ********************Dom elements*********************** // 
 
-// Global elements
+// Nav elements
 
-let hamburger = document.getElementById('hamburger');
-let navLinks = document.getElementById('nav-links');
+let hamburgerBtn = document.getElementById('hamburger-btn');
+let NavigationMenuCloseBtn = document.getElementById('navigation-menu-close-btn');
+let navigationMenu = document.getElementById('navigation-menu');
+let profileBtn  = document.getElementById('profile-btn');
+let profileMenu = document.getElementById('profile-menu');
 
 // index.html page
 
@@ -134,11 +137,23 @@ let importInput = document.getElementById('import-input');
 
 // ********************Event Listeners********************* //
 
-// Global event listeners
+// Navbar Event listeners
 
-if (hamburger) {
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', () => {
+        navigationMenu.classList.add('active');
+    });
+}
+
+if (NavigationMenuCloseBtn) {
+    NavigationMenuCloseBtn.addEventListener('click', () => {
+        navigationMenu.classList.remove('active');
+    });
+}    
+
+if (profileBtn) {
+    profileBtn.addEventListener('click', () => {
+        profileMenu.classList.toggle('active');
     });
 }
 

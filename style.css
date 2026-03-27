@@ -19,40 +19,92 @@ input{
     margin: 10px;
 }
 
-.nav-links {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 250px;
-    background: white;
-    flex-direction: column;
-    padding: 20px;
-    box-shadow: -5px 0px 15px rgba(0,0,0,0.2);
-    z-index: 100;
-}
-
-.nav-links.active {
-    display: flex;
-}
-
-.hamburger {
-    font-size: 24px;
-    cursor: pointer;
-    background: none;
-    border: none;
-}
-
 .error-msg {
     color: red;
     font-weight: 600;
     margin: 10px;
 }
 
-nav{
-    text-align: right;
+/* Navbar */
 
+.navigation-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1%;
+}
+
+.hamburger-btn {
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.close-btn {
+    border-radius: 3px;
+}
+
+.profile-btn {
+    background: none;
+}
+
+.navigation-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background: white;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 15px 0px 15px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.navigation-menu.active {
+    display: flex;
+}
+
+.navigation-menu-top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.navigation-menu-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.navigation-menu-bottom-container {
+    margin-top: auto;
+    margin-bottom: 10px;
+    justify-self: center;
+    text-align: center;
+}
+
+.profile-menu {
+    display: none;
+    position: fixed;
+    top: 50px;
+    right: 5px;
+    height: 50vh;
+    width: 250px;
+    background: white;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: -15px 15px 15px rgba(0,0,0,0.2);
+    z-index: 100;
+    border-radius: 25px;
+    border: 1px solid #000000;
+}
+
+.profile-menu.active {
+    display: flex;
 }
 
 
@@ -81,7 +133,6 @@ nav{
     width: 12vw;
     height: 12vw;
     background: none;
-    border: none;
     display: flex;
     justify-content: center;
     align-items: center;

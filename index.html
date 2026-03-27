@@ -8,11 +8,44 @@
 </head>
 <body>
 
-    <nav>
-        <button id="hamburger" class="hamburger"> ☰ </button>
-        <div class="nav-links" id="nav-links">
-            <button onclick="window.location.href='museum.html'"> My Museum </button>
-            <button onclick="window.location.href='settings.html'"> Settings </button>
+    <nav class="navigation-bar">
+
+        <button id="hamburger-btn" class="hamburger-btn"> ☰ </button>
+        
+        <div class="navigation-menu" id="navigation-menu">
+
+            <div class="navigation-menu-top-container">
+                <h3>Menu</h3>
+                <button id="navigation-menu-close-btn" class="close-btn"> X </button>
+            </div>
+
+            <div class="navigation-menu-button-container">
+                <button onclick="window.location.href='index.html'"> Create Memory </button>
+                <button onclick="window.location.href='museum.html'"> My Museum </button>
+                <button onclick="window.location.href='settings.html'"> Settings </button>
+            </div>
+            
+            <div class="navigation-menu-bottom-container">
+                <p>Made with ❤️ by Hero Harshit</p>
+            </div>
+
+        </div>
+        
+        <button class="profile-btn" id="profile-btn"> 👤 </button>
+
+        <div class="profile-menu" id="profile-menu">
+
+            <div>
+
+                <img/>
+                <h3>Your Name</h3>
+                
+            </div>
+            
+            <div>
+                <h3> Your Stats :- </h3>
+            </div>
+
         </div>
     </nav>
 
@@ -55,7 +88,7 @@
 
         </div>
 
-        <textarea rows="10" id="memory-description"class="memory-description-textarea" placeholder="Describe your memory"></textarea>
+        <textarea rows="10" id="memory-description" class="memory-description-textarea" placeholder="Describe your memory"></textarea>
         
         <p id="add-memory-error-msg" class="error-msg"> </p>
 

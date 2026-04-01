@@ -46,6 +46,13 @@ input{
 }
 
 .profile-btn {
+
+    // Something to fill in here.
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    
 }
 
 .navigation-menu {

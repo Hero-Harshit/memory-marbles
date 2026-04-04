@@ -48,6 +48,11 @@ let addMemory = function() {
     addMemoryErrorMsg.textContent = '';
     saveMemories();
     
+    notificationText.textContent = 'Memory added to your museum';
+    notificationPanel.style.display = 'block';
+    setTimeout(() => {
+        notificationPanel.style.display = 'none';
+    }, 2000);
     
 };
 
@@ -103,6 +108,11 @@ let importMemories = function(event) {
 };
 
 // ********************Dom elements*********************** // 
+
+// Notification Panel
+
+let notificationPanel = document.getElementById('notification-panel');
+let notificationText = document.getElementById('notification-text');
 
 // Nav elements
 

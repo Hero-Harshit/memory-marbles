@@ -25,6 +25,22 @@ input{
     margin: 10px;
 }
 
+/* Notification panel */
+
+.notification-panel {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 12px;
+    display: none;
+    padding: 2px;
+    text-align: center;
+    position: fixed;
+    top: 10px;              
+    left: 50%;              
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
 /* Navbar */
 
 .navigation-bar{
@@ -46,13 +62,7 @@ input{
 }
 
 .profile-btn {
-
-    // Something to fill in here.
-    font-size: 24px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    
+    border-radius: 2px;
 }
 
 .navigation-menu {
@@ -86,12 +96,6 @@ input{
     gap: 10px;
 }
 
-.navigation-menu-bottom-container {
-    margin-top: auto;
-    margin-bottom: 10px;
-    justify-self: center;
-    text-align: center;
-}
 
 .profile-menu {
     display: none;

@@ -45,7 +45,7 @@ input{
 }
 
 .settings-page {
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    background: linear-gradient(135deg, #fef6e4, #e3f2fd, #e1bee7);
     height: 100vh;
 }
 
@@ -104,16 +104,52 @@ input{
 .navigation-menu {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
+    top: 50px;
+    left: 5px;
+    height: 50vh;
     width: 250px;
-    background: white;
     flex-direction: column;
     padding: 20px;
     box-shadow: 15px 0px 15px rgba(0,0,0,0.2);
     z-index: 100;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    border-radius: 25px;
+    border: 1px solid #000000;
 }
+
+.navigation-menu h3 {
+
+    text-decoration: underline;
+}
+
+.navigation-menu button {
+    border: none;
+    outline: none;
+
+    padding: 8px 16px;
+    border: 0.2px solid black;
+    border-radius: 20px;
+
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 500;
+
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(6px);
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.navigation-menu button:hover {
+    background: rgba(255,255,255,0.85);
+
+    transform: translateY(-2px) scale(1.05);
+
+    box-shadow: 0px 6px 12px rgba(0,0,0,0.2);
+}
+
 
 .navigation-menu.active {
     display: flex;
@@ -130,6 +166,7 @@ input{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    text-align: left;
 }
 
 .profile-menu {
@@ -139,13 +176,14 @@ input{
     right: 5px;
     height: 50vh;
     width: 250px;
-    background: white;
     flex-direction: column;
     padding: 20px;
     box-shadow: -15px 15px 15px rgba(0,0,0,0.2);
     z-index: 100;
     border-radius: 25px;
     border: 1px solid #000000;
+    background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
 }
 
 .profile-menu.active {
@@ -289,15 +327,16 @@ textarea:focus {
 }
 
 .joy {
-    background: radial-gradient(circle, white, yellow);
+    background: radial-gradient(circle, transparent, #53fd357f);
     box-shadow: 
     inset 0px 10px 20px rgba(255,255,255,0.5),
     inset 0px -10px 20px rgba(0,0,0,0.3),
     5px 10px 20px rgba(0,0,0,0.4);
+    border: 1px solid yellow;
 }
 
 .sadness {
-    background: radial-gradient(circle, white, blue);
+    background: radial-gradient(circle, transparent, blue);
     box-shadow: 
     inset 0px 10px 20px rgba(255,255,255,0.5),
     inset 0px -10px 20px rgba(0,0,0,0.3),
@@ -305,15 +344,15 @@ textarea:focus {
 }
 
 .anger {
-    background: radial-gradient(circle, white, #cf0000);
-    box-shadow: 
+    background: radial-gradient(circle, transparent, #cf0000);
+     box-shadow: 
     inset 0px 10px 20px rgba(255,255,255,0.5),
-    inset 0px -10px 20px rgba(0,0,0,0.3), 
+    inset 0px -10px 20px rgba(0,0,0,0.3),
     5px 10px 20px rgba(0,0,0,0.4);
 }
 
 .disgust {
-    background: radial-gradient(circle, white, #086808);
+    background: radial-gradient(circle, transparent, #086808);
     box-shadow: 
     inset 0px 10px 20px rgba(255,255,255,0.5),
     inset 0px -10px 20px rgba(0,0,0,0.3),
@@ -321,7 +360,7 @@ textarea:focus {
 }
 
 .fear {
-    background: radial-gradient(circle, white, #430577);
+    background: radial-gradient(circle, transparent, #430577);
     box-shadow: 
     inset 0px 10px 20px rgba(255,255,255,0.5),
     inset 0px -10px 20px rgba(0,0,0,0.3),       

@@ -106,7 +106,6 @@ input{
     position: fixed;
     top: 50px;
     left: 5px;
-    height: 50vh;
     width: 250px;
     flex-direction: column;
     padding: 20px;
@@ -116,6 +115,7 @@ input{
     backdrop-filter: blur(12px);
     border-radius: 25px;
     border: 1px solid #000000;
+
 }
 
 .navigation-menu h3 {
@@ -166,7 +166,9 @@ input{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    text-align: left;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .profile-menu {
@@ -174,7 +176,6 @@ input{
     position: fixed;
     top: 50px;
     right: 5px;
-    height: 50vh;
     width: 250px;
     flex-direction: column;
     padding: 20px;
@@ -183,7 +184,7 @@ input{
     border-radius: 25px;
     border: 1px solid #000000;
     background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
 }
 
 .profile-menu.active {

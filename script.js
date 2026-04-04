@@ -48,10 +48,10 @@ let addMemory = function() {
     addMemoryErrorMsg.textContent = '';
     saveMemories();
     
+    notificationPanel.classList.add('active');
     notificationText.textContent = 'Memory added to your museum';
-    notificationPanel.style.display = 'block';
     setTimeout(() => {
-        notificationPanel.style.display = 'none';
+    notificationPanel.classList.remove('active');
     }, 2000);
     
 };

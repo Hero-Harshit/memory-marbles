@@ -28,17 +28,25 @@ input{
 /* Notification panel */
 
 .notification-panel {
-    border: 1px solid #ccc;
     border-radius: 20px;
     font-size: 12px;
-    display: none;
-    padding: 2px;
+    padding: 2px 4px;
     text-align: center;
     position: fixed;
-    top: 10px;              
-    left: 50%;              
+    top: 20px;
+    left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: black;
+    pointer-events: none;
+}
+
+.notification-panel.active {
+    opacity: 1;
 }
 
 /* Navbar */

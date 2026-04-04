@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Delius&family=Fredoka:wght@300..700&display=swap');
 
+
+
 /* general styles */
+
+
 
 body{
     font-family: 'Delius';
@@ -25,7 +29,33 @@ input{
     margin: 10px;
 }
 
+button {
+    
+}
+
+
+/* Universal Colors */
+
+
+
+.homepage {
+    background: linear-gradient(135deg, #fef6e4, #e3f2fd, #e1bee7);
+    height: 100vh;
+}
+
+.museum-page {
+    background: radial-gradient(circle at top, #1e1e2f, #0f172a);
+    color: white;
+}
+
+.settings-page {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    height: 100vh;
+}
+
 /* Notification panel */
+
+
 
 .notification-panel {
     border-radius: 20px;
@@ -49,7 +79,9 @@ input{
     opacity: 1;
 }
 
+
 /* Navbar */
+
 
 .navigation-bar{
     display: flex;
@@ -104,7 +136,6 @@ input{
     gap: 10px;
 }
 
-
 .profile-menu {
     display: none;
     position: fixed;
@@ -127,6 +158,8 @@ input{
 
 
 /* index.html */
+
+
 
 .top-container {
     text-align: center;
@@ -180,19 +213,59 @@ input{
     font-family: 'Delius';
 }
 
+textarea {
+    width: 100%;
+    min-height: 120px;
+
+    padding: 12px 15px;
+    border-radius: 18px;
+
+    border: 1px solid rgba(0,0,0,0.1);
+
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+
+    background: rgba(227, 230, 237, 0.6);
+    backdrop-filter: blur(8px);
+
+    color: #333;
+
+    box-shadow: 
+        0px 6px 15px rgba(0,0,0,0.1),
+        inset 0px 2px 4px rgba(255,255,255,0.6);
+
+    transition: all 0.25s ease;
+
+    resize: vertical;
+}
+
+textarea::placeholder {
+    color: rgba(0,0,0,0.5);
+    font-style: italic;
+}
+
+textarea:focus {
+    outline: none;
+
+    background: rgba(255, 255, 255, 0.75);
+
+    box-shadow: 
+        0px 8px 20px rgba(0,0,0,0.15),
+        0 0 0 2px rgba(252, 182, 159, 0.6); /* soft glow */
+
+    transform: scale(1.01);
+}
+
 .add-memory-button {
     padding: 5px;
     border: none;
     border-radius: 5px;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
     cursor: pointer;
 }
 
 
-
-
 /* museum.html */
-
-
 
 
 .all-memories-container {
@@ -285,8 +358,8 @@ input{
 }
 
 
-
 /* settings.html */
+
 
 .settings-container {
     padding: 20px;
@@ -307,4 +380,62 @@ input{
     cursor: pointer;
     margin: 20px;
     min-width: 25vw;
+}
+
+.export-button {
+    background: linear-gradient(135deg, #e0e0e0, #cfcfcf);
+}
+
+
+.import-button {
+    background: linear-gradient(135deg, #d4fc79, #96e6a1);
+}
+
+.clear-museum-button {
+    background: linear-gradient(135deg, #ffcdd2, #e53935);
+    color: white;
+}
+
+/* Others */
+
+/* Buttons */
+
+/* Target ONLY your main action buttons */
+
+
+.add-memory-button,
+.export-button,
+.clear-museum-button,
+.import-button {
+
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+
+    box-shadow: 
+        0px 6px 12px rgba(0,0,0,0.2),
+        inset 0px 2px 4px rgba(255,255,255,0.6);
+}
+
+.add-memory-button:hover,
+.export-button:hover,
+.clear-museum-button:hover,
+.import-button:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 
+        0px 10px 18px rgba(0,0,0,0.3),
+        inset 0px 2px 6px rgba(255,255,255,0.8);
+}
+
+.add-memory-button:active,
+.export-button:active,
+.clear-museum-button:active,
+.import-button:active {
+    transform: translateY(1px) scale(0.97);
 }

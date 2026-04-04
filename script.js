@@ -83,6 +83,12 @@ let openMemoryModal = function(memory) {
 let clearMuseum = function() {
     allMemories = [];
     saveMemories();
+
+    notificationPanel.classList.add('active');
+    notificationText.textContent = 'Museum cleared successfully';
+    setTimeout(() => {
+    notificationPanel.classList.remove('active');
+    }, 2000);
 }
 
 let exportMemories = function() {
@@ -105,6 +111,12 @@ let importMemories = function(event) {
         saveMemories();
     };
     reader.readAsText(file);
+
+    notificationPanel.classList.add('active');
+    notificationText.textContent = 'Memories imported successfully';
+    setTimeout(() => {
+    notificationPanel.classList.remove('active');
+    }, 2000);
 };
 
 // ********************Dom elements*********************** // 

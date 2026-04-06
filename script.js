@@ -10,6 +10,25 @@ let allMemories = localStorage.getItem('allmemories') ? JSON.parse(localStorage.
 
 // All Functions Hoisted
 
+// Universal functions
+
+document.addEventListener('click', (event) => {
+    if (navigationMenu && navigationMenu.classList.contains('active')) {
+        if (!navigationMenu.contains(event.target) && event.target !== hamburgerBtn) {
+            navigationMenu.classList.remove('active');
+        }
+    }
+});
+
+document.addEventListener('click', (event) => {
+    if (profileMenu && profileMenu.classList.contains('active')) {
+        if (!profileMenu.contains(event.target) && event.target !== profileBtn) {
+            profileMenu.classList.remove('active');
+        }
+    }
+});
+
+
 // Index.html page
 
 let saveMemories = function() {
@@ -129,7 +148,6 @@ let notificationText = document.getElementById('notification-text');
 // Nav elements
 
 let hamburgerBtn = document.getElementById('hamburger-btn');
-let NavigationMenuCloseBtn = document.getElementById('navigation-menu-close-btn');
 let navigationMenu = document.getElementById('navigation-menu');
 let profileBtn  = document.getElementById('profile-btn');
 let profileMenu = document.getElementById('profile-menu');
@@ -165,13 +183,7 @@ if (hamburgerBtn) {
     hamburgerBtn.addEventListener('click', () => {
         navigationMenu.classList.add('active');
     });
-}
-
-if (NavigationMenuCloseBtn) {
-    NavigationMenuCloseBtn.addEventListener('click', () => {
-        navigationMenu.classList.remove('active');
-    });
-}    
+} 
 
 if (profileBtn) {
     profileBtn.addEventListener('click', () => {

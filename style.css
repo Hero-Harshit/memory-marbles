@@ -40,7 +40,7 @@ input{
 }
 
 .museum-page {
-    background: radial-gradient(circle at top, #1e1e2f, #0f172a);
+    background: black;
     color: white;
 }
 
@@ -306,7 +306,8 @@ textarea:focus {
 .all-memories-container {
     margin: 0px;
     align-items: center;
-    margin-top: 20px;
+    color: #CCCCCC;
+    text-shadow: 0 0 10px #c77dff, 0 0 20px #9d4edd;
 }
 
 .memory-list-container {
@@ -318,54 +319,63 @@ textarea:focus {
 }
 
 .memory-element {
-    border: 1px solid #ccc;
+    border: none;
     padding: 10px;
     margin: 10px;
     height: 10vw;
     width: 10vw;
     border-radius: 50%;
-    text-align: center;
 }
 
 .joy {
-    background: radial-gradient(circle, transparent, #53fd357f);
-    box-shadow: 
-    inset 0px 10px 20px rgba(255,255,255,0.5),
-    inset 0px -10px 20px rgba(0,0,0,0.3),
-    5px 10px 20px rgba(0,0,0,0.4);
-    border: 1px solid yellow;
+    background: radial-gradient(circle at 50% 50%, #b8a000, #2a1f00);
+    box-shadow: 0 0 30px rgba(184, 160, 0, 0.3);
 }
 
 .sadness {
-    background: radial-gradient(circle, transparent, blue);
-    box-shadow: 
-    inset 0px 10px 20px rgba(255,255,255,0.5),
-    inset 0px -10px 20px rgba(0,0,0,0.3),
-    5px 10px 20px rgba(0,0,0,0.4); 
+    background: radial-gradient(circle at 50% 50%, #1a4aaa, #000d2e);
+    box-shadow: 0 0 30px rgba(26, 74, 170, 0.3);
 }
 
 .anger {
-    background: radial-gradient(circle, transparent, #cf0000);
-     box-shadow: 
-    inset 0px 10px 20px rgba(255,255,255,0.5),
-    inset 0px -10px 20px rgba(0,0,0,0.3),
-    5px 10px 20px rgba(0,0,0,0.4);
+    background: radial-gradient(circle at 50% 50%, #c81717, #1f0000);
+    box-shadow: 0 0 30px rgba(170, 26, 26, 0.3);
 }
 
 .disgust {
-    background: radial-gradient(circle, transparent, #086808);
-    box-shadow: 
-    inset 0px 10px 20px rgba(255,255,255,0.5),
-    inset 0px -10px 20px rgba(0,0,0,0.3),
-    5px 10px 20px rgba(0,0,0,0.4);              
+    background: radial-gradient(circle at 50% 50%, #00aa00, #001500);
+    box-shadow: 0 0 30px rgba(0, 170, 0, 0.3);             
 }
 
 .fear {
-    background: radial-gradient(circle, transparent, #430577);
-    box-shadow: 
-    inset 0px 10px 20px rgba(255,255,255,0.5),
-    inset 0px -10px 20px rgba(0,0,0,0.3),       
-    5px 10px 20px rgba(0,0,0,0.4);               
+    background: radial-gradient(circle at 50% 50%, #7a1aaa, #150025);
+    box-shadow: 0 0 30px rgba(122, 26, 170, 0.3);
+             
+}
+
+.anxiety {
+    background: radial-gradient(circle at 50% 50%, #cc7700, #1f0e00);
+    box-shadow: 0 0 30px rgba(204, 119, 0, 0.3);
+}
+
+.envy {
+    background: radial-gradient(circle at 50% 50%, #00aa88, #001a14);
+    box-shadow: 0 0 30px rgba(0, 170, 136, 0.3);
+}
+
+.ennui {
+    background: radial-gradient(circle at 50% 50%, #2a2a7a, #05051a);
+    box-shadow: 0 0 30px rgba(42, 42, 122, 0.3);
+}
+
+.embarrassment {
+    background: radial-gradient(circle at 50% 50%, #cc3377, #1f0010);
+    box-shadow: 0 0 30px rgba(204, 51, 119, 0.3);
+}
+
+.nostalgia {
+    background: radial-gradient(circle at 50% 50%, #7a55aa, #100520);
+    box-shadow: 0 0 30px rgba(122, 85, 170, 0.3);
 }
 
 .modal-overlay {

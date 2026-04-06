@@ -5,34 +5,44 @@
 // Main DataBase
 
 let allMemories = localStorage.getItem('allmemories') ? JSON.parse(localStorage.getItem('allmemories')) : [];
-
+let otherData = localStorage.getItem('otherdata') ? JSON.parse(localStorage.getItem('otherdata')) : {};
 
 
 // All Functions Hoisted
 
 // Universal functions
 
-document.addEventListener('click', (event) => {
-    if (navigationMenu && navigationMenu.classList.contains('active')) {
-        if (!navigationMenu.contains(event.target) && event.target !== hamburgerBtn) {
-            navigationMenu.classList.remove('active');
-        }
-    }
-});
 
-document.addEventListener('click', (event) => {
-    if (profileMenu && profileMenu.classList.contains('active')) {
-        if (!profileMenu.contains(event.target) && event.target !== profileBtn) {
-            profileMenu.classList.remove('active');
-        }
+let navigationMenuDisplay = function() {
+    if (navigationMenu) {
+        navigationMenu.classList.toggle('active');
     }
-});
+};
+
+let profileMenuDisplay = function() {
+    if (profileMenu) {
+        profileMenu.classList.toggle('active');
+    }   
+};    
+
+let upadateUserProfile = function() {
+    let userName = localStorage.getItem('username') || 'User';
+    userNameDisplay.textContent = userName;
+
+    let totalMemories = allMemories.length;
+    totalMemoriesCount.textContent = totalMemories; 
+
+    let lastMemory = allMemories[allMemories.length - 1];
+    lastMemoryCreated.textContent = lastMemory ? new Date(lastMemory.date).toLocaleString() : 'None';
+
+};
 
 
 // Index.html page
 
 let saveMemories = function() {
     localStorage.setItem('allmemories', JSON.stringify(allMemories));
+    localStorage.setItem('otherdata', JSON.stringify(otherData));
 };
 
 let buttonSelection = function(btn) {
@@ -111,8 +121,9 @@ let clearMuseum = function() {
 }
 
 let exportMemories = function() {
-    let data = JSON.stringify(allMemories);
-    let file = new Blob([data], { type: "application/json" });
+    let memories = JSON.stringify(allMemories);
+    let otherDataString = JSON.stringify(otherData);
+    let file = new Blob([memories + ',' + otherDataString], { type: "application/json" });
     let link = document.createElement("a");
     link.href = URL.createObjectURL(file);
     let now = new Date();
@@ -126,7 +137,8 @@ let importMemories = function(event) {
     let reader = new FileReader();
     reader.onload = function() {
         let importedMemories = JSON.parse(reader.result);
-        allMemories = importedMemories;
+        allMemories = importedMemories.memories || [];
+        otherData = importedMemories.otherData || {};
         saveMemories();
     };
     reader.readAsText(file);
@@ -151,6 +163,9 @@ let hamburgerBtn = document.getElementById('hamburger-btn');
 let navigationMenu = document.getElementById('navigation-menu');
 let profileBtn  = document.getElementById('profile-btn');
 let profileMenu = document.getElementById('profile-menu');
+let userNameDisplay = document.getElementById('user-name');
+let totalMemoriesCount = document.getElementById('total-memories-count');
+let lastMemoryCreated = document.getElementById('last-memory-created');
 
 // index.html page
 
@@ -180,16 +195,30 @@ let importInput = document.getElementById('import-input');
 // Navbar Event listeners
 
 if (hamburgerBtn) {
-    hamburgerBtn.addEventListener('click', () => {
-        navigationMenu.classList.add('active');
-    });
+    hamburgerBtn.addEventListener('click', navigationMenuDisplay);
 } 
 
 if (profileBtn) {
-    profileBtn.addEventListener('click', () => {
-        profileMenu.classList.toggle('active');
-    });
+    profileBtn.addEventListener('click', profileMenuDisplay);
+    profileBtn.addEventListener('click', upadateUserProfile);
 }
+
+document.addEventListener('click', (event) => {
+    if (navigationMenu && navigationMenu.classList.contains('active')) {
+        if (!navigationMenu.contains(event.target) && event.target !== hamburgerBtn) {
+            navigationMenu.classList.remove('active');
+        }
+    }
+});
+
+document.addEventListener('click', (event) => {
+    if (profileMenu && profileMenu.classList.contains('active')) {
+        if (!profileMenu.contains(event.target) && event.target !== profileBtn) {
+            profileMenu.classList.remove('active');
+        }
+    }
+});
+
 
 // index.html page
 

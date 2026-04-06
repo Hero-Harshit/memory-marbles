@@ -36,7 +36,7 @@ input{
 
 .homepage {
     background: linear-gradient(135deg, #fef6e4, #e3f2fd, #e1bee7);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .museum-page {
@@ -209,21 +209,47 @@ input{
     text-align: center;
 }
 
+.emotion-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+
+.emotion-tab {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    background: rgba(0,0,0,0.1);
+    transition: all 0.25s ease;
+}
+
+.emotion-tab.active-tab {
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    font-weight: 600;
+}
+
 .emotions-container {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
     gap: 10px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none;
 }
 
 .emotion-button {
     width: 12vw;
-    height: 12vw;
+    height: 12vw;;
     background: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border: 1px solid transparent;
-
 }    
 
 .selected {
@@ -305,7 +331,6 @@ textarea:focus {
 
 .all-memories-container {
     margin: 0px;
-    align-items: center;
     color: #CCCCCC;
     text-shadow: 0 0 10px #c77dff, 0 0 20px #9d4edd;
 }
@@ -313,6 +338,7 @@ textarea:focus {
 .memory-list-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     margin: 20px;
     flex-wrap: wrap;
@@ -321,7 +347,7 @@ textarea:focus {
 .memory-element {
     border: none;
     padding: 10px;
-    margin: 10px;
+    margin: 1vh;
     height: 10vw;
     width: 10vw;
     border-radius: 50%;

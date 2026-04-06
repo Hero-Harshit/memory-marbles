@@ -174,6 +174,10 @@ let selectedEmotion = null
 let memoryDescription = document.getElementById('memory-description');
 let addMemoryErrorMsg = document.getElementById('add-memory-error-msg');
 let addMemoryButton = document.getElementById('add-memory-button');
+let tabIO1 = document.getElementById('tab-io1');
+let tabIO2 = document.getElementById('tab-io2');
+let io1Emotions = document.getElementById('io1-emotions');
+let io2Emotions = document.getElementById('io2-emotions');
 
 // museum.html page
 
@@ -231,6 +235,28 @@ if (addMemoryButton) {
 if (emotionButtons.length > 0) {
     emotionButtons.forEach(btn => {
         btn.addEventListener('click', () => buttonSelection(btn));
+    });
+}
+
+if (tabIO1) {
+    tabIO1.addEventListener('click', () => {
+        io1Emotions.classList.remove('hidden');
+        io2Emotions.classList.add('hidden');
+        tabIO1.classList.add('active-tab');
+        tabIO2.classList.remove('active-tab');
+        selectedEmotion = null;
+        emotionButtons.forEach(b => b.classList.remove('selected'));
+    });
+}
+
+if (tabIO2) {
+    tabIO2.addEventListener('click', () => {
+        io2Emotions.classList.remove('hidden');
+        io1Emotions.classList.add('hidden');
+        tabIO2.classList.add('active-tab');
+        tabIO1.classList.remove('active-tab');
+        selectedEmotion = null;
+        emotionButtons.forEach(b => b.classList.remove('selected'));
     });
 }
 

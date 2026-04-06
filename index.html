@@ -63,37 +63,52 @@
 
     <div class="memory-input-container">
 
-        <div id="memory-emotion" class="all-emotions-container">
+        <div id="memory-emotion">
             
-            <h3>How are you feeling?</h3>
+            <h3>Select your emotion</h3>
 
-            <div class="emotions-container">
+            <div class="emotion-tabs">
+                <button class="emotion-tab active-tab" id="tab-io1">Inside Out 1</button>
+                <button class="emotion-tab" id="tab-io2">Inside Out 2</button>
+            </div>
 
+            <div class="emotions-container" id="io1-emotions">
                 <button class="emotion-button" data-emotion="joy">
                     <img class="emotion-image" src="assests/Joy.png" />
                 </button>
-
                 <button class="emotion-button" data-emotion="sadness">
                     <img class="emotion-image" src="assests/Sadness.png" />
                 </button>
-
                 <button class="emotion-button" data-emotion="anger">
                     <img class="emotion-image" src="assests/Anger.png" />
                 </button>
-
                 <button class="emotion-button" data-emotion="fear">
                     <img class="emotion-image" src="assests/Fear.png" />
                 </button>
-
                 <button class="emotion-button" data-emotion="disgust">
                     <img class="emotion-image" src="assests/Disgust.png" />
                 </button>
-
             </div>
 
-        </div>
+            <div class="emotions-container hidden" id="io2-emotions">
+                <button class="emotion-button" data-emotion="anxiety">
+                    <img class="emotion-image" src="assests/Anxiety.png" />
+                </button>
+                <button class="emotion-button" data-emotion="envy">
+                    <img class="emotion-image" src="assests/Envy.png" />
+                </button>
+                <button class="emotion-button" data-emotion="ennui">
+                    <img class="emotion-image" src="assests/Ennui.png" />
+                </button>
+                <button class="emotion-button" data-emotion="embarrassment">
+                    <img class="emotion-image" src="assests/Embarrassment.png" />
+                </button>
+                <button class="emotion-button" data-emotion="nostalgia">
+                    <img class="emotion-image" src="assests/Nostalgia.png" />
+                </button>
+            </div>
 
-        <textarea rows="10" id="memory-description" class="memory-description-textarea" placeholder="Describe your memory"></textarea>
+        <textarea rows="8" id="memory-description" class="memory-description-textarea" placeholder="Describe your memory"></textarea>
         
         <p id="add-memory-error-msg" class="error-msg"> </p>
 

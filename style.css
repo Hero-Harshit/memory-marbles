@@ -391,6 +391,7 @@ textarea:focus {
 
 .modal-overlay.active {
     display: block;
+    color: black
 }
 
 

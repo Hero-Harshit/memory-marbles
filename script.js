@@ -5,7 +5,7 @@
 // Main DataBase
 
 let allMemories = localStorage.getItem('allmemories') ? JSON.parse(localStorage.getItem('allmemories')) : [];
-let otherData = localStorage.getItem('otherdata') ? JSON.parse(localStorage.getItem('otherdata')) : {};
+let otherData = localStorage.getItem('otherdata') ? JSON.parse(localStorage.getItem('otherdata')) : {userName: 'User',};
 
 
 // All Functions Hoisted

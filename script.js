@@ -26,7 +26,7 @@ let profileMenuDisplay = function() {
 };    
 
 let upadateUserProfile = function() {
-    let userName = localStorage.getItem('username') || 'User';
+    let userName = otherData.userName || 'User';
     userNameDisplay.textContent = userName;
 
     let totalMemories = allMemories.length;
@@ -113,17 +113,21 @@ let clearMuseum = function() {
     allMemories = [];
     saveMemories();
 
-    notificationPanel.classList.add('active');
-    notificationText.textContent = 'Museum cleared successfully';
-    setTimeout(() => {
-    notificationPanel.classList.remove('active');
-    }, 2000);
+    if (notificationPanel) {    
+        notificationPanel.classList.add('active');
+        notificationText.textContent = 'Museum cleared successfully';
+        setTimeout(() => {
+        notificationPanel.classList.remove('active');
+        }, 2000);
+    }    
 }
 
 let exportMemories = function() {
-    let memories = JSON.stringify(allMemories);
-    let otherDataString = JSON.stringify(otherData);
-    let file = new Blob([memories + ',' + otherDataString], { type: "application/json" });
+    let exportData = {
+        memories: allMemories,
+        otherData: otherData
+    };
+    let file = new Blob([JSON.stringify(exportData)], { type: "application/json" });
     let link = document.createElement("a");
     link.href = URL.createObjectURL(file);
     let now = new Date();
@@ -140,14 +144,13 @@ let importMemories = function(event) {
         allMemories = importedMemories.memories || [];
         otherData = importedMemories.otherData || {};
         saveMemories();
+        notificationPanel.classList.add('active');
+        notificationText.textContent = 'Memories imported successfully';
+        setTimeout(() => {
+        notificationPanel.classList.remove('active');
+        }, 2000);
     };
     reader.readAsText(file);
-
-    notificationPanel.classList.add('active');
-    notificationText.textContent = 'Memories imported successfully';
-    setTimeout(() => {
-    notificationPanel.classList.remove('active');
-    }, 2000);
 };
 
 // ********************Dom elements*********************** // 

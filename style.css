@@ -262,20 +262,13 @@ input{
 }
 
 .memory-description-textarea {
-    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 15px;
-    display: inline;
     margin: 20px;
     text-align: center;
     width: 80vw;
-    font-family: 'Delius';
-    width: 100%;
-    min-height: 120px;
-
     padding: 12px 15px;
     border-radius: 18px;
-
     border: 1px solid rgba(0,0,0,0.1);
 
     font-family: 'Fredoka', sans-serif;
@@ -285,15 +278,14 @@ input{
     backdrop-filter: blur(8px);
 
     color: #333;
-
     box-shadow: 
         0px 6px 15px rgba(0,0,0,0.1),
         inset 0px 2px 4px rgba(255,255,255,0.6);
 
     transition: all 0.25s ease;
 
-    resize: vertical;
 }
+
 
 textarea::placeholder {
     color: rgba(0,0,0,0.5);
@@ -430,30 +422,81 @@ textarea:focus {
 
 
 .settings-container {
+    max-width: 800px;
+    margin: 40px auto;
     padding: 20px;
 }
 
+/* Section Headings */
+.settings-heading {
+    margin: 30px 10px 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.danger-heading {
+    color: #d32f2f;
+}
+
+/* Card Layout */
 .settings-card {
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: space-between;
-    margin: 20px;
+    align-items: center;
+
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Hover Effect */
+.settings-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Content inside card */
+.settings-card-content {
+    max-width: 70%;
+}
+
+.settings-card-content h4 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.settings-card-content p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Buttons */
 .settings-card button {
-    padding: 10px;
+    padding: 10px 18px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    margin: 20px;
-    min-width: 25vw;
+    font-weight: 500;
+    min-width: 120px;
+
+    transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
+.settings-card button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* Button Styles */
 .export-button {
     background: linear-gradient(135deg, #e0e0e0, #cfcfcf);
 }
-
 
 .import-button {
     background: linear-gradient(135deg, #d4fc79, #96e6a1);
@@ -462,6 +505,12 @@ textarea:focus {
 .clear-museum-button {
     background: linear-gradient(135deg, #ffcdd2, #e53935);
     color: white;
+}
+
+/* Danger Card */
+.danger-card {
+    border-left: 5px solid #e53935;
+    background: #fff5f5;
 }
 
 /* Others */

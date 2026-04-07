@@ -51,33 +51,44 @@
         </div>
     </nav>    
 
-
     <h1>Settings</h1>
 
     <div class="settings-container">
 
-        <br>
-        <h3> Data Management :-  </h3>
-        <div class="settings-card">
-            <p> Download all your precious memories as a Json file.</p>
-            <button id="export-button" class="export-button">Export Memories</button>
+    <h3 class="settings-heading">Data Management</h3>
+
+    <div class="settings-card">
+        <div class="settings-card-content">
+            <h4>Export Memories</h4>
+            <p>Download all your precious memories as a JSON file.</p>
         </div>
-        <hr>
-        <div class="settings-card">
+        <button id="export-button" class="export-button">Export</button>
+    </div>
+
+    <div class="settings-card">
+        <div class="settings-card-content">
+            <h4>Import Memories</h4>
             <p>Import memories from a previously exported file.</p>
-            <input type="file" id="import-input" accept=".json" style="display:none">
-            <button id="import-button" class="import-button">Import Memories</button>
         </div>
-        <hr>
-        <div class="settings-card">
-            <p> Deletes all memories from the museum. This action cannot be undone. </p>
-            <div>
-                <button id="clear-museum-button" class="clear-museum-button"> Marble Massacre </button>
-            </div>
+        <input type="file" id="import-input" accept=".json" hidden>
+        <button id="import-button" class="import-button">Import</button>
+    </div>
+
+    <h3 class="settings-heading danger-heading">Danger Zone ⚠️</h3>
+
+    <div class="settings-card danger-card">
+        <div class="settings-card-content">
+            <h4>Marble Massacre</h4>
+            <p>Deletes all memories from the museum. This action cannot be undone.</p>
         </div>
+        <button id="clear-museum-button" class="clear-museum-button">Delete All</button>
+    </div>
+
+</div>
+    
         
 
-    </div>
+ 
     <script src="script.js"></script>
 
 </body>

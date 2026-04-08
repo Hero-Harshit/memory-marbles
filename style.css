@@ -11,10 +11,6 @@ body{
     margin: 0px;
 }
 
-h1{
-    text-align: center;
-}
-
 input{
     font-family: 'Delius';
     font-weight: 600;
@@ -29,25 +25,6 @@ input{
     margin: 10px;
 }
 
-
-/* Universal Colors */
-
-
-
-.homepage {
-    background: linear-gradient(135deg, #fef6e4, #e3f2fd, #e1bee7);
-    min-height: 100vh;
-}
-
-.museum-page {
-    background: black;
-    color: white;
-}
-
-.settings-page {
-    background: linear-gradient(135deg, #fef6e4, #e3f2fd, #e1bee7);
-    height: 100vh;
-}
 
 /* Notification panel */
 
@@ -150,7 +127,6 @@ input{
     box-shadow: 0px 6px 12px rgba(0,0,0,0.2);
 }
 
-
 .navigation-menu.active {
     display: flex;
 }
@@ -192,7 +168,10 @@ input{
 
 /* index.html */
 
-
+.homepage {
+    background: linear-gradient(135deg, #fef6e4, #e3f2fd, #e1bee7);
+    min-height: 100vh;
+}
 
 .top-container {
     text-align: center;
@@ -276,7 +255,7 @@ input{
 
     background: rgba(227, 230, 237, 0.6);
     backdrop-filter: blur(8px);
-
+    
     color: #333;
     box-shadow: 
         0px 6px 15px rgba(0,0,0,0.1),
@@ -315,6 +294,11 @@ textarea:focus {
 
 /* museum.html */
 
+.museum-page {
+    background: black;
+    min-height: 100vh;
+    color: white;
+}
 
 .all-memories-container {
     margin: 0px;
@@ -420,83 +404,41 @@ textarea:focus {
 
 /* settings.html */
 
+.settings-page {
+    background: linear-gradient(135deg, #fef6e4, #e3f2fd, #e1bee7);
+    height: auto;
+}
 
 .settings-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
+    padding: 10px;
+    text-align: center;
 }
 
-/* Section Headings */
-.settings-heading {
-    margin: 30px 10px 10px;
-    font-size: 20px;
-    color: #333;
-}
-
-.danger-heading {
-    color: #d32f2f;
-}
-
-/* Card Layout */
-.settings-card {
+.settings-card  {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 25px;
+    text-align: center;
 
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 15px 0;
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover Effect */
-.settings-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-}
-
-/* Content inside card */
-.settings-card-content {
-    max-width: 70%;
-}
-
-.settings-card-content h4 {
-    margin: 0 0 5px;
-    font-size: 16px;
-}
-
-.settings-card-content p {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
-}
-
-/* Buttons */
 .settings-card button {
-    padding: 10px 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: 25px;
     cursor: pointer;
-    font-weight: 500;
-    min-width: 120px;
-
-    transition: transform 0.15s ease, opacity 0.15s ease;
+    margin: 20px;
+    min-width: 25vw;
 }
 
-.settings-card button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
-}
-
-/* Button Styles */
 .export-button {
     background: linear-gradient(135deg, #e0e0e0, #cfcfcf);
 }
+
 
 .import-button {
     background: linear-gradient(135deg, #d4fc79, #96e6a1);
@@ -505,12 +447,6 @@ textarea:focus {
 .clear-museum-button {
     background: linear-gradient(135deg, #ffcdd2, #e53935);
     color: white;
-}
-
-/* Danger Card */
-.danger-card {
-    border-left: 5px solid #e53935;
-    background: #fff5f5;
 }
 
 /* Others */

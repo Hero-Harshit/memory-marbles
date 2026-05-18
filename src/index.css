@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius&family=Fredoka:wght@300..700&display=swap');
+
+:root {
+  --font-delius: 'Delius', cursive, sans-serif;
+  --font-fredoka: 'Fredoka', sans-serif;
+  
+  /* Emotion Colors (Premium HSL & Hex) */
+  --color-joy: #fbc02d;
+  --color-joy-glow: rgba(251, 192, 45, 0.6);
+  --color-joy-bg: radial-gradient(circle at 35% 35%, #fff176 0%, #fbc02d 50%, #f57f17 100%);
+
+  --color-sadness: #29b6f6;
+  --color-sadness-glow: rgba(41, 182, 246, 0.6);
+  --color-sadness-bg: radial-gradient(circle at 35% 35%, #81d4fa 0%, #29b6f6 50%, #0d47a1 100%);
+
+  --color-anger: #ef5350;
+  --color-anger-glow: rgba(239, 83, 80, 0.6);
+  --color-anger-bg: radial-gradient(circle at 35% 35%, #ff8a80 0%, #ef5350 50%, #b71c1c 100%);
+
+  --color-fear: #ab47bc;
+  --color-fear-glow: rgba(171, 71, 188, 0.6);
+  --color-fear-bg: radial-gradient(circle at 35% 35%, #e1bee7 0%, #ab47bc 50%, #4a148c 100%);
+
+  --color-disgust: #66bb6a;
+  --color-disgust-glow: rgba(102, 187, 106, 0.6);
+  --color-disgust-bg: radial-gradient(circle at 35% 35%, #a5d6a7 0%, #66bb6a 50%, #1b5e20 100%);
+
+  --color-anxiety: #ffa726;
+  --color-anxiety-glow: rgba(255, 167, 38, 0.6);
+  --color-anxiety-bg: radial-gradient(circle at 35% 35%, #ffcc80 0%, #ffa726 50%, #e65100 100%);
+
+  --color-envy: #26a69a;
+  --color-envy-glow: rgba(38, 166, 154, 0.6);
+  --color-envy-bg: radial-gradient(circle at 35% 35%, #80cbc4 0%, #26a69a 50%, #004d40 100%);
+
+  --color-ennui: #5c6bc0;
+  --color-ennui-glow: rgba(92, 107, 192, 0.6);
+  --color-ennui-bg: radial-gradient(circle at 35% 35%, #9fa8da 0%, #5c6bc0 50%, #1a237e 100%);
+
+  --color-embarrassment: #ec407a;
+  --color-embarrassment-glow: rgba(236, 64, 122, 0.6);
+  --color-embarrassment-bg: radial-gradient(circle at 35% 35%, #f8bbd0 0%, #ec407a 50%, #880e4f 100%);
+
+  --color-nostalgia: #8d6e63;
+  --color-nostalgia-glow: rgba(141, 110, 99, 0.6);
+  --color-nostalgia-bg: radial-gradient(circle at 35% 35%, #d7ccc8 0%, #8d6e63 50%, #3e2723 100%);
+
+  /* UI Backgrounds */
+  --bg-home: linear-gradient(135deg, #fef6e4 0%, #e3f2fd 50%, #e1bee7 100%);
+  --bg-museum: radial-gradient(circle at center, #0a0a14 0%, #020205 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-delius);
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-fredoka);
+  font-weight: 600;
+  color: inherit;
+}
+
+/* Custom Scrollbars for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.museum-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.museum-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.museum-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Common interactive components */
+button {
+  font-family: var(--font-fredoka);
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+textarea, input {
+  font-family: var(--font-fredoka);
+}
+
+.btn-premium {
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  color: #2c3e50;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-premium:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(252, 182, 159, 0.4);
+}
+
+.btn-premium:active {
+  transform: translateY(1px);
+}
+
+/* Glassmorphism panel helper */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
+}

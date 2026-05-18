@@ -1,128 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Map</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="homepage">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO and Meta Tags -->
+    <title>🔮 Museum of Memory Marbles</title>
+    <meta name="description" content="A beautiful, private digital museum for your personal memory marbles. Catalog your emotions (Joy, Sadness, Anger, Fear, Disgust, Anxiety, and more) inspired by Inside Out." />
+    <meta name="keywords" content="Inside Out, Memory Marbles, Personal Museum, Emotions Tracker, React App, Interactive Journal" />
+    <meta name="author" content="Hero Harshit" />
+    
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="Museum of Memory Marbles" />
+    <meta property="og:description" content="Hold your memories the way Riley held hers — as small, glowing, colored spheres of light." />
+    <meta property="og:type" content="website" />
 
-    <div id="notification-panel" class="notification-panel">
-        <p id="notification-text"> </p>
-    </div>
-
-    <nav class="navigation-bar">
-
-        <button id="hamburger-btn" class="hamburger-btn"> ☰ </button>
-        
-        <div class="navigation-menu" id="navigation-menu">
-
-            <div class="navigation-menu-top-container">
-                <h3>Navigation Menu</h3>
-            </div>
-
-            <div class="navigation-menu-button-container">
-                <button onclick="window.location.href='index.html'"> Create Memory </button>
-                <button onclick="window.location.href='museum.html'"> My Museum </button>
-                <button onclick="window.location.href='settings.html'"> Settings </button>
-                <button onclick="window.location.href='about.html'"> About Us</button>
-                <p>Made with ❤️, By Hero Harshit.</p>
-            </div>
-
-            
-
-        </div>
-        
-        <button class="profile-btn" id="profile-btn"> 👤 </button>
-
-        <div class="profile-menu" id="profile-menu">
-
-            <div>
-
-                <h3>Hello, <span id="user-name">User</span> !</h3>
-                
-            </div>
-            
-            <div>
-                <h3> Your Stats :- </h3>
-                <p> Total Memories Created : <span id="total-memories-count"> 0 </span> </p>
-                <p> Last Memory Created : <span id="last-memory-created"> None </span> </p>
-            </div>
-
-
-        </div>
-    </nav>
-
-    <div class="top-container"> 
-        <h1> Development Paused For Now !</h1>
-        <h2> Will be back soon !</h2>
-        <h3> In the meantime, you can check out the museum. </h3>
-        <h1>Create A Memory Marble</h1>
-        <h3>Your created memory will be displayed at our museum.</h3>
-
-    </div>
-
-    <div class="memory-input-container">
-
-        <div id="memory-emotion">
-            
-            <h3>Select your emotion</h3>
-
-            <div class="emotion-tabs">
-                <button class="emotion-tab active-tab" id="tab-io1">Inside Out 1</button>
-                <button class="emotion-tab" id="tab-io2">Inside Out 2</button>
-            </div>
-
-            <div class="emotions-container" id="io1-emotions">
-                <button class="emotion-button" data-emotion="joy">
-                    <img class="emotion-image" src="assests/Joy.png" />
-                </button>
-                <button class="emotion-button" data-emotion="sadness">
-                    <img class="emotion-image" src="assests/Sadness.png" />
-                </button>
-                <button class="emotion-button" data-emotion="anger">
-                    <img class="emotion-image" src="assests/Anger.png" />
-                </button>
-                <button class="emotion-button" data-emotion="fear">
-                    <img class="emotion-image" src="assests/Fear.png" />
-                </button>
-                <button class="emotion-button" data-emotion="disgust">
-                    <img class="emotion-image" src="assests/Disgust.png" />
-                </button>
-            </div>
-
-            <div class="emotions-container hidden" id="io2-emotions">
-                <button class="emotion-button" data-emotion="anxiety">
-                    <img class="emotion-image" src="assests/Anxiety.png" />
-                </button>
-                <button class="emotion-button" data-emotion="envy">
-                    <img class="emotion-image" src="assests/Envy.png" />
-                </button>
-                <button class="emotion-button" data-emotion="ennui">
-                    <img class="emotion-image" src="assests/Ennui.png" />
-                </button>
-                <button class="emotion-button" data-emotion="embarrassment">
-                    <img class="emotion-image" src="assests/Embarrassment.png" />
-                </button>
-                <button class="emotion-button" data-emotion="nostalgia">
-                    <img class="emotion-image" src="assests/Nostalgia.png" />
-                </button>
-            </div>
-
-        </div>    
-
-        <textarea rows="8" id="memory-description" class="memory-description-textarea" placeholder="Describe your memory"></textarea>
-        
-        <p id="add-memory-error-msg" class="error-msg"> </p>
-
-        <div>
-            <button class="add-memory-button" id="add-memory-button">Add Memory</button>
-        </div>
-
-    </div>
-    <script src="script.js"></script>
-
-</body>
-
+    <!-- Favicon link -->
+    <link rel="icon" type="image/png" href="/src/assets/Joy.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

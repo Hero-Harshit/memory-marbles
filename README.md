@@ -26,66 +26,71 @@ Every memory you add becomes a marble.
 🔴 **Anger** : for the fire that told you something mattered  
 🟢 **Disgust** : for the times your gut knew before your head did  
 🟣 **Fear** : for every leap you took anyway  
+🟠 **Anxiety** : for overthinking to prepare you from the unseen  
+🌀 **Envy** : for the longing that shows you what you hope to achieve  
+🍷 **Ennui** : for the cool rest when the world gets noisy  
+🌸 **Embarrassment** : for the vulnerability that makes you human  
+🍂 **Nostalgia** : for the warm reflection on the beauty of days gone by  
 
 Click a marble. It opens. The memory breathes again.
 
 ---
 
-## Why I built this
-
-I'm a frontend developer learning my craft, and I wanted to build something that meant something. Not another todo app. Not another weather widget.
-
-I wanted to build something I would actually use. Something that felt *alive*.
-
-This is that thing. It's imperfect, it's growing, and it's mine. Maybe it'll become yours too.
-
----
-
 ## Technical Details
 
-**Built with:** Pure HTML, CSS, and JavaScript. No frameworks. No libraries. No dependencies.
+**Built with:** React 19, JSX, Vite, and Vanilla CSS.
 
-**Storage:** Everything lives in your browser's localStorage, your memories never touch a server, never leave your device. Fully private by design.
+**Architecture:** Single Page Application (SPA) driven by local state page rendering, yielding instantaneous load times and zero-latency transition animations.
 
-**Pages:**
+**Visual Effects:** Glassmorphism (`backdrop-filter`), 3D radial glass marble renders with white light reflections, and staggered keyframe animations to create organic floating patterns.
 
-- `index.html` — Create a new memory marble
-- `museum.html` — Walk through your museum
-- `settings.html` — Manage your collection
+**Storage:** Fully private by design. Everything lives in your browser's `localStorage`, your memories never touch a server, never leave your device.
 
 **Features:**
-- Five emotion types with unique coloured marble visuals
-- Radial gradient marbles with 3D glass shading effect
-- Click-to-open modal with full memory description
-- localStorage persistence across sessions
-- Clear museum option in settings
-- Fully responsive
+- **Dynamic Emotion Aura**: Selection changes page accents, card highlights, and form focus rings to the emotion's signature glow.
+- **Museum Shelves Layout**: Renders interactive marbles on horizontal 3D glass shelves grouped by emotional chambers.
+- **Advanced Filtering**: Categorize and view marbles by Inside Out 1 or 2 eras, specific emotional classes, and sorting by creation order.
+- **Interactive Drawers**: Left-hand navigation drawer and Right-hand Profile Drawer displaying real-time stats and emotional summaries.
+- **Data backups**: Instant export to and import from JSON files.
+- **Secure Reset**: Double-confirmation dialog protection for resetting the mind library.
 
 ---
+
+## What's completed in React Rewrite
+
+- [x] Complete Visual Changes (Premium responsive design and animations).
+- [x] Floating marble animations (Organic staggered float keyframes).
+- [x] Inside Out 2 emotions (Anxiety, Envy, Ennui, Embarrassment, Nostalgia).
+- [x] Export & import your marble collection as JSON.
+- [x] Interactive Profile stats drawer with real-time updates.
+- [x] Custom username settings updating the profile instantly.
 
 ## What's coming
 
-- [ ] Complete Visual Changes Coming.
 - [ ] Multi-emotion combination marbles with dynamic conic gradients.
 - [ ] Photo attachments inside memories.
-- [ ] Export & import your marble collection as JSON.
-- [ ] Inside Out 2 emotions.
-- [ ] A more magical, Pixar-inspired visual theme.
-- [ ] Floating marble animations.
-      
+
 ---
 
 ## Running it locally
 
-No installation needed. Just clone and open it.
+To run the React project locally:
 
-## Hosted On Web
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Run the development server:
+   ```bash
+   npm run dev
+   ```
+3. Open the browser to the local URL (usually `http://localhost:5173`).
 
-Url Coming Soon....
+---
 
 ## A note on privacy
 
-Your memories are yours. They are stored exclusively in your browser's localStorage. Nothing is ever sent anywhere. No account required. No tracking. This is intentional and permanent.
+Your memories are yours. They are stored exclusively in your browser's `localStorage`. Nothing is ever sent anywhere. No account required. No tracking. This is intentional and permanent.
 
 ---
 

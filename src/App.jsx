@@ -24,6 +24,14 @@ export default function App() {
     bulletColor: '#fff'
   });
 
+  // Marble Customization State
+  const [marbleSettings, setMarbleSettings] = useState({
+    showAuras: true,
+    magneticRepulsion: true,
+    interactiveGlare: true,
+    randomDancing: true
+  });
+
   // Load initial data from localStorage
   useEffect(() => {
     try {
@@ -38,6 +46,11 @@ export default function App() {
         if (parsed.userName) {
           setUserName(parsed.userName);
         }
+      }
+
+      const storedMarbleSettings = localStorage.getItem('marbleSettings');
+      if (storedMarbleSettings) {
+        setMarbleSettings(JSON.parse(storedMarbleSettings));
       }
     } catch (e) {
       console.error('Failed to load localStorage data:', e);
@@ -76,6 +89,7 @@ export default function App() {
           <MyMuseum 
             allMemories={allMemories}
             setActivePage={setActivePage}
+            marbleSettings={marbleSettings}
           />
         );
       case 'settings':
@@ -86,6 +100,8 @@ export default function App() {
             userName={userName}
             setUserName={setUserName}
             triggerNotification={triggerNotification}
+            marbleSettings={marbleSettings}
+            setMarbleSettings={setMarbleSettings}
           />
         );
       case 'about':

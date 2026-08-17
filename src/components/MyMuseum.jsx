@@ -1,12 +1,94 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { EMOTIONS } from '../data/emotions';
 
-export default function MyMuseum({ allMemories, setActivePage }) {
+export default function MyMuseum({ allMemories, setActivePage, marbleSettings }) {
   const [selectedEra, setSelectedEra] = useState('all'); // 'all', 'io1', 'io2'
   const [selectedEmotionFilter, setSelectedEmotionFilter] = useState('all'); // 'all', or emotion id
   const [sortBy, setSortBy] = useState('newest'); // 'newest', 'oldest'
   const [activeModalMemory, setActiveModalMemory] = useState(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    // If both interactive settings are explicitly disabled, don't run heavy mouse tracking
+    if (marbleSettings?.magneticRepulsion === false && marbleSettings?.interactiveGlare === false) {
+      // Clean up any existing transforms before returning
+      if (containerRef.current) {
+        const marbles = containerRef.current.querySelectorAll('.marble-container');
+        marbles.forEach(marble => {
+          marble.style.transform = `translate(0px, 0px) perspective(400px) rotateX(0deg) rotateY(0deg)`;
+          const marble3d = marble.querySelector('.marble-3d');
+          if (marble3d) {
+            marble3d.style.setProperty('--glare-x', `0px`);
+            marble3d.style.setProperty('--glare-y', `0px`);
+          }
+        });
+      }
+      return;
+    }
+
+    const handleMouseMove = (e) => {
+      if (!containerRef.current) return;
+      const marbles = containerRef.current.querySelectorAll('.marble-container');
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      marbles.forEach(marble => {
+        const rect = marble.getBoundingClientRect();
+        // Calculate the center of the marble
+        const marbleX = rect.left + rect.width / 2;
+        const marbleY = rect.top + rect.height / 2;
+        
+        const deltaX = mouseX - marbleX;
+        const deltaY = mouseY - marbleY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Repulsion radius and max force
+        const maxDistance = 150; 
+        
+        const marble3d = marble.querySelector('.marble-3d');
+        
+        if (distance < maxDistance) {
+          const force = (maxDistance - distance) / maxDistance;
+          
+          // Apply magnetic repulsion if enabled
+          let pushX = 0, pushY = 0;
+          if (marbleSettings?.magneticRepulsion !== false) {
+            pushX = -(deltaX / distance) * force * 40; 
+            pushY = -(deltaY / distance) * force * 40;
+          }
+          
+          // Apply 3D tilt if enabled
+          let tiltX = 0, tiltY = 0;
+          if (marbleSettings?.interactiveGlare !== false) {
+            tiltX = (deltaY / maxDistance) * 30;
+            tiltY = -(deltaX / maxDistance) * 30;
+          }
+          
+          marble.style.transform = `translate(${pushX}px, ${pushY}px) perspective(400px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+          
+          if (marble3d) {
+            let glareX = 0, glareY = 0;
+            if (marbleSettings?.interactiveGlare !== false) {
+              glareX = (deltaX / maxDistance) * 15;
+              glareY = (deltaY / maxDistance) * 15;
+            }
+            marble3d.style.setProperty('--glare-x', `${glareX}px`);
+            marble3d.style.setProperty('--glare-y', `${glareY}px`);
+          }
+        } else {
+          marble.style.transform = `translate(0px, 0px) perspective(400px) rotateX(0deg) rotateY(0deg)`;
+          if (marble3d) {
+            marble3d.style.setProperty('--glare-x', `0px`);
+            marble3d.style.setProperty('--glare-y', `0px`);
+          }
+        }
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [marbleSettings?.magneticRepulsion, marbleSettings?.interactiveGlare]);
 
   // Apply filters and sorting
   const filteredMemories = allMemories.filter((memory) => {
@@ -18,6 +100,12 @@ export default function MyMuseum({ allMemories, setActivePage }) {
 
     return matchesEra && matchesEmotion;
   });
+
+  // Stable seeded random for animations based on timestamp
+  const getSeededRandom = (seed) => {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  };
 
   // Sort
   const sortedMemories = [...filteredMemories].sort((a, b) => {
@@ -37,7 +125,7 @@ export default function MyMuseum({ allMemories, setActivePage }) {
   const activeModalEmotionData = activeModalMemory ? EMOTIONS[activeModalMemory.emotion] : null;
 
   return (
-    <div className="museum-gallery museum-scrollbar">
+    <div className="museum-gallery museum-scrollbar" ref={containerRef}>
       <div className="stardust-bg" />
 
       <div className="header-hero">
@@ -146,6 +234,20 @@ export default function MyMuseum({ allMemories, setActivePage }) {
                 const emotionData = EMOTIONS[memory.emotion];
                 if (!emotionData) return null;
 
+                // Generate random but stable animation values for each marble
+                const seed = memory.date;
+                const rand1 = getSeededRandom(seed);
+                const rand2 = getSeededRandom(seed + 1);
+                const rand3 = getSeededRandom(seed + 2);
+                const rand4 = getSeededRandom(seed + 3);
+
+                const isRandomDancing = marbleSettings?.randomDancing !== false;
+                
+                const floatDur = isRandomDancing ? (4 + (rand1 * 4)).toFixed(2) : "6.00"; // 4s to 8s or fixed 6s
+                const floatDel = isRandomDancing ? (rand2 * -5).toFixed(2) : "0.00"; // Negative delay or 0s
+                const pulseDur = isRandomDancing ? (2 + (rand3 * 3)).toFixed(2) : "3.00"; // 2s to 5s or fixed 3s
+                const sparkleDel = isRandomDancing ? (rand4 * 8).toFixed(2) : "2.00"; // 0s to 8s or fixed 2s
+
                 return (
                   <div
                     key={memory.date}
@@ -153,14 +255,44 @@ export default function MyMuseum({ allMemories, setActivePage }) {
                     onClick={() => handleOpenModal(memory)}
                     style={{ margin: '15px 10px' }}
                   >
+                    {marbleSettings?.showAuras !== false && (
+                      <div className={`marble-auras aura-${emotionData.id}`}>
+                        {[...Array(6)].map((_, i) => {
+                          const pRand1 = getSeededRandom(seed + i * 10);
+                          const pRand2 = getSeededRandom(seed + i * 20);
+                          const pRand3 = getSeededRandom(seed + i * 30);
+                          
+                          const duration = (2 + pRand1 * 4).toFixed(2); // 2s to 6s
+                          const delay = (pRand2 * -5).toFixed(2); // 0s to -5s
+                          const distance = (30 + pRand3 * 20).toFixed(2); // 30px to 50px
+                          
+                          return (
+                            <div 
+                              key={i} 
+                              className="aura-particle" 
+                              style={{ 
+                                '--p-idx': i, 
+                                '--p-dur': `${duration}s`,
+                                '--p-del': `${delay}s`,
+                                '--p-dist': `${distance}px`
+                              }} 
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
                     <div
                       className="marble-3d"
                       style={{
                         '--bg-grad': emotionData.gradient,
                         '--glow-color': emotionData.glowColor,
-                        animationDelay: `${index * 0.15}s`
+                        '--float-dur': `${floatDur}s`,
+                        '--float-del': `${floatDel}s`,
+                        '--pulse-dur': `${pulseDur}s`,
+                        '--sparkle-del': `${sparkleDel}s`,
                       }}
                     >
+                      <div className="marble-sparkle" />
                       <div className="marble-core" />
                     </div>
                     <span className="marble-label" style={{ color: emotionData.color, fontSize: '0.85rem' }}>

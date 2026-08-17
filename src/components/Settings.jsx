@@ -6,7 +6,9 @@ export default function Settings({
   setAllMemories, 
   userName, 
   setUserName, 
-  triggerNotification 
+  triggerNotification,
+  marbleSettings,
+  setMarbleSettings
 }) {
   const [tempName, setTempName] = useState(userName);
   const fileInputRef = useRef(null);
@@ -31,6 +33,25 @@ export default function Settings({
     localStorage.setItem('otherdata', JSON.stringify(otherData));
     
     triggerNotification(`Hello, ${finalName}! Profile updated.`, '#66bb6a');
+  };
+
+  // Toggle Marble Setting
+  const handleToggleSetting = (key) => {
+    // Graceful fallback if marbleSettings is undefined
+    const currentSettings = marbleSettings || {
+      showAuras: true,
+      magneticRepulsion: true,
+      interactiveGlare: true,
+      randomDancing: true
+    };
+    
+    const updated = {
+      ...currentSettings,
+      [key]: !currentSettings[key]
+    };
+    setMarbleSettings(updated);
+    localStorage.setItem('marbleSettings', JSON.stringify(updated));
+    triggerNotification(`Setting updated!`, '#66bb6a');
   };
 
   // Export JSON
@@ -201,6 +222,74 @@ export default function Settings({
             })}
           </div>
         )}
+      </div>
+
+      {/* Marble Customization Settings */}
+      <div className="glass-panel settings-card">
+        <div className="settings-info" style={{ marginBottom: '1.5rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
+          <h3>Marble Customization</h3>
+          <p>Toggle the magical effects and interactive features of your memory marbles.</p>
+        </div>
+        
+        <div className="settings-row" style={{ marginBottom: '1rem' }}>
+          <div className="settings-info">
+            <h4 style={{ margin: 0, fontWeight: 600 }}>Emotion Auras</h4>
+            <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Show floating magical dust orbiting around each marble.</p>
+          </div>
+          <button 
+            type="button" 
+            className="btn-premium"
+            onClick={() => handleToggleSetting('showAuras')}
+            style={{ minWidth: '100px', background: marbleSettings?.showAuras ? 'linear-gradient(135deg, #d4fc79, #96e6a1)' : 'linear-gradient(135deg, #e0e0e0, #cfcfcf)', color: marbleSettings?.showAuras ? '#333' : '#666', transform: 'none' }}
+          >
+            {marbleSettings?.showAuras ? 'Enabled' : 'Disabled'}
+          </button>
+        </div>
+
+        <div className="settings-row" style={{ marginBottom: '1rem', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
+          <div className="settings-info">
+            <h4 style={{ margin: 0, fontWeight: 600 }}>Magnetic Repulsion</h4>
+            <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Marbles gently float away from your cursor when you move near them.</p>
+          </div>
+          <button 
+            type="button" 
+            className="btn-premium"
+            onClick={() => handleToggleSetting('magneticRepulsion')}
+            style={{ minWidth: '100px', background: marbleSettings?.magneticRepulsion ? 'linear-gradient(135deg, #d4fc79, #96e6a1)' : 'linear-gradient(135deg, #e0e0e0, #cfcfcf)', color: marbleSettings?.magneticRepulsion ? '#333' : '#666', transform: 'none' }}
+          >
+            {marbleSettings?.magneticRepulsion ? 'Enabled' : 'Disabled'}
+          </button>
+        </div>
+
+        <div className="settings-row" style={{ marginBottom: '1rem', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
+          <div className="settings-info">
+            <h4 style={{ margin: 0, fontWeight: 600 }}>Interactive 3D Glare</h4>
+            <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Marbles physically tilt in 3D space with dynamic glass reflections.</p>
+          </div>
+          <button 
+            type="button" 
+            className="btn-premium"
+            onClick={() => handleToggleSetting('interactiveGlare')}
+            style={{ minWidth: '100px', background: marbleSettings?.interactiveGlare ? 'linear-gradient(135deg, #d4fc79, #96e6a1)' : 'linear-gradient(135deg, #e0e0e0, #cfcfcf)', color: marbleSettings?.interactiveGlare ? '#333' : '#666', transform: 'none' }}
+          >
+            {marbleSettings?.interactiveGlare ? 'Enabled' : 'Disabled'}
+          </button>
+        </div>
+
+        <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
+          <div className="settings-info">
+            <h4 style={{ margin: 0, fontWeight: 600 }}>Random Dancing</h4>
+            <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Marbles bob and glow randomly. If disabled, they move in sync.</p>
+          </div>
+          <button 
+            type="button" 
+            className="btn-premium"
+            onClick={() => handleToggleSetting('randomDancing')}
+            style={{ minWidth: '100px', background: marbleSettings?.randomDancing ? 'linear-gradient(135deg, #d4fc79, #96e6a1)' : 'linear-gradient(135deg, #e0e0e0, #cfcfcf)', color: marbleSettings?.randomDancing ? '#333' : '#666', transform: 'none' }}
+          >
+            {marbleSettings?.randomDancing ? 'Enabled' : 'Disabled'}
+          </button>
+        </div>
       </div>
 
       {/* Data management settings */}

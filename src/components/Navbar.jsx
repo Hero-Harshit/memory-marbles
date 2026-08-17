@@ -81,25 +81,25 @@ export default function Navbar({ activePage, setActivePage, allMemories, userNam
             className={activePage === 'create' ? 'active' : ''} 
             onClick={() => navigateTo('create')}
           >
-            🔮 Create Memory
+            Create Memory
           </button>
           <button 
             className={activePage === 'museum' ? 'active' : ''} 
             onClick={() => navigateTo('museum')}
           >
-            🏛️ My Museum
+            My Museum
           </button>
           <button 
             className={activePage === 'settings' ? 'active' : ''} 
             onClick={() => navigateTo('settings')}
           >
-            ⚙️ Settings
+            Settings
           </button>
           <button 
             className={activePage === 'about' ? 'active' : ''} 
             onClick={() => navigateTo('about')}
           >
-            💡 About Us
+            About Us
           </button>
         </div>
         <div className="drawer-footer">

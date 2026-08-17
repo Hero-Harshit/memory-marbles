@@ -216,7 +216,7 @@ export default function Settings({
             onClick={handleExport}
             style={{ background: 'linear-gradient(135deg, #e0e0e0, #cfcfcf)' }}
           >
-            📥 Export Backup
+            Export Backup
           </button>
         </div>
 
@@ -238,7 +238,7 @@ export default function Settings({
             onClick={triggerImportClick}
             style={{ background: 'linear-gradient(135deg, #d4fc79, #96e6a1)' }}
           >
-            📤 Import Backup
+            Import Backup
           </button>
         </div>
 
@@ -253,7 +253,7 @@ export default function Settings({
             onClick={handleClearMuseum}
             style={{ background: 'linear-gradient(135deg, #ffcdd2, #e53935)', color: '#fff' }}
           >
-            🔥 Marble Massacre
+            Marble Massacre
           </button>
         </div>
       </div>

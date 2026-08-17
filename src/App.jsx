@@ -4,6 +4,7 @@ import CreateMemory from './components/CreateMemory';
 import MyMuseum from './components/MyMuseum';
 import Settings from './components/Settings';
 import AboutUs from './components/AboutUs';
+import PixieDust from './components/PixieDust';
 import './App.css';
 
 export default function App() {
@@ -101,7 +102,8 @@ export default function App() {
   };
 
   return (
-    <div className={`app-container ${activePage === 'museum' ? 'museum-theme' : 'homepage-theme'}`}>
+    <div className="app-container museum-theme">
+      <PixieDust />
       {/* Top Banner Notification */}
       <div className={`glass-panel notification-banner ${notification.active ? 'active' : ''}`}>
         <span 

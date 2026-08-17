@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { EMOTIONS } from '../data/emotions';
 
 export default function MyMuseum({ allMemories, setActivePage }) {
@@ -23,40 +24,7 @@ export default function MyMuseum({ allMemories, setActivePage }) {
     return sortBy === 'newest' ? b.date - a.date : a.date - b.date;
   });
 
-  // Group memories by emotion to put them on emotional shelves (when viewing 'all' emotions)
-  const groupMemoriesByEmotion = () => {
-    const groups = {};
-    
-    // Initialize groups for current filter
-    Object.keys(EMOTIONS).forEach((key) => {
-      const emotionData = EMOTIONS[key];
-      if (selectedEra === 'all' || emotionData.era === selectedEra) {
-        if (selectedEmotionFilter === 'all' || key === selectedEmotionFilter) {
-          groups[key] = [];
-        }
-      }
-    });
-
-    // Populate
-    sortedMemories.forEach((memory) => {
-      if (groups[memory.emotion]) {
-        groups[memory.emotion].push(memory);
-      }
-    });
-
-    // Remove empty groups if viewing all, to keep shelf clean
-    if (selectedEmotionFilter === 'all') {
-      Object.keys(groups).forEach((key) => {
-        if (groups[key].length === 0) {
-          delete groups[key];
-        }
-      });
-    }
-
-    return groups;
-  };
-
-  const groupedShelves = groupMemoriesByEmotion();
+  // Grouping logic removed. We now display all sortedMemories directly.
 
   const handleOpenModal = (memory) => {
     setActiveModalMemory(memory);
@@ -83,21 +51,21 @@ export default function MyMuseum({ allMemories, setActivePage }) {
         <div className="filter-group">
           <span className="filter-label">Era:</span>
           <div className="filter-tabs">
-            <button 
+            <button
               type="button"
               className={`filter-tab ${selectedEra === 'all' ? 'active' : ''}`}
               onClick={() => { setSelectedEra('all'); setSelectedEmotionFilter('all'); }}
             >
               All Emotions
             </button>
-            <button 
+            <button
               type="button"
               className={`filter-tab ${selectedEra === 'io1' ? 'active' : ''}`}
               onClick={() => { setSelectedEra('io1'); setSelectedEmotionFilter('all'); }}
             >
               Inside Out 1
             </button>
-            <button 
+            <button
               type="button"
               className={`filter-tab ${selectedEra === 'io2' ? 'active' : ''}`}
               onClick={() => { setSelectedEra('io2'); setSelectedEmotionFilter('all'); }}
@@ -110,7 +78,7 @@ export default function MyMuseum({ allMemories, setActivePage }) {
         {/* Specific Emotion Filter */}
         <div className="filter-group">
           <span className="filter-label">Emotion:</span>
-          <select 
+          <select
             className="filter-select"
             value={selectedEmotionFilter}
             onChange={(e) => setSelectedEmotionFilter(e.target.value)}
@@ -130,7 +98,7 @@ export default function MyMuseum({ allMemories, setActivePage }) {
         {/* Sort */}
         <div className="filter-group">
           <span className="filter-label">Sort:</span>
-          <select 
+          <select
             className="filter-select"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
@@ -146,19 +114,19 @@ export default function MyMuseum({ allMemories, setActivePage }) {
         <div className="empty-museum-message">
           <h3>Your Museum is Empty</h3>
           <p>You haven't preserved any memories yet. Let's create your first glowing sphere of light!</p>
-          <button 
+          <button
             type="button"
             className="btn-premium"
             onClick={() => setActivePage('create')}
           >
-            🔮 Craft a Marble
+            Craft a Marble
           </button>
         </div>
-      ) : Object.keys(groupedShelves).length === 0 ? (
+      ) : sortedMemories.length === 0 ? (
         <div className="empty-museum-message">
           <h3>No Marbles Match Filters</h3>
           <p>Try resetting your filters to explore your memory catalog.</p>
-          <button 
+          <button
             type="button"
             className="btn-premium"
             onClick={() => { setSelectedEra('all'); setSelectedEmotionFilter('all'); }}
@@ -168,83 +136,83 @@ export default function MyMuseum({ allMemories, setActivePage }) {
         </div>
       ) : (
         <div className="museum-shelves-container">
-          {Object.entries(groupedShelves).map(([emotionId, memories]) => {
-            const emotionData = EMOTIONS[emotionId];
-            if (!emotionData) return null;
+          <div className="museum-shelf">
+            <div className="shelf-title" style={{ color: '#f8fafc', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
+              All Preserved Memories ({sortedMemories.length})
+            </div>
 
-            return (
-              <div key={emotionId} className="museum-shelf">
-                <div className="shelf-title" style={{ color: emotionData.color }}>
-                  {emotionData.name} Chamber ({memories.length})
-                </div>
+            <div className="shelf-marbles-row" style={{ flexWrap: 'wrap', justifyContent: 'center', gap: '30px' }}>
+              {sortedMemories.map((memory, index) => {
+                const emotionData = EMOTIONS[memory.emotion];
+                if (!emotionData) return null;
 
-                <div className="shelf-marbles-row">
-                  {memories.map((memory, index) => {
-                    return (
-                      <div 
-                        key={memory.date}
-                        className="marble-container"
-                        onClick={() => handleOpenModal(memory)}
-                      >
-                        <div 
-                          className="marble-3d"
-                          style={{
-                            '--bg-grad': emotionData.gradient,
-                            '--glow-color': emotionData.glowColor,
-                            animationDelay: `${index * 0.3}s`
-                          }}
-                        >
-                          <div className="marble-core" />
-                        </div>
-                        <span className="marble-label" style={{ color: emotionData.color }}>
-                          {new Date(memory.date).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
+                return (
+                  <div
+                    key={memory.date}
+                    className="marble-container"
+                    onClick={() => handleOpenModal(memory)}
+                    style={{ margin: '15px 10px' }}
+                  >
+                    <div
+                      className="marble-3d"
+                      style={{
+                        '--bg-grad': emotionData.gradient,
+                        '--glow-color': emotionData.glowColor,
+                        animationDelay: `${index * 0.15}s`
+                      }}
+                    >
+                      <div className="marble-core" />
+                    </div>
+                    <span className="marble-label" style={{ color: emotionData.color, fontSize: '0.85rem' }}>
+                      {new Date(memory.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
 
-                <div className="shelf-wood" />
-              </div>
-            );
-          })}
+            <div className="shelf-wood" />
+          </div>
         </div>
       )}
 
-      {/* High Fidelity Glassmorphic Modal Card */}
-      <div 
-        className={`modal-overlay ${activeModalMemory ? 'active' : ''}`}
-        onClick={handleCloseModal}
-        style={{
-          '--glow-color': activeModalEmotionData ? activeModalEmotionData.glowColor : 'rgba(255,255,255,0.2)'
-        }}
-      >
-        {activeModalMemory && activeModalEmotionData && (
-          <div 
-            className="modal-card"
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              '--label-color': activeModalEmotionData.accentColor
-            }}
-          >
-            <button 
-              className="modal-close-btn"
-              onClick={handleCloseModal}
+      {/* High Fidelity Glassmorphic Modal Card via Portal to break out of containing blocks */}
+      {createPortal(
+        <div
+          className={`modal-overlay ${activeModalMemory ? 'active' : ''}`}
+          onClick={handleCloseModal}
+          style={{
+            '--glow-color': activeModalEmotionData ? activeModalEmotionData.glowColor : 'rgba(255,255,255,0.2)'
+          }}
+        >
+          {activeModalMemory && activeModalEmotionData && (
+            <div
+              className="modal-card"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                '--label-color': activeModalEmotionData.accentColor
+              }}
             >
-              ✕
-            </button>
-            <h2 className="modal-emotion-title">
-              {activeModalEmotionData.label}
-            </h2>
-            <div className="modal-date">
-              Preserved on {new Date(activeModalMemory.date).toLocaleString()}
+              <button
+                className="modal-close-btn"
+                onClick={handleCloseModal}
+              >
+                ✕
+              </button>
+              <h2 className="modal-emotion-title">
+                {activeModalEmotionData.label}
+              </h2>
+              <div className="modal-date">
+                Preserved on {new Date(activeModalMemory.date).toLocaleString()}
+              </div>
+              <p className="modal-description">
+                {activeModalMemory.description}
+              </p>
             </div>
-            <p className="modal-description">
-              {activeModalMemory.description}
-            </p>
-          </div>
-        )}
-      </div>
+          )}
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

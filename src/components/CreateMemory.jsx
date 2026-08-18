@@ -4,6 +4,7 @@ import { EMOTIONS } from '../data/emotions';
 export default function CreateMemory({ allMemories, setAllMemories, triggerNotification }) {
   const [activeTab, setActiveTab] = useState('io1'); // 'io1' or 'io2'
   const [selectedEmotion, setSelectedEmotion] = useState(null);
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -25,6 +26,11 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
       return;
     }
 
+    if (!title.trim()) {
+      setErrorMsg('Please give your memory a title.');
+      return;
+    }
+
     if (!description.trim()) {
       setErrorMsg('Please describe your memory before preserving it.');
       return;
@@ -32,6 +38,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
 
     const newMemory = {
       emotion: selectedEmotion,
+      title: title.trim(),
       description: description.trim(),
       date: Date.now(),
     };
@@ -42,6 +49,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
 
     // Reset Form
     setSelectedEmotion(null);
+    setTitle('');
     setDescription('');
     setErrorMsg('');
 
@@ -95,7 +103,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
           </div>
 
           {/* Emotions Buttons Grid */}
-          <div className="emotions-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))' }}>
+          <div className="emotions-grid">
             {tabEmotions.map((emotion) => {
               const isSelected = selectedEmotion === emotion.id;
               return (
@@ -125,7 +133,6 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
               style={{ 
                 textAlign: 'center', 
                 fontSize: '0.9rem', 
-                fontStyle: 'italic', 
                 marginTop: '1.5rem',
                 color: selectedEmotionData.accentColor,
                 animation: 'fadeIn 0.4s ease'
@@ -150,7 +157,21 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
             Preserve the moment
           </h3>
 
-          <div className="textarea-wrapper" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+          <div className="textarea-wrapper" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <input
+              type="text"
+              className="memory-title-input"
+              placeholder="Memory Title"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setErrorMsg('');
+              }}
+              style={{
+                '--focus-color': selectedEmotionData ? selectedEmotionData.color : '#fcb69f',
+                '--focus-glow': selectedEmotionData ? selectedEmotionData.glowColor : 'rgba(252, 182, 159, 0.3)'
+              }}
+            />
             <textarea
               className="description-textarea"
               placeholder={
@@ -167,7 +188,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
                 '--focus-color': selectedEmotionData ? selectedEmotionData.color : '#fcb69f',
                 '--focus-glow': selectedEmotionData ? selectedEmotionData.glowColor : 'rgba(252, 182, 159, 0.3)',
                 flexGrow: 1,
-                minHeight: '250px',
+                minHeight: '200px',
                 fontSize: '1.1rem',
                 lineHeight: '1.6'
               }}

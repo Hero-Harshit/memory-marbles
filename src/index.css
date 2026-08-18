@@ -37,9 +37,9 @@
   --color-ennui-glow: rgba(92, 107, 192, 0.7);
   --color-ennui-bg: radial-gradient(circle at 35% 35%, #9fa8da 0%, #5c6bc0 50%, #1a237e 100%);
 
-  --color-embarrassment: #ec407a;
-  --color-embarrassment-glow: rgba(236, 64, 122, 0.7);
-  --color-embarrassment-bg: radial-gradient(circle at 35% 35%, #f8bbd0 0%, #ec407a 50%, #880e4f 100%);
+  --color-embarrass: #ec407a;
+  --color-embarrass-glow: rgba(236, 64, 122, 0.7);
+  --color-embarrass-bg: radial-gradient(circle at 35% 35%, #f8bbd0 0%, #ec407a 50%, #880e4f 100%);
 
   --color-nostalgia: #8d6e63;
   --color-nostalgia-glow: rgba(141, 110, 99, 0.7);

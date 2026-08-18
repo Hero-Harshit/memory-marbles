@@ -88,6 +88,7 @@
   padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .museum-theme .drawer {
@@ -154,7 +155,8 @@
   margin-top: 1rem;
 }
 
-.drawer-nav-links button {
+.drawer-nav-links button,
+.drawer-footer button {
   padding: 14px 20px;
   border-radius: 20px;
   font-size: 1rem;
@@ -167,14 +169,17 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.museum-theme .drawer-nav-links button {
+.museum-theme .drawer-nav-links button,
+.museum-theme .drawer-footer button {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #eee;
 }
 
 .drawer-nav-links button:hover,
-.drawer-nav-links button.active {
+.drawer-nav-links button.active,
+.drawer-footer button:hover,
+.drawer-footer button.active {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
   color: #ffffff;
   transform: translateY(-2px);
@@ -428,7 +433,7 @@
   box-shadow: 0 24px 60px rgba(79, 70, 229, 0.15), 0 0 0 2px rgba(79, 70, 229, 0.3);
 }
 
-.create-memory-card.active-emotion-embarrassment {
+.create-memory-card.active-emotion-embarrass {
   border-color: #db2777;
   box-shadow: 0 24px 60px rgba(219, 39, 119, 0.15), 0 0 0 2px rgba(219, 39, 119, 0.3);
 }
@@ -482,10 +487,10 @@
 }
 
 .emotions-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
-  justify-items: center;
   margin-bottom: 2.4rem;
   min-height: 100px;
 }
@@ -540,7 +545,6 @@
 
 @media (max-width: 600px) {
   .emotions-grid {
-    grid-template-columns: repeat(3, 1fr);
     gap: 14px;
   }
 }
@@ -600,7 +604,7 @@
   font-weight: 700;
   margin-top: 10px;
   text-transform: capitalize;
-  color: #cbd5e1;
+  color: var(--label-color);
   opacity: 0.9;
   transition: all 0.3s;
 }
@@ -616,6 +620,33 @@
 .textarea-wrapper {
   width: 100%;
   margin-bottom: 1.8rem;
+}
+
+.memory-title-input {
+  width: 100%;
+  padding: 1.1rem 1.4rem;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: inherit;
+  background: rgba(15, 23, 42, 0.5);
+  color: #fff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+}
+
+.memory-title-input::placeholder {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.memory-title-input:focus {
+  outline: none;
+  background: rgba(15, 23, 42, 0.8);
+  border-color: var(--focus-color, #7c3aed);
+  box-shadow: 0 0 0 3px var(--focus-glow, rgba(124, 58, 237, 0.3)),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .description-textarea {
@@ -788,13 +819,13 @@
   box-shadow: 0 16px 35px rgba(79, 70, 229, 0.4), 0 0 20px rgba(79, 70, 229, 0.6);
 }
 
-.submit-btn.embarrassment {
+.submit-btn.embarrass {
   border-color: #db2777;
   box-shadow: 0 8px 25px rgba(219, 39, 119, 0.2), inset 0 0 15px rgba(219, 39, 119, 0.2);
   text-shadow: 0 0 8px #db2777;
 }
 
-.submit-btn.embarrassment:hover {
+.submit-btn.embarrass:hover {
   background: rgba(219, 39, 119, 0.2);
   box-shadow: 0 16px 35px rgba(219, 39, 119, 0.4), 0 0 20px rgba(219, 39, 119, 0.6);
 }
@@ -1050,8 +1081,7 @@
   height: 25%;
   background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 70%);
   border-radius: 50%;
-  transform: translateZ(10px) translate(var(--glare-x, 0px), var(--glare-y, 0px)) rotate(-20deg);
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: rotate(-20deg);
   pointer-events: none;
 }
 
@@ -1115,7 +1145,7 @@
   }
 
   50% {
-    transform: translateY(-8px) rotate(4deg);
+    transform: translateY(var(--hover-y, -8px)) rotate(var(--hover-rot, 4deg));
   }
 
   100% {
@@ -1477,7 +1507,7 @@
 .aura-anxiety .aura-particle { background: #ffa726; box-shadow: 0 0 10px #ffa726; }
 .aura-envy .aura-particle { background: #26c6da; box-shadow: 0 0 10px #26c6da; }
 .aura-ennui .aura-particle { background: #78909c; box-shadow: 0 0 8px #78909c; }
-.aura-embarrassment .aura-particle { background: #f48fb1; box-shadow: 0 0 10px #f48fb1; }
+.aura-embarrass .aura-particle { background: #f48fb1; box-shadow: 0 0 10px #f48fb1; }
 .aura-nostalgia .aura-particle { background: #d4a373; box-shadow: 0 0 10px #d4a373; }
 
 /* The single unified orbiting animation */
@@ -1487,4 +1517,48 @@
   50% { opacity: 0.4; transform: rotate(180deg) translateX(calc(var(--p-dist) - 5px)) translateY(calc(10px + var(--p-idx) * 5px)) scale(0.8); }
   75% { opacity: 0.8; transform: rotate(270deg) translateX(calc(var(--p-dist) + 10px)) translateY(0px) scale(1.1); }
   100% { transform: rotate(360deg) translateX(var(--p-dist)) translateY(calc(-10px + var(--p-idx) * 8px)) scale(0.5); opacity: 0; }
+}
+
+/* Toggle Switch Styles */
+.toggle-switch {
+  width: 50px;
+  height: 26px;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.toggle-switch.on {
+  background: linear-gradient(135deg, #d4fc79, #96e6a1);
+  box-shadow: 0 0 10px rgba(150, 230, 161, 0.5), inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.toggle-knob {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-switch.on .toggle-knob {
+  left: 26px;
+}
+
+/* Hide number input spinners */
+.no-spinners::-webkit-outer-spin-button,
+.no-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spinners {
+  -moz-appearance: textfield;
 }

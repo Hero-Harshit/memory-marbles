@@ -3,13 +3,7 @@ import React from 'react';
 export default function AboutUs() {
   return (
     <div className="about-sections">
-      {/* Decorative Blobs */}
-      <div className="blobs-container">
-        <div className="bg-blob blob-yellow" />
-        <div className="bg-blob blob-blue" />
-        <div className="bg-blob blob-purple" />
-        <div className="bg-blob blob-pink" />
-      </div>
+
 
       <div className="header-hero">
         <h1>Museum of Memory Marbles</h1>
@@ -48,7 +42,7 @@ export default function AboutUs() {
           <li>🟠 <strong>Anxiety</strong> : the planner looking ahead to protect you from the unseen</li>
           <li>🌀 <strong>Envy</strong> : the wishing well showing you what you hope to achieve</li>
           <li>🍷 <strong>Ennui</strong> : the cool detachment and rest when the world gets noisy</li>
-          <li>🌸 <strong>Embarrassment</strong> : the sweet vulnerability that makes you human</li>
+          <li>🌸 <strong>Embarrass</strong> : the sweet vulnerability that makes you human</li>
           <li>🍂 <strong>Nostalgia</strong> : the warm, smiling reflection on the beauty of days gone by</li>
         </ul>
         <p>

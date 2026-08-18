@@ -5,6 +5,7 @@ import MyMuseum from './components/MyMuseum';
 import Settings from './components/Settings';
 import AboutUs from './components/AboutUs';
 import PixieDust from './components/PixieDust';
+import Profile from './components/Profile';
 import './App.css';
 
 export default function App() {
@@ -28,8 +29,9 @@ export default function App() {
   const [marbleSettings, setMarbleSettings] = useState({
     showAuras: true,
     magneticRepulsion: true,
-    interactiveGlare: true,
-    randomDancing: true
+    randomDancing: true,
+    hoverSpeed: 5,
+    hoverIntensity: 5
   });
 
   // Load initial data from localStorage
@@ -104,6 +106,13 @@ export default function App() {
             setMarbleSettings={setMarbleSettings}
           />
         );
+      case 'profile':
+        return (
+          <Profile 
+            allMemories={allMemories}
+            userName={userName}
+          />
+        );
       case 'about':
         return <AboutUs />;
       default:
@@ -136,8 +145,6 @@ export default function App() {
       <Navbar 
         activePage={activePage} 
         setActivePage={setActivePage} 
-        allMemories={allMemories}
-        userName={userName}
       />
 
       {/* Dynamic Main Page Content */}

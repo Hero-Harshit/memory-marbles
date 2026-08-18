@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { EMOTIONS } from '../data/emotions';
 
 export default function Settings({ 
   allMemories, 
@@ -18,21 +17,19 @@ export default function Settings({
     setTempName(userName);
   }, [userName]);
 
-  const handleSaveName = (e) => {
-    e.preventDefault();
-    if (!tempName.trim()) {
-      triggerNotification('Username cannot be empty', '#ef5350');
-      return;
+  const handleNameChange = (e) => {
+    const newName = e.target.value;
+    setTempName(newName);
+    
+    // Auto-save logic
+    if (newName.trim() !== '') {
+      const finalName = newName.trim();
+      setUserName(finalName);
+      
+      const otherData = JSON.parse(localStorage.getItem('otherdata') || '{}');
+      otherData.userName = finalName;
+      localStorage.setItem('otherdata', JSON.stringify(otherData));
     }
-    const finalName = tempName.trim();
-    setUserName(finalName);
-    
-    // Save to otherdata localStorage
-    const otherData = JSON.parse(localStorage.getItem('otherdata') || '{}');
-    otherData.userName = finalName;
-    localStorage.setItem('otherdata', JSON.stringify(otherData));
-    
-    triggerNotification(`Hello, ${finalName}! Profile updated.`, '#66bb6a');
   };
 
   // Toggle Marble Setting
@@ -41,7 +38,6 @@ export default function Settings({
     const currentSettings = marbleSettings || {
       showAuras: true,
       magneticRepulsion: true,
-      interactiveGlare: true,
       randomDancing: true
     };
     
@@ -52,6 +48,28 @@ export default function Settings({
     setMarbleSettings(updated);
     localStorage.setItem('marbleSettings', JSON.stringify(updated));
     triggerNotification(`Setting updated!`, '#66bb6a');
+  };
+
+  const handleChangeSetting = (key, value) => {
+    const currentSettings = marbleSettings || {};
+    const updated = {
+      ...currentSettings,
+      [key]: Number(value)
+    };
+    setMarbleSettings(updated);
+    localStorage.setItem('marbleSettings', JSON.stringify(updated));
+  };
+
+  const handleNumberChange = (key, valStr) => {
+    if (valStr === '') {
+      handleChangeSetting(key, '');
+      return;
+    }
+    let num = parseInt(valStr, 10);
+    if (isNaN(num)) return;
+    if (num > 10) num = 10;
+    if (num < 0) num = 0;
+    handleChangeSetting(key, num);
   };
 
   // Export JSON
@@ -135,24 +153,6 @@ export default function Settings({
     }
   };
 
-  // Calculate stats
-  const emotionStats = Object.keys(EMOTIONS).reduce((acc, key) => {
-    acc[key] = { count: 0, percent: 0 };
-    return acc;
-  }, {});
-
-  allMemories.forEach((memory) => {
-    if (emotionStats[memory.emotion]) {
-      emotionStats[memory.emotion].count += 1;
-    }
-  });
-
-  const totalCount = allMemories.length;
-  if (totalCount > 0) {
-    Object.keys(emotionStats).forEach((key) => {
-      emotionStats[key].percent = Math.round((emotionStats[key].count / totalCount) * 100);
-    });
-  }
 
   return (
     <div className="settings-layout">
@@ -163,7 +163,7 @@ export default function Settings({
 
       {/* Profile settings */}
       <div className="glass-panel settings-card">
-        <form onSubmit={handleSaveName} className="settings-row">
+        <div className="settings-row">
           <div className="settings-info">
             <h3>Mind Identification</h3>
             <p>Customize the owner name of this memory vault.</p>
@@ -173,55 +173,12 @@ export default function Settings({
               type="text" 
               className="settings-text-input"
               value={tempName}
-              onChange={(e) => setTempName(e.target.value)}
+              onChange={handleNameChange}
               placeholder="Enter your name"
               maxLength={15}
             />
-            <button type="submit" className="btn-premium" style={{ padding: '10px 20px', minWidth: 'auto' }}>
-              Save
-            </button>
           </div>
-        </form>
-      </div>
-
-      {/* Stats Dashboard */}
-      <div className="glass-panel settings-card">
-        <div className="settings-info" style={{ marginBottom: '1.5rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
-          <h3>Emotional Inventory</h3>
-          <p>A statistical breakdown of the marbles currently preserved in your core memory shelves.</p>
         </div>
-        
-        {totalCount === 0 ? (
-          <p style={{ textAlign: 'center', fontStyle: 'italic', opacity: 0.6 }}>
-            No memories preserved yet. Craft a marble to populate the dashboard!
-          </p>
-        ) : (
-          <div className="stats-container">
-            {Object.entries(EMOTIONS).map(([key, emotion]) => {
-              const stat = emotionStats[key];
-              return (
-                <div key={key} className="stat-row">
-                  <div className="stat-emotion-name" style={{ color: emotion.accentColor }}>
-                    {emotion.name}
-                  </div>
-                  <div className="stat-progress-bg">
-                    <div 
-                      className="stat-progress-bar"
-                      style={{
-                        width: `${stat.percent}%`,
-                        '--bg-grad': emotion.gradient,
-                        '--glow-color': emotion.glowColor
-                      }}
-                    />
-                  </div>
-                  <div className="stat-count-badge" style={{ color: emotion.accentColor }}>
-                    {stat.count} ({stat.percent}%)
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       {/* Marble Customization Settings */}
@@ -236,14 +193,12 @@ export default function Settings({
             <h4 style={{ margin: 0, fontWeight: 600 }}>Emotion Auras</h4>
             <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Show floating magical dust orbiting around each marble.</p>
           </div>
-          <button 
-            type="button" 
-            className="btn-premium"
+          <div 
+            className={`toggle-switch ${marbleSettings?.showAuras ? 'on' : 'off'}`} 
             onClick={() => handleToggleSetting('showAuras')}
-            style={{ minWidth: '100px', background: marbleSettings?.showAuras ? 'linear-gradient(135deg, #d4fc79, #96e6a1)' : 'linear-gradient(135deg, #e0e0e0, #cfcfcf)', color: marbleSettings?.showAuras ? '#333' : '#666', transform: 'none' }}
           >
-            {marbleSettings?.showAuras ? 'Enabled' : 'Disabled'}
-          </button>
+            <div className="toggle-knob"></div>
+          </div>
         </div>
 
         <div className="settings-row" style={{ marginBottom: '1rem', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
@@ -251,44 +206,58 @@ export default function Settings({
             <h4 style={{ margin: 0, fontWeight: 600 }}>Magnetic Repulsion</h4>
             <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Marbles gently float away from your cursor when you move near them.</p>
           </div>
-          <button 
-            type="button" 
-            className="btn-premium"
+          <div 
+            className={`toggle-switch ${marbleSettings?.magneticRepulsion ? 'on' : 'off'}`} 
             onClick={() => handleToggleSetting('magneticRepulsion')}
-            style={{ minWidth: '100px', background: marbleSettings?.magneticRepulsion ? 'linear-gradient(135deg, #d4fc79, #96e6a1)' : 'linear-gradient(135deg, #e0e0e0, #cfcfcf)', color: marbleSettings?.magneticRepulsion ? '#333' : '#666', transform: 'none' }}
           >
-            {marbleSettings?.magneticRepulsion ? 'Enabled' : 'Disabled'}
-          </button>
+            <div className="toggle-knob"></div>
+          </div>
         </div>
 
-        <div className="settings-row" style={{ marginBottom: '1rem', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
-          <div className="settings-info">
-            <h4 style={{ margin: 0, fontWeight: 600 }}>Interactive 3D Glare</h4>
-            <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Marbles physically tilt in 3D space with dynamic glass reflections.</p>
-          </div>
-          <button 
-            type="button" 
-            className="btn-premium"
-            onClick={() => handleToggleSetting('interactiveGlare')}
-            style={{ minWidth: '100px', background: marbleSettings?.interactiveGlare ? 'linear-gradient(135deg, #d4fc79, #96e6a1)' : 'linear-gradient(135deg, #e0e0e0, #cfcfcf)', color: marbleSettings?.interactiveGlare ? '#333' : '#666', transform: 'none' }}
-          >
-            {marbleSettings?.interactiveGlare ? 'Enabled' : 'Disabled'}
-          </button>
-        </div>
 
         <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
           <div className="settings-info">
             <h4 style={{ margin: 0, fontWeight: 600 }}>Random Dancing</h4>
             <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Marbles bob and glow randomly. If disabled, they move in sync.</p>
           </div>
-          <button 
-            type="button" 
-            className="btn-premium"
+          <div 
+            className={`toggle-switch ${marbleSettings?.randomDancing ? 'on' : 'off'}`} 
             onClick={() => handleToggleSetting('randomDancing')}
-            style={{ minWidth: '100px', background: marbleSettings?.randomDancing ? 'linear-gradient(135deg, #d4fc79, #96e6a1)' : 'linear-gradient(135deg, #e0e0e0, #cfcfcf)', color: marbleSettings?.randomDancing ? '#333' : '#666', transform: 'none' }}
           >
-            {marbleSettings?.randomDancing ? 'Enabled' : 'Disabled'}
-          </button>
+            <div className="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
+          <div className="settings-info">
+            <h4 style={{ margin: 0, fontWeight: 600 }}>Hovering Animation Speed</h4>
+            <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>How fast the marbles move. (0 to 10)</p>
+          </div>
+          <input 
+            type="number" 
+            min="0" 
+            max="10" 
+            className="no-spinners"
+            value={marbleSettings?.hoverSpeed !== undefined ? marbleSettings.hoverSpeed : 5} 
+            onChange={(e) => handleNumberChange('hoverSpeed', e.target.value)}
+            style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.1)', color: '#fff', width: '60px', outline: 'none', textAlign: 'center', fontFamily: 'inherit', fontWeight: 'bold' }}
+          />
+        </div>
+
+        <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
+          <div className="settings-info">
+            <h4 style={{ margin: 0, fontWeight: 600 }}>Hovering Intensity</h4>
+            <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>How far the marbles move. (0 to 10)</p>
+          </div>
+          <input 
+            type="number" 
+            min="0" 
+            max="10" 
+            className="no-spinners"
+            value={marbleSettings?.hoverIntensity !== undefined ? marbleSettings.hoverIntensity : 5} 
+            onChange={(e) => handleNumberChange('hoverIntensity', e.target.value)}
+            style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.1)', color: '#fff', width: '60px', outline: 'none', textAlign: 'center', fontFamily: 'inherit', fontWeight: 'bold' }}
+          />
         </div>
       </div>
 
@@ -303,7 +272,13 @@ export default function Settings({
             type="button" 
             className="btn-premium"
             onClick={handleExport}
-            style={{ background: 'linear-gradient(135deg, #e0e0e0, #cfcfcf)' }}
+            style={{ 
+              background: 'rgba(255, 255, 255, 0.1)', 
+              color: '#fff', 
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+              backdropFilter: 'blur(5px)'
+            }}
           >
             Export Backup
           </button>
@@ -325,7 +300,13 @@ export default function Settings({
             type="button" 
             className="btn-premium"
             onClick={triggerImportClick}
-            style={{ background: 'linear-gradient(135deg, #d4fc79, #96e6a1)' }}
+            style={{ 
+              background: 'rgba(105, 240, 174, 0.2)', 
+              color: '#69f0ae', 
+              border: '1px solid rgba(105, 240, 174, 0.3)',
+              boxShadow: '0 4px 15px rgba(105, 240, 174, 0.1)',
+              backdropFilter: 'blur(5px)'
+            }}
           >
             Import Backup
           </button>
@@ -340,7 +321,13 @@ export default function Settings({
             type="button" 
             className="btn-premium"
             onClick={handleClearMuseum}
-            style={{ background: 'linear-gradient(135deg, #ffcdd2, #e53935)', color: '#fff' }}
+            style={{ 
+              background: 'rgba(255, 82, 82, 0.2)', 
+              color: '#ff5252', 
+              border: '1px solid rgba(255, 82, 82, 0.3)',
+              boxShadow: '0 4px 15px rgba(255, 82, 82, 0.1)',
+              backdropFilter: 'blur(5px)'
+            }}
           >
             Marble Massacre
           </button>

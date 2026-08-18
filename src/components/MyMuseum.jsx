@@ -10,18 +10,13 @@ export default function MyMuseum({ allMemories, setActivePage, marbleSettings })
   const containerRef = useRef(null);
 
   useEffect(() => {
-    // If both interactive settings are explicitly disabled, don't run heavy mouse tracking
-    if (marbleSettings?.magneticRepulsion === false && marbleSettings?.interactiveGlare === false) {
+    // If interactive settings are explicitly disabled, don't run heavy mouse tracking
+    if (marbleSettings?.magneticRepulsion === false) {
       // Clean up any existing transforms before returning
       if (containerRef.current) {
         const marbles = containerRef.current.querySelectorAll('.marble-container');
         marbles.forEach(marble => {
-          marble.style.transform = `translate(0px, 0px) perspective(400px) rotateX(0deg) rotateY(0deg)`;
-          const marble3d = marble.querySelector('.marble-3d');
-          if (marble3d) {
-            marble3d.style.setProperty('--glare-x', `0px`);
-            marble3d.style.setProperty('--glare-y', `0px`);
-          }
+          marble.style.transform = `translate(0px, 0px)`;
         });
       }
       return;
@@ -46,8 +41,6 @@ export default function MyMuseum({ allMemories, setActivePage, marbleSettings })
         // Repulsion radius and max force
         const maxDistance = 150; 
         
-        const marble3d = marble.querySelector('.marble-3d');
-        
         if (distance < maxDistance) {
           const force = (maxDistance - distance) / maxDistance;
           
@@ -58,37 +51,16 @@ export default function MyMuseum({ allMemories, setActivePage, marbleSettings })
             pushY = -(deltaY / distance) * force * 40;
           }
           
-          // Apply 3D tilt if enabled
-          let tiltX = 0, tiltY = 0;
-          if (marbleSettings?.interactiveGlare !== false) {
-            tiltX = (deltaY / maxDistance) * 30;
-            tiltY = -(deltaX / maxDistance) * 30;
-          }
-          
-          marble.style.transform = `translate(${pushX}px, ${pushY}px) perspective(400px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-          
-          if (marble3d) {
-            let glareX = 0, glareY = 0;
-            if (marbleSettings?.interactiveGlare !== false) {
-              glareX = (deltaX / maxDistance) * 15;
-              glareY = (deltaY / maxDistance) * 15;
-            }
-            marble3d.style.setProperty('--glare-x', `${glareX}px`);
-            marble3d.style.setProperty('--glare-y', `${glareY}px`);
-          }
+          marble.style.transform = `translate(${pushX}px, ${pushY}px)`;
         } else {
-          marble.style.transform = `translate(0px, 0px) perspective(400px) rotateX(0deg) rotateY(0deg)`;
-          if (marble3d) {
-            marble3d.style.setProperty('--glare-x', `0px`);
-            marble3d.style.setProperty('--glare-y', `0px`);
-          }
+          marble.style.transform = `translate(0px, 0px)`;
         }
       });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [marbleSettings?.magneticRepulsion, marbleSettings?.interactiveGlare]);
+  }, [marbleSettings?.magneticRepulsion]);
 
   // Apply filters and sorting
   const filteredMemories = allMemories.filter((memory) => {
@@ -242,11 +214,23 @@ export default function MyMuseum({ allMemories, setActivePage, marbleSettings })
                 const rand4 = getSeededRandom(seed + 3);
 
                 const isRandomDancing = marbleSettings?.randomDancing !== false;
+                const hSpeed = marbleSettings?.hoverSpeed !== undefined ? Number(marbleSettings.hoverSpeed) : 5;
+                const hIntens = marbleSettings?.hoverIntensity !== undefined ? Number(marbleSettings.hoverIntensity) : 5;
+
+                const baseFloatDur = isRandomDancing ? (4 + (rand1 * 4)) : 6.0;
+                const speedMult = hSpeed / 5;
+                const floatDur = speedMult > 0 ? (baseFloatDur / speedMult).toFixed(2) : "1.00";
                 
-                const floatDur = isRandomDancing ? (4 + (rand1 * 4)).toFixed(2) : "6.00"; // 4s to 8s or fixed 6s
-                const floatDel = isRandomDancing ? (rand2 * -5).toFixed(2) : "0.00"; // Negative delay or 0s
+                const baseDel = isRandomDancing ? (rand2 * -5) : 0;
+                const floatDel = speedMult > 0 ? (baseDel / speedMult).toFixed(2) : "0.00";
+
                 const pulseDur = isRandomDancing ? (2 + (rand3 * 3)).toFixed(2) : "3.00"; // 2s to 5s or fixed 3s
                 const sparkleDel = isRandomDancing ? (rand4 * 8).toFixed(2) : "2.00"; // 0s to 8s or fixed 2s
+
+                const ampY = (hIntens / 5) * 8;
+                const ampRot = (hIntens / 5) * 4;
+                const hoverY = (hSpeed === 0 || hIntens === 0) ? "0px" : `-${ampY.toFixed(2)}px`;
+                const hoverRot = (hSpeed === 0 || hIntens === 0) ? "0deg" : `${ampRot.toFixed(2)}deg`;
 
                 return (
                   <div
@@ -288,6 +272,8 @@ export default function MyMuseum({ allMemories, setActivePage, marbleSettings })
                         '--glow-color': emotionData.glowColor,
                         '--float-dur': `${floatDur}s`,
                         '--float-del': `${floatDel}s`,
+                        '--hover-y': hoverY,
+                        '--hover-rot': hoverRot,
                         '--pulse-dur': `${pulseDur}s`,
                         '--sparkle-del': `${sparkleDel}s`,
                       }}
@@ -337,6 +323,11 @@ export default function MyMuseum({ allMemories, setActivePage, marbleSettings })
               <div className="modal-date">
                 Preserved on {new Date(activeModalMemory.date).toLocaleString()}
               </div>
+              {activeModalMemory.title && (
+                <h3 className="modal-memory-title" style={{ marginTop: '1.5rem', marginBottom: '0.5rem', color: '#fff', fontSize: '1.4rem' }}>
+                  {activeModalMemory.title}
+                </h3>
+              )}
               <p className="modal-description">
                 {activeModalMemory.description}
               </p>

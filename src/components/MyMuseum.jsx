@@ -261,7 +261,7 @@ export default function MyMuseum({ allMemories = [], setActivePage, marbleSettin
             </div>
 
             <div className="shelf-marbles-row" style={{ flexWrap: 'wrap', justifyContent: 'center', gap: '30px' }}>
-              {sortedMemories.map((memory) => {
+              {sortedMemories.map((memory, index) => {
                 const hybridData = getHybridDetails(memory.emotion, memory.secondaryEmotion);
 
                 // Generate random but stable animation values for each marble
@@ -292,7 +292,7 @@ export default function MyMuseum({ allMemories = [], setActivePage, marbleSettin
 
                 return (
                   <div
-                    key={memory.date}
+                    key={`${memory.date}-${memory.emotion}-${memory.secondaryEmotion || 'pure'}-${index}`}
                     className="marble-container"
                     onClick={() => handleOpenModal(memory)}
                     style={{ margin: '15px 10px' }}

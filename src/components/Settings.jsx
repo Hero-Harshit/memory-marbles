@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { FONT_OPTIONS } from '../data/fonts';
+import { generateDemoMemories } from '../data/demoData';
 
 export default function Settings({ 
   allMemories, 
@@ -7,7 +9,9 @@ export default function Settings({
   setUserName, 
   triggerNotification,
   marbleSettings,
-  setMarbleSettings
+  setMarbleSettings,
+  selectedFont,
+  setSelectedFont
 }) {
   const [tempName, setTempName] = useState(userName);
   const fileInputRef = useRef(null);
@@ -32,6 +36,21 @@ export default function Settings({
     }
   };
 
+  // Load Demo Data
+  const handleLoadDemoData = (mode = 'replace') => {
+    const demoMemories = generateDemoMemories();
+    let updated;
+    if (mode === 'append') {
+      updated = [...allMemories, ...demoMemories];
+      triggerNotification(`Added 55 demo marbles to your collection!`, '#c084fc');
+    } else {
+      updated = demoMemories;
+      triggerNotification(`Demo Vault Loaded! 55 unique marbles now on display.`, '#69f0ae');
+    }
+    setAllMemories(updated);
+    localStorage.setItem('allmemories', JSON.stringify(updated));
+  };
+
   // Toggle Marble Setting
   const handleToggleSetting = (key) => {
     // Graceful fallback if marbleSettings is undefined
@@ -54,7 +73,7 @@ export default function Settings({
     const currentSettings = marbleSettings || {};
     const updated = {
       ...currentSettings,
-      [key]: Number(value)
+      [key]: value === '' ? '' : Number(value)
     };
     setMarbleSettings(updated);
     localStorage.setItem('marbleSettings', JSON.stringify(updated));
@@ -258,6 +277,106 @@ export default function Settings({
             onChange={(e) => handleNumberChange('hoverIntensity', e.target.value)}
             style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.1)', color: '#fff', width: '60px', outline: 'none', textAlign: 'center', fontFamily: 'inherit', fontWeight: 'bold' }}
           />
+        </div>
+      </div>
+
+      {/* Font Family Selection Settings */}
+      <div className="glass-panel settings-card">
+        <div className="settings-info" style={{ marginBottom: '1.5rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
+          <h3>Typography & Font Style</h3>
+          <p>Choose a charming theme for titles, notes, and headings across your memory museum.</p>
+        </div>
+
+        <div className="font-options-grid">
+          {FONT_OPTIONS.map((font) => {
+            const isSelected = (selectedFont || 'cute') === font.id;
+            return (
+              <div
+                key={font.id}
+                className={`font-option-card ${isSelected ? 'selected' : ''}`}
+                onClick={() => {
+                  if (setSelectedFont) {
+                    setSelectedFont(font.id);
+                    triggerNotification(`Theme font set to ${font.name}!`, '#c084fc');
+                  }
+                }}
+              >
+                <div className="font-card-header">
+                  <span className="font-card-name">{font.name}</span>
+                  <span className="font-card-badge">{font.badge}</span>
+                </div>
+                <div 
+                  className="font-card-preview" 
+                  style={{ fontFamily: font.headingFont }}
+                >
+                  {font.preview}
+                </div>
+                <p 
+                  className="font-card-sample"
+                  style={{ fontFamily: font.bodyFont }}
+                >
+                  "{font.sampleText}"
+                </p>
+                <div className="font-card-footer">
+                  <span className="font-card-desc">{font.description}</span>
+                  <div className="font-radio-indicator">
+                    {isSelected && <span className="radio-dot" />}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Demo Showcase Vault */}
+      <div className="glass-panel settings-card">
+        <div className="settings-info" style={{ marginBottom: '1.5rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+            <div>
+              <h3 style={{ margin: 0 }}>🔮 Demo Showcase Vault</h3>
+              <p style={{ margin: '5px 0 0 0' }}>Populate your museum with sample memories to inspect all marble combinations.</p>
+            </div>
+            <span 
+              className="preview-tag"
+              style={{ background: 'rgba(192, 132, 252, 0.25)', color: '#e9d5ff', border: '1px solid rgba(192, 132, 252, 0.35)', padding: '4px 12px', borderRadius: '15px' }}
+            >
+              55 Total Combinations
+            </span>
+          </div>
+        </div>
+
+        <div className="settings-row" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'flex-start' }}>
+          <p style={{ margin: 0, opacity: 0.85, fontSize: '0.95rem', lineHeight: '1.5' }}>
+            Generates <strong>10 pure emotion marbles</strong> and all <strong>45 dual-emotion hybrid swirl combinations</strong> with tailored stories and emotional narratives.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', width: '100%', marginTop: '0.5rem' }}>
+            <button
+              type="button"
+              className="btn-premium"
+              onClick={() => handleLoadDemoData('replace')}
+              style={{
+                background: 'linear-gradient(135deg, rgba(147, 197, 253, 0.25) 0%, rgba(192, 132, 252, 0.25) 100%)',
+                borderColor: '#c084fc',
+                color: '#fff',
+                boxShadow: '0 4px 20px rgba(192, 132, 252, 0.25)'
+              }}
+            >
+              ✨ Load Complete Demo Vault (55 Marbles)
+            </button>
+            <button
+              type="button"
+              className="btn-premium"
+              onClick={() => handleLoadDemoData('append')}
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                borderColor: 'rgba(255, 255, 255, 0.2)',
+                color: '#e2e8f0'
+              }}
+            >
+              ➕ Append to Existing Memories
+            </button>
+          </div>
         </div>
       </div>
 

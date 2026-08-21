@@ -1,57 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { EMOTIONS } from '../data/emotions';
 
 export default function Profile({ allMemories, userName }) {
   const [isInventoryOpen, setIsInventoryOpen] = useState(true);
   const [sortOrder, setSortOrder] = useState('descending');
 
-  // Get Last Memory Timestamp
-  const lastMemory = allMemories[allMemories.length - 1];
-  const lastMemoryTimeStr = lastMemory 
-    ? new Date(lastMemory.date).toLocaleString() 
-    : 'None';
+  // Memoized stats calculation
+  const { dominantEmotion, sortedEmotionStats, lastMemoryTimeStr, totalCount, hybridCount, pureCount } = useMemo(() => {
+    const total = allMemories.length;
+    const lastMemory = allMemories[total - 1];
+    const lastTime = lastMemory 
+      ? new Date(lastMemory.date).toLocaleString() 
+      : 'None';
 
-  // Get dominant emotion
-  const emotionCounts = allMemories.reduce((acc, m) => {
-    acc[m.emotion] = (acc[m.emotion] || 0) + 1;
-    return acc;
-  }, {});
-
-  let dominantEmotion = 'None';
-  let maxCount = 0;
-  Object.entries(emotionCounts).forEach(([emotion, count]) => {
-    if (count > maxCount) {
-      maxCount = count;
-      dominantEmotion = emotion;
-    }
-  });
-
-  // Calculate emotion stats for the inventory
-  const emotionStatsMap = Object.keys(EMOTIONS).reduce((acc, key) => {
-    acc[key] = { count: 0, percent: 0, emotion: EMOTIONS[key], key };
-    return acc;
-  }, {});
-
-  allMemories.forEach((memory) => {
-    if (emotionStatsMap[memory.emotion]) {
-      emotionStatsMap[memory.emotion].count += 1;
-    }
-  });
-
-  const totalCount = allMemories.length;
-  if (totalCount > 0) {
-    Object.keys(emotionStatsMap).forEach((key) => {
-      emotionStatsMap[key].percent = Math.round((emotionStatsMap[key].count / totalCount) * 100);
+    const counts = {};
+    const statsMap = {};
+    Object.keys(EMOTIONS).forEach((key) => {
+      statsMap[key] = { count: 0, percent: 0, emotion: EMOTIONS[key], key };
     });
-  }
 
-  const sortedEmotionStats = Object.values(emotionStatsMap).sort((a, b) => {
-    if (sortOrder === 'descending') {
-      return b.count - a.count;
-    } else {
-      return a.count - b.count;
+    let maxC = 0;
+    let dominant = 'None';
+    let hybridTotal = 0;
+
+    allMemories.forEach((m) => {
+      if (m.secondaryEmotion && EMOTIONS[m.secondaryEmotion]) {
+        hybridTotal += 1;
+        // Credit secondary emotion as well
+        counts[m.secondaryEmotion] = (counts[m.secondaryEmotion] || 0) + 1;
+        if (statsMap[m.secondaryEmotion]) {
+          statsMap[m.secondaryEmotion].count += 1;
+        }
+      }
+
+      counts[m.emotion] = (counts[m.emotion] || 0) + 1;
+      if (statsMap[m.emotion]) {
+        statsMap[m.emotion].count += 1;
+      }
+    });
+
+    Object.entries(counts).forEach(([emotion, count]) => {
+      if (count > maxC) {
+        maxC = count;
+        dominant = emotion;
+      }
+    });
+
+    const totalImpressions = Object.values(statsMap).reduce((acc, curr) => acc + curr.count, 0);
+
+    if (totalImpressions > 0) {
+      Object.keys(statsMap).forEach((key) => {
+        statsMap[key].percent = Math.round((statsMap[key].count / totalImpressions) * 100);
+      });
     }
-  });
+
+    const sortedStats = Object.values(statsMap).sort((a, b) => {
+      return sortOrder === 'descending' ? b.count - a.count : a.count - b.count;
+    });
+
+    return {
+      dominantEmotion: dominant,
+      sortedEmotionStats: sortedStats,
+      lastMemoryTimeStr: lastTime,
+      totalCount: total,
+      hybridCount: hybridTotal,
+      pureCount: total - hybridTotal
+    };
+  }, [allMemories, sortOrder]);
 
   return (
     <div className="settings-layout">
@@ -66,7 +81,7 @@ export default function Profile({ allMemories, userName }) {
           <p>A quick overview of your memory collection.</p>
         </div>
         
-        <p><strong>Total Memories:</strong> <span>{allMemories.length}</span></p>
+        <p><strong>Total Memories:</strong> <span>{totalCount} ({pureCount} Pure, {hybridCount} Hybrid)</span></p>
         <p><strong>Dominant Emotion:</strong> <span style={{ textTransform: 'capitalize' }}>{dominantEmotion}</span></p>
       </div>
 
@@ -154,7 +169,7 @@ export default function Profile({ allMemories, userName }) {
       </div>
 
       <div className="glass-panel settings-card" style={{ textAlign: 'center', opacity: 0.7 }}>
-        <p>Your memories are safe, private, and stored only in this browser. 🔮</p>
+        <p>Your memories are safe, private, and your data stays on your device. 🔮</p>
       </div>
     </div>
   );

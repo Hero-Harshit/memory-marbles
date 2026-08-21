@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700;800&family=Comfortaa:wght@500;700&family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700&family=Patrick+Hand&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Sniglet:wght@400;800&display=swap');
 
 :root {
-  --font-body: 'Outfit', sans-serif;
-  --font-heading: 'Cinzel', serif;
+  --font-body: 'Quicksand', 'Nunito', sans-serif;
+  --font-heading: 'Fredoka', 'Quicksand', cursive, sans-serif;
 
   /* Emotion Colors (Premium HSL & Hex) */
   --color-joy: #fbc02d;
@@ -46,7 +46,6 @@
   --color-nostalgia-bg: radial-gradient(circle at 35% 35%, #d7ccc8 0%, #8d6e63 50%, #3e2723 100%);
 
   /* Vibrant, Colorful Disney Backgrounds */
-  --bg-home: radial-gradient(circle at 20% 15%, #fef3c7 0%, #fce7f3 30%, #ede9fe 65%, #e0f2fe 100%);
   --bg-museum: radial-gradient(circle at top, #2e1065 0%, #0f172a 60%, #020617 100%);
 }
 

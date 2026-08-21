@@ -144,3 +144,164 @@ export const EMOTIONS = {
     textColor: '#3e2723'
   }
 };
+
+export const HYBRID_COMBINATIONS = {
+  'joy-sadness': {
+    title: 'Bittersweet',
+    subtitle: 'The Riley Classic',
+    description: 'When joy and sorrow share the exact same light — crying because it was beautiful and gone.'
+  },
+  'joy-nostalgia': {
+    title: 'Golden Hour',
+    subtitle: 'Warm Remembrance',
+    description: 'A glowing memory of a sunlit day that warms your chest whenever you look back.'
+  },
+  'anger-anxiety': {
+    title: 'Turbulent Storm',
+    subtitle: 'Overwhelmed Heat',
+    description: 'When urgent frustration clashes with frantic overthinking and nervous tension.'
+  },
+  'sadness-nostalgia': {
+    title: 'Aching Melancholy',
+    subtitle: 'Sweet Yesterday',
+    description: 'A gentle, longing ache for a time, a place, or someone you dearly loved.'
+  },
+  'fear-anxiety': {
+    title: 'The Spiral',
+    subtitle: 'Anticipatory Dread',
+    description: 'Hyper-vigilant thoughts bracing for the unseen to keep you safe.'
+  },
+  'joy-embarrass': {
+    title: 'Endearing Blushing',
+    subtitle: 'Playful Vulnerability',
+    description: 'Laughing at your own clumsiness and feeling warm affection from those around you.'
+  },
+  'joy-fear': {
+    title: 'Exhilarating Leap',
+    subtitle: 'Triumphant Courage',
+    description: 'The electrifying rush of doing something terrifying and realizing you survived.'
+  },
+  'envy-joy': {
+    title: 'Aspirational Hope',
+    subtitle: 'Inspired Longing',
+    description: 'Seeing greatness in others and feeling a bright spark to reach higher.'
+  },
+  'anger-disgust': {
+    title: 'Fierce Boundary',
+    subtitle: 'Righteous Outrage',
+    description: 'A deep gut refusal and burning determination to stand up for yourself.'
+  },
+  'sadness-ennui': {
+    title: 'Quiet Solitude',
+    subtitle: 'Numb Reflection',
+    description: 'A tranquil, heavy stillness where the world quiets down and demands nothing from you.'
+  },
+  'joy-anger': {
+    title: 'Passionate Drive',
+    subtitle: 'Victorious Fire',
+    description: 'The ecstatic thrill of fighting hard for something you love and winning.'
+  },
+  'joy-anxiety': {
+    title: 'Jittery Excitement',
+    subtitle: 'Nervous Flutter',
+    description: 'Butterflies in your stomach before a big adventure or a long-awaited reunion.'
+  },
+  'joy-disgust': {
+    title: 'Silly Rebellion',
+    subtitle: 'Playful Distaste',
+    description: 'Giggling over terrible food, funny cringe moments, or weird inside jokes.'
+  },
+  'joy-ennui': {
+    title: 'Lazy Bliss',
+    subtitle: 'Cozy Rest',
+    description: 'Doing absolutely nothing on a warm afternoon and feeling completely content.'
+  },
+  'sadness-anger': {
+    title: 'Heartbroken Fury',
+    subtitle: 'Ache & Fire',
+    description: 'The intense hurt that turns into fire when something unfair happens.'
+  },
+  'sadness-fear': {
+    title: 'Fragile Solace',
+    subtitle: 'Tender Tremble',
+    description: 'Feeling small and vulnerable in a vast world, searching for a gentle shelter.'
+  },
+  'sadness-embarrass': {
+    title: 'Tender Shame',
+    subtitle: 'Soft Humility',
+    description: 'The stinging desire to hide away after a painful, raw mistake.'
+  },
+  'anxiety-embarrass': {
+    title: 'Self-Conscious Flutter',
+    subtitle: 'Social Shyness',
+    description: 'Over-analyzing every single word you said in the room after leaving.'
+  },
+  'fear-nostalgia': {
+    title: 'Haunting Echo',
+    subtitle: 'Old Shadows',
+    description: 'Looking back on moments that once terrified you with awe and perspective.'
+  },
+  'envy-anxiety': {
+    title: 'Restless Striving',
+    subtitle: 'Comparison Spiral',
+    description: 'Worrying you will fall behind while wishing for what others have.'
+  },
+  'ennui-nostalgia': {
+    title: 'Faded Tape',
+    subtitle: 'Dull Yearning',
+    description: 'Remembering old routines that once felt ordinary and now feel distant.'
+  }
+};
+
+/**
+ * Returns comprehensive visual and narrative metadata for a pure or hybrid memory
+ */
+export function getHybridDetails(primaryId, secondaryId) {
+  const primary = EMOTIONS[primaryId] || EMOTIONS.joy;
+  
+  if (!secondaryId || secondaryId === primaryId || !EMOTIONS[secondaryId]) {
+    return {
+      isHybrid: false,
+      primary,
+      secondary: null,
+      title: primary.name.charAt(0).toUpperCase() + primary.name.slice(1),
+      subtitle: 'Pure Memory',
+      description: primary.description,
+      gradient: primary.gradient,
+      color: primary.color,
+      accentColor: primary.accentColor,
+      glowColor: primary.glowColor,
+      secondaryColor: null,
+      badge: primary.label
+    };
+  }
+
+  const secondary = EMOTIONS[secondaryId];
+  const pairKey1 = `${primaryId}-${secondaryId}`;
+  const pairKey2 = `${secondaryId}-${primaryId}`;
+  const hybridMeta = HYBRID_COMBINATIONS[pairKey1] || HYBRID_COMBINATIONS[pairKey2];
+
+  const title = hybridMeta ? hybridMeta.title : `${primary.name.charAt(0).toUpperCase() + primary.name.slice(1)} & ${secondary.name.charAt(0).toUpperCase() + secondary.name.slice(1)}`;
+  const subtitle = hybridMeta ? hybridMeta.subtitle : 'Dual-Emotion Swirl';
+  const description = hybridMeta ? hybridMeta.description : `A complex swirl where ${primary.name} and ${secondary.name} interlace into one memory marble.`;
+
+  // Dynamic animated swirling liquid dual-tone gradient
+  const gradient = `conic-gradient(from 140deg at 50% 50%, ${primary.color} 0deg, ${secondary.color} 130deg, ${primary.color} 260deg, ${secondary.color} 360deg)`;
+  const glowColor = `rgba(255, 255, 255, 0.4)`;
+
+  return {
+    isHybrid: true,
+    primary,
+    secondary,
+    title,
+    subtitle,
+    description,
+    gradient,
+    color: primary.color,
+    accentColor: primary.accentColor,
+    glowColor,
+    secondaryColor: secondary.color,
+    badge: `${primary.label} + ${secondary.label}`
+  };
+}
+

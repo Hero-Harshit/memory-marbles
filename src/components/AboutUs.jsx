@@ -6,7 +6,7 @@ export default function AboutUs() {
 
 
       <div className="header-hero">
-        <h1>Museum of Memory Marbles</h1>
+        <h1>Memory Marbles</h1>
         <p className="footer-quote" style={{ marginTop: '0', fontSize: '1.05rem' }}>
           "Some memories glow yellow. Some burn red. Some settle into a quiet, aching blue. This is a place for all of them."
         </p>
@@ -22,7 +22,7 @@ export default function AboutUs() {
           For me, it was understanding that emotions are not enemies to be controlled, but companions to be understood. Joy cannot exist without sadness, and anger is the fire that tells you something matters.
         </p>
         <p>
-          <strong>Museum of Memory Marbles</strong> was born from that feeling.
+          <strong>Memory Marbles</strong> was born from that feeling.
         </p>
         <p>
           This is your space. A tiny, private corner of the internet where your memories exist without noise or judgment. No timelines. No followers. No likes. No performance. Just you, standing in a quiet museum of your own life watching the past glow softly in your hands.
@@ -74,7 +74,7 @@ export default function AboutUs() {
           <strong>Fully Client-Side:</strong> Built with React, JSX, and Vite. Your memories never touch any remote server, database, or analytics tracker.
         </p>
         <p>
-          <strong>Browser Storage:</strong> Everything is stored exclusively in your browser's <code>localStorage</code>. It is 100% private, fully offline, and belongs completely to you.
+          <strong>Device Storage:</strong> Your data stays on your device. Everything is stored securely in your local storage, 100% private, fully offline, and belongs completely to you.
         </p>
         <p>
           <strong>No Accounts:</strong> No logins, no passwords, no email trackers. Just open it and begin holding your history.

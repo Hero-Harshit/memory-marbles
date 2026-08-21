@@ -6,6 +6,7 @@ import Settings from './components/Settings';
 import AboutUs from './components/AboutUs';
 import PixieDust from './components/PixieDust';
 import Profile from './components/Profile';
+import { FONT_OPTIONS } from './data/fonts';
 import './App.css';
 
 export default function App() {
@@ -17,6 +18,9 @@ export default function App() {
   
   // Custom Username State
   const [userName, setUserName] = useState('User');
+
+  // Custom Font Style State
+  const [selectedFont, setSelectedFont] = useState('cute');
 
   // Custom Success Banner State
   const [notification, setNotification] = useState({
@@ -39,7 +43,40 @@ export default function App() {
     try {
       const storedMemories = localStorage.getItem('allmemories');
       if (storedMemories) {
-        setAllMemories(JSON.parse(storedMemories));
+        const parsed = JSON.parse(storedMemories);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setAllMemories(parsed);
+        } else if (!storedMemories) {
+          // Empty initial visit
+          setAllMemories([]);
+        }
+      } else {
+        // Initial sample starter memories on first visit
+        const starterMemories = [
+          {
+            emotion: 'joy',
+            secondaryEmotion: null,
+            title: 'Sunlit Afternoon',
+            description: 'Laughing so hard with friends on a warm summer evening that my chest hurt from smiling.',
+            date: Date.now() - 86400000 * 4
+          },
+          {
+            emotion: 'joy',
+            secondaryEmotion: 'sadness',
+            title: 'Graduation Day',
+            description: 'Standing in the crowd, happy for the future yet aching to say goodbye to four incredible years.',
+            date: Date.now() - 86400000 * 2
+          },
+          {
+            emotion: 'nostalgia',
+            secondaryEmotion: 'joy',
+            title: 'Old Photo Album',
+            description: 'Finding an old polaroid from a childhood road trip and feeling an instant rush of warmth.',
+            date: Date.now() - 86400000 * 1
+          }
+        ];
+        setAllMemories(starterMemories);
+        localStorage.setItem('allmemories', JSON.stringify(starterMemories));
       }
 
       const storedOtherData = localStorage.getItem('otherdata');
@@ -54,10 +91,27 @@ export default function App() {
       if (storedMarbleSettings) {
         setMarbleSettings(JSON.parse(storedMarbleSettings));
       }
+
+      const storedFont = localStorage.getItem('selectedFont');
+      if (storedFont && FONT_OPTIONS.some((f) => f.id === storedFont)) {
+        setSelectedFont(storedFont);
+      }
     } catch (e) {
       console.error('Failed to load localStorage data:', e);
     }
   }, []);
+
+  // Dynamically apply selected font to root CSS variables
+  useEffect(() => {
+    const fontObj = FONT_OPTIONS.find((f) => f.id === selectedFont) || FONT_OPTIONS[0];
+    document.documentElement.style.setProperty('--font-heading', fontObj.headingFont);
+    document.documentElement.style.setProperty('--font-body', fontObj.bodyFont);
+    try {
+      localStorage.setItem('selectedFont', selectedFont);
+    } catch (e) {
+      console.error('Failed to persist font choice:', e);
+    }
+  }, [selectedFont]);
 
   // Display Custom Glass Notification
   const triggerNotification = (text, bulletColor = '#fff') => {
@@ -97,13 +151,15 @@ export default function App() {
       case 'settings':
         return (
           <Settings 
-            allMemories={allMemories}
+            allMemories={allMemories} 
             setAllMemories={setAllMemories}
             userName={userName}
             setUserName={setUserName}
             triggerNotification={triggerNotification}
             marbleSettings={marbleSettings}
             setMarbleSettings={setMarbleSettings}
+            selectedFont={selectedFont}
+            setSelectedFont={setSelectedFont}
           />
         );
       case 'profile':

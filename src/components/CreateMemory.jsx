@@ -1,28 +1,55 @@
 import React, { useState } from 'react';
-import { EMOTIONS } from '../data/emotions';
+import { EMOTIONS, getHybridDetails } from '../data/emotions';
 
 export default function CreateMemory({ allMemories, setAllMemories, triggerNotification }) {
   const [activeTab, setActiveTab] = useState('io1'); // 'io1' or 'io2'
   const [selectedEmotion, setSelectedEmotion] = useState(null);
+  const [isHybrid, setIsHybrid] = useState(false);
+  const [secondaryTab, setSecondaryTab] = useState('io1');
+  const [secondaryEmotion, setSecondaryEmotion] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Filter emotions based on tab
+  // Filter emotions based on tabs
   const tabEmotions = Object.values(EMOTIONS).filter(
     (emotion) => emotion.era === activeTab
   );
 
+  const secondaryTabEmotions = Object.values(EMOTIONS).filter(
+    (emotion) => emotion.era === secondaryTab
+  );
+
   const handleEmotionSelect = (emotionId) => {
     setSelectedEmotion(emotionId);
+    if (secondaryEmotion === emotionId) {
+      setSecondaryEmotion(null);
+    }
     setErrorMsg('');
   };
+
+  const handleSecondarySelect = (emotionId) => {
+    if (emotionId === selectedEmotion) return; // Prevent picking exact same
+    if (secondaryEmotion === emotionId) {
+      setSecondaryEmotion(null); // Toggle off
+    } else {
+      setSecondaryEmotion(emotionId);
+    }
+    setErrorMsg('');
+  };
+
+  const hybridMeta = getHybridDetails(selectedEmotion || 'joy', isHybrid ? secondaryEmotion : null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!selectedEmotion) {
-      setErrorMsg('Please select an emotion for your memory marble.');
+      setErrorMsg('Please select a primary emotion for your memory marble.');
+      return;
+    }
+
+    if (isHybrid && !secondaryEmotion) {
+      setErrorMsg('Please pick a secondary emotion to blend, or turn off hybrid mode.');
       return;
     }
 
@@ -38,6 +65,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
 
     const newMemory = {
       emotion: selectedEmotion,
+      secondaryEmotion: isHybrid && secondaryEmotion ? secondaryEmotion : null,
       title: title.trim(),
       description: description.trim(),
       date: Date.now(),
@@ -49,60 +77,60 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
 
     // Reset Form
     setSelectedEmotion(null);
+    setSecondaryEmotion(null);
+    setIsHybrid(false);
     setTitle('');
     setDescription('');
     setErrorMsg('');
 
     // Trigger Success Banner
-    triggerNotification(`Memory added to your museum!`, EMOTIONS[newMemory.emotion].color);
+    const notifMsg = newMemory.secondaryEmotion 
+      ? `Swirled a ${hybridMeta.title} memory into your museum!`
+      : `Memory added to your museum!`;
+    triggerNotification(notifMsg, EMOTIONS[newMemory.emotion].color);
   };
 
   const selectedEmotionData = selectedEmotion ? EMOTIONS[selectedEmotion] : null;
+  const secondaryEmotionData = (isHybrid && secondaryEmotion) ? EMOTIONS[secondaryEmotion] : null;
 
   return (
     <div className="create-memory-section">
       <div className="header-hero" style={{ marginBottom: '2rem' }}>
         <h1>Create A Memory Marble</h1>
-        <p>Your created memory will be displayed at your personal museum.</p>
+        <p>Preserve pure feelings or blend complex hybrid memories that swirl with light.</p>
       </div>
 
       <div className="create-memory-dashboard">
-        {/* Left Panel: Emotion Selector */}
+        {/* Left Panel: Emotion Selector & Hybrid Mixer */}
         <div className="emotion-selector-panel glass-panel">
-          <h3 className="emotion-select-header">
-            {selectedEmotionData 
-              ? `Holding a ${selectedEmotionData.name} marble...` 
-              : 'Select an emotion'
-            }
-          </h3>
+          <div className="emotion-select-header-box">
+            <h3 className="emotion-select-header">
+              {selectedEmotionData 
+                ? `Primary Feeling: ${selectedEmotionData.name}` 
+                : '1. Select Primary Emotion'
+              }
+            </h3>
+          </div>
 
-          {/* Tabs for Inside Out 1 and 2 */}
+          {/* Primary Tabs */}
           <div className="emotion-tabs-row">
             <button
               type="button"
               className={`tab-btn ${activeTab === 'io1' ? 'active' : ''}`}
-              onClick={() => {
-                setActiveTab('io1');
-                setSelectedEmotion(null);
-                setErrorMsg('');
-              }}
+              onClick={() => setActiveTab('io1')}
             >
               Inside Out 1
             </button>
             <button
               type="button"
               className={`tab-btn ${activeTab === 'io2' ? 'active' : ''}`}
-              onClick={() => {
-                setActiveTab('io2');
-                setSelectedEmotion(null);
-                setErrorMsg('');
-              }}
+              onClick={() => setActiveTab('io2')}
             >
               Inside Out 2
             </button>
           </div>
 
-          {/* Emotions Buttons Grid */}
+          {/* Primary Emotions Grid */}
           <div className="emotions-grid">
             {tabEmotions.map((emotion) => {
               const isSelected = selectedEmotion === emotion.id;
@@ -127,35 +155,125 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
             })}
           </div>
 
-          {/* Custom explanation of selected emotion */}
-          {selectedEmotionData && (
-            <p 
-              style={{ 
-                textAlign: 'center', 
-                fontSize: '0.9rem', 
-                marginTop: '1.5rem',
-                color: selectedEmotionData.accentColor,
-                animation: 'fadeIn 0.4s ease'
-              }}
-            >
-              {selectedEmotionData.description}
-            </p>
-          )}
+          {/* Hybrid Mode Toggle Switch */}
+          <div className="hybrid-toggle-banner" style={{ marginTop: '1.75rem', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.25rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={() => setIsHybrid(!isHybrid)}>
+              <div>
+                <h4 style={{ margin: 0, fontWeight: 700, fontSize: '0.95rem', color: '#f8fafc' }}>
+                  🌀 Blend with a Second Emotion?
+                </h4>
+                <p style={{ margin: '3px 0 0 0', opacity: 0.7, fontSize: '0.8rem' }}>
+                  Create an Inside Out 2 style dual-tone swirling marble
+                </p>
+              </div>
+              <div className={`toggle-switch ${isHybrid ? 'on' : 'off'}`}>
+                <div className="toggle-knob"></div>
+              </div>
+            </div>
+
+            {/* Secondary Emotion Selector (when Hybrid is on) */}
+            {isHybrid && (
+              <div className="secondary-emotion-picker" style={{ marginTop: '1.25rem', animation: 'fadeIn 0.3s ease' }}>
+                <div className="emotion-tabs-row" style={{ marginBottom: '10px' }}>
+                  <button
+                    type="button"
+                    className={`tab-btn ${secondaryTab === 'io1' ? 'active' : ''}`}
+                    onClick={() => setSecondaryTab('io1')}
+                    style={{ fontSize: '0.75rem', padding: '6px 12px' }}
+                  >
+                    IO 1
+                  </button>
+                  <button
+                    type="button"
+                    className={`tab-btn ${secondaryTab === 'io2' ? 'active' : ''}`}
+                    onClick={() => setSecondaryTab('io2')}
+                    style={{ fontSize: '0.75rem', padding: '6px 12px' }}
+                  >
+                    IO 2
+                  </button>
+                </div>
+
+                <div className="emotions-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(65px, 1fr))', gap: '8px' }}>
+                  {secondaryTabEmotions.map((emotion) => {
+                    const isSelected = secondaryEmotion === emotion.id;
+                    const isPrimary = selectedEmotion === emotion.id;
+                    return (
+                      <button
+                        key={emotion.id}
+                        type="button"
+                        disabled={isPrimary}
+                        className={`emotion-card mini ${isSelected ? 'selected' : ''} ${isPrimary ? 'disabled' : ''}`}
+                        style={{
+                          '--glow-color': emotion.glowColor,
+                          '--label-color': emotion.accentColor,
+                          opacity: isPrimary ? 0.3 : 1
+                        }}
+                        onClick={() => handleSecondarySelect(emotion.id)}
+                        title={isPrimary ? 'Already chosen as primary' : `Blend with ${emotion.name}`}
+                      >
+                        <div className="emotion-img-wrapper" style={{ width: '36px', height: '36px' }}>
+                          <img src={emotion.image} alt={emotion.name} />
+                        </div>
+                        <span className="emotion-label" style={{ fontSize: '0.7rem' }}>{emotion.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Right Panel: Memory Composer */}
+        {/* Right Panel: Memory Composer with Live Swirl Preview */}
         <form 
           className={`memory-composer-panel glass-panel ${selectedEmotion ? `active-emotion-${selectedEmotion}` : ''}`}
           style={{ 
             transition: 'all 0.5s ease',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            gap: '1.25rem'
           }}
           onSubmit={handleSubmit}
         >
-          <h3 className="emotion-select-header" style={{ marginBottom: '1.5rem' }}>
-            Preserve the moment
-          </h3>
+          {/* Real-time Interactive Marble Preview Box */}
+          <div className="live-marble-preview-card">
+            <div className="preview-marble-stage">
+              <div 
+                className={`marble-3d live-preview-orb ${hybridMeta.isHybrid ? 'hybrid-swirl-orb' : ''}`}
+                style={{
+                  '--bg-grad': hybridMeta.gradient,
+                  '--glow-color': hybridMeta.isHybrid ? 'rgba(255, 255, 255, 0.4)' : hybridMeta.glowColor,
+                  '--primary-color': hybridMeta.color,
+                  '--secondary-color': hybridMeta.secondaryColor || hybridMeta.color
+                }}
+              >
+                <div className="marble-sparkle" />
+                <div className="marble-core" />
+              </div>
+            </div>
+
+            <div className="preview-marble-details">
+              <div className="preview-badge-row">
+                <span className="preview-tag primary" style={{ background: hybridMeta.primary.color + '33', color: hybridMeta.primary.accentColor }}>
+                  {hybridMeta.primary.label}
+                </span>
+                {hybridMeta.secondary && (
+                  <>
+                    <span className="preview-plus">+</span>
+                    <span className="preview-tag secondary" style={{ background: hybridMeta.secondary.color + '33', color: hybridMeta.secondary.accentColor }}>
+                      {hybridMeta.secondary.label}
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <h3 className="preview-hybrid-title">
+                {hybridMeta.title}
+                {hybridMeta.subtitle && <span className="preview-subtitle"> • {hybridMeta.subtitle}</span>}
+              </h3>
+              <p className="preview-hybrid-desc">{hybridMeta.description}</p>
+            </div>
+          </div>
 
           <div className="textarea-wrapper" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <input
@@ -168,15 +286,15 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
                 setErrorMsg('');
               }}
               style={{
-                '--focus-color': selectedEmotionData ? selectedEmotionData.color : '#fcb69f',
-                '--focus-glow': selectedEmotionData ? selectedEmotionData.glowColor : 'rgba(252, 182, 159, 0.3)'
+                '--focus-color': hybridMeta.primary.color,
+                '--focus-glow': hybridMeta.primary.glowColor
               }}
             />
             <textarea
               className="description-textarea"
               placeholder={
                 selectedEmotionData
-                  ? `Write down your ${selectedEmotionData.name} memory...`
+                  ? `Write down your ${hybridMeta.title} memory...`
                   : "How does it feel today? Describe your memory..."
               }
               value={description}
@@ -185,29 +303,34 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
                 setErrorMsg('');
               }}
               style={{
-                '--focus-color': selectedEmotionData ? selectedEmotionData.color : '#fcb69f',
-                '--focus-glow': selectedEmotionData ? selectedEmotionData.glowColor : 'rgba(252, 182, 159, 0.3)',
+                '--focus-color': hybridMeta.primary.color,
+                '--focus-glow': hybridMeta.primary.glowColor,
                 flexGrow: 1,
-                minHeight: '200px',
-                fontSize: '1.1rem',
+                minHeight: '160px',
+                fontSize: '1.05rem',
                 lineHeight: '1.6'
               }}
             />
           </div>
 
           {/* Dynamic Error Container */}
-          <div className={`error-container ${errorMsg ? 'show' : ''}`} style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+          <div className={`error-container ${errorMsg ? 'show' : ''}`} style={{ textAlign: 'center' }}>
             {errorMsg}
           </div>
 
           {/* Submit Button */}
-          <div className="submit-btn-row" style={{ marginTop: 'auto', paddingTop: '2rem' }}>
+          <div className="submit-btn-row" style={{ marginTop: 'auto' }}>
             <button
               type="submit"
-              className={`submit-btn btn-premium ${selectedEmotion ? selectedEmotion : ''}`}
-              style={{ width: '100%', maxWidth: '300px' }}
+              className="submit-btn btn-premium"
+              style={{ 
+                width: '100%', 
+                maxWidth: '320px',
+                borderColor: hybridMeta.primary.color,
+                boxShadow: `0 8px 25px ${hybridMeta.primary.glowColor}`
+              }}
             >
-              Preserve Memory
+              Preserve {hybridMeta.isHybrid ? 'Hybrid' : ''} Memory
             </button>
           </div>
         </form>
@@ -215,3 +338,4 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
     </div>
   );
 }
+

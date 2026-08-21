@@ -1,4 +1,4 @@
-# 🔮 Museum of Memory Marbles
+# 🔮 Memory Marbles
 
 > *Some memories glow yellow. Some burn red. Some settle into a quiet, aching blue.*
 > *This is a place for all of them.*
@@ -9,7 +9,7 @@
 
 Do you remember the first time you watched Inside Out and felt something shift inside you the moment you realised that sadness wasn't the villain, that joy couldn't exist without it?
 
-**Museum of Memory Marbles** was born from that feeling.
+**Memory Marbles** was born from that feeling.
 
 It's a tiny, private corner of the internet that belongs entirely to you. A place where you can hold your memories the way Riley held hers as small, glowing, coloured spheres of light. Each one precious. Each one real. Each one a piece of who you are becoming.
 
@@ -44,7 +44,7 @@ Click a marble. It opens. The memory breathes again.
 
 **Visual Effects:** Glassmorphism (`backdrop-filter`), 3D radial glass marble renders with white light reflections, and staggered keyframe animations to create organic floating patterns.
 
-**Storage:** Fully private by design. Everything lives in your browser's `localStorage`, your memories never touch a server, never leave your device.
+**Storage:** Fully private by design. Your data stays on your device (stored locally), your memories never touch a server, never leave your device.
 
 **Features:**
 - **Dynamic Emotion Aura**: Selection changes page accents, card highlights, and form focus rings to the emotion's signature glow.
@@ -90,7 +90,7 @@ To run the React project locally:
 
 ## A note on privacy
 
-Your memories are yours. They are stored exclusively in your browser's `localStorage`. Nothing is ever sent anywhere. No account required. No tracking. This is intentional and permanent.
+Your memories are yours. Your data stays on your device. Nothing is ever sent anywhere. No account required. No tracking. This is intentional and permanent.
 
 ---
 

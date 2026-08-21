@@ -260,99 +260,119 @@ export default function MyMuseum({ allMemories = [], setActivePage, marbleSettin
               All Preserved Memories ({sortedMemories.length})
             </div>
 
-            <div className="shelf-marbles-row" style={{ flexWrap: 'wrap', justifyContent: 'center', gap: '30px' }}>
-              {sortedMemories.map((memory, index) => {
-                const hybridData = getHybridDetails(memory.emotion, memory.secondaryEmotion);
+            {/* Marble Size & Density Calculations */}
+            {(() => {
+              const mSize = marbleSettings?.marbleSize !== undefined ? Number(marbleSettings.marbleSize) : 5;
+              const marblePixelSize = Math.round(44 + (mSize * 6.4));
+              const mDensity = marbleSettings?.marbleDensity !== undefined ? Number(marbleSettings.marbleDensity) : 5;
+              const rowGap = Math.max(10, Math.round(52 - ((mDensity - 1) * 4.4))) + 'px';
+              const marbleMarginH = Math.max(4, Math.round(18 - ((mDensity - 1) * 1.5))) + 'px';
 
-                // Generate random but stable animation values for each marble
-                const seed = memory.date;
-                const rand1 = getSeededRandom(seed);
-                const rand2 = getSeededRandom(seed + 1);
-                const rand3 = getSeededRandom(seed + 2);
-                const rand4 = getSeededRandom(seed + 3);
+              return (
+                <div className="shelf-marbles-row" style={{ flexWrap: 'wrap', justifyContent: 'center', gap: rowGap }}>
+                  {sortedMemories.map((memory, index) => {
+                    const hybridData = getHybridDetails(memory.emotion, memory.secondaryEmotion);
 
-                const isRandomDancing = marbleSettings?.randomDancing !== false;
-                const hSpeed = marbleSettings?.hoverSpeed !== undefined ? Number(marbleSettings.hoverSpeed) : 5;
-                const hIntens = marbleSettings?.hoverIntensity !== undefined ? Number(marbleSettings.hoverIntensity) : 5;
+                    // Generate random but stable animation values for each marble
+                    const seed = memory.date;
+                    const rand1 = getSeededRandom(seed);
+                    const rand2 = getSeededRandom(seed + 1);
+                    const rand3 = getSeededRandom(seed + 2);
+                    const rand4 = getSeededRandom(seed + 3);
 
-                const baseFloatDur = isRandomDancing ? (4 + (rand1 * 4)) : 6.0;
-                const speedMult = hSpeed / 5;
-                const floatDur = speedMult > 0 ? (baseFloatDur / speedMult).toFixed(2) : "1.00";
-                
-                const baseDel = isRandomDancing ? (rand2 * -5) : 0;
-                const floatDel = speedMult > 0 ? (baseDel / speedMult).toFixed(2) : "0.00";
+                    const isRandomDancing = marbleSettings?.randomDancing !== false;
+                    const hSpeed = marbleSettings?.hoverSpeed !== undefined ? Number(marbleSettings.hoverSpeed) : 5;
+                    const hIntens = marbleSettings?.hoverIntensity !== undefined ? Number(marbleSettings.hoverIntensity) : 5;
 
-                const pulseDur = isRandomDancing ? (2 + (rand3 * 3)).toFixed(2) : "3.00";
-                const sparkleDel = isRandomDancing ? (rand4 * 8).toFixed(2) : "2.00";
+                    const baseFloatDur = isRandomDancing ? (4 + (rand1 * 4)) : 6.0;
+                    const speedMult = hSpeed / 5;
+                    const floatDur = speedMult > 0 ? (baseFloatDur / speedMult).toFixed(2) : "1.00";
+                    
+                    const baseDel = isRandomDancing ? (rand2 * -5) : 0;
+                    const floatDel = speedMult > 0 ? (baseDel / speedMult).toFixed(2) : "0.00";
 
-                const ampY = (hIntens / 5) * 8;
-                const ampRot = (hIntens / 5) * 4;
-                const hoverY = (hSpeed === 0 || hIntens === 0) ? "0px" : `-${ampY.toFixed(2)}px`;
-                const hoverRot = (hSpeed === 0 || hIntens === 0) ? "0deg" : `${ampRot.toFixed(2)}deg`;
+                    const pulseDur = isRandomDancing ? (2 + (rand3 * 3)).toFixed(2) : "3.00";
+                    const sparkleDel = isRandomDancing ? (rand4 * 8).toFixed(2) : "2.00";
 
-                return (
-                  <div
-                    key={`${memory.date}-${memory.emotion}-${memory.secondaryEmotion || 'pure'}-${index}`}
-                    className="marble-container"
-                    onClick={() => handleOpenModal(memory)}
-                    style={{ margin: '15px 10px' }}
-                  >
-                    {marbleSettings?.showAuras !== false && (
-                      <div className={`marble-auras aura-${hybridData.primary.id}`}>
-                        {[...Array(6)].map((_, i) => {
-                          const pRand1 = getSeededRandom(seed + i * 10);
-                          const pRand2 = getSeededRandom(seed + i * 20);
-                          const pRand3 = getSeededRandom(seed + i * 30);
-                          
-                          const duration = (2 + pRand1 * 4).toFixed(2);
-                          const delay = (pRand2 * -5).toFixed(2);
-                          const distance = (30 + pRand3 * 20).toFixed(2);
-                          
-                          // If hybrid, alternate particle colors between primary and secondary
-                          const particleColor = (hybridData.isHybrid && i % 2 === 1) 
-                            ? hybridData.secondaryColor 
-                            : hybridData.color;
+                    const ampY = (hIntens / 5) * 8;
+                    const ampRot = (hIntens / 5) * 4;
+                    const hoverY = (hSpeed === 0 || hIntens === 0) ? "0px" : `-${ampY.toFixed(2)}px`;
+                    const hoverRot = (hSpeed === 0 || hIntens === 0) ? "0deg" : `${ampRot.toFixed(2)}deg`;
 
-                          return (
-                            <div 
-                              key={i} 
-                              className="aura-particle" 
-                              style={{ 
-                                '--p-idx': i, 
-                                '--p-dur': `${duration}s`,
-                                '--p-del': `${delay}s`,
-                                '--p-dist': `${distance}px`,
-                                backgroundColor: particleColor,
-                                boxShadow: `0 0 10px ${particleColor}`
-                              }} 
-                            />
-                          );
-                        })}
+                    return (
+                      <div
+                        key={`${memory.date}-${memory.emotion}-${memory.secondaryEmotion || 'pure'}-${index}`}
+                        className="marble-container"
+                        onClick={() => handleOpenModal(memory)}
+                        style={{ margin: `15px ${marbleMarginH}` }}
+                      >
+                        {marbleSettings?.showAuras !== false && (
+                          <div className={`marble-auras aura-${hybridData.primary.id}`}>
+                            {[...Array(6)].map((_, i) => {
+                              const pRand1 = getSeededRandom(seed + i * 10);
+                              const pRand2 = getSeededRandom(seed + i * 20);
+                              const pRand3 = getSeededRandom(seed + i * 30);
+                              
+                              const duration = (2 + pRand1 * 4).toFixed(2);
+                              const delay = (pRand2 * -5).toFixed(2);
+                              const distance = (30 + pRand3 * 20).toFixed(2);
+                              
+                              // If hybrid, alternate particle colors between primary and secondary
+                              const particleColor = (hybridData.isHybrid && i % 2 === 1) 
+                                ? hybridData.secondaryColor 
+                                : hybridData.color;
+
+                              return (
+                                <div 
+                                  key={i} 
+                                  className="aura-particle" 
+                                  style={{ 
+                                    '--p-idx': i, 
+                                    '--p-dur': `${duration}s`,
+                                    '--p-del': `${delay}s`,
+                                    '--p-dist': `${distance}px`,
+                                    backgroundColor: particleColor,
+                                    boxShadow: `0 0 10px ${particleColor}`
+                                  }} 
+                                />
+                              );
+                            })}
+                          </div>
+                        )}
+                        <div
+                          className={`marble-3d ${hybridData.isHybrid ? 'hybrid-swirl-orb' : ''}`}
+                          style={{
+                            width: `${marblePixelSize}px`,
+                            height: `${marblePixelSize}px`,
+                            '--bg-grad': hybridData.gradient,
+                            '--glow-color': hybridData.glowColor,
+                            '--float-dur': `${floatDur}s`,
+                            '--float-del': `${floatDel}s`,
+                            '--hover-y': hoverY,
+                            '--hover-rot': hoverRot,
+                            '--pulse-dur': `${pulseDur}s`,
+                            '--sparkle-del': `${sparkleDel}s`,
+                          }}
+                        >
+                          <div className="marble-sparkle" />
+                          <div className="marble-core" />
+                        </div>
+                        <span 
+                          className="marble-label" 
+                          style={{ 
+                            color: hybridData.accentColor, 
+                            fontSize: `${Math.max(0.72, 0.72 + (mSize - 5) * 0.025).toFixed(2)}rem`,
+                            maxWidth: `${Math.max(85, marblePixelSize + 25)}px`
+                          }}
+                        >
+                          {hybridData.isHybrid ? `🌀 ${hybridData.title}` : new Date(memory.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </span>
                       </div>
-                    )}
-                    <div
-                      className={`marble-3d ${hybridData.isHybrid ? 'hybrid-swirl-orb' : ''}`}
-                      style={{
-                        '--bg-grad': hybridData.gradient,
-                        '--glow-color': hybridData.glowColor,
-                        '--float-dur': `${floatDur}s`,
-                        '--float-del': `${floatDel}s`,
-                        '--hover-y': hoverY,
-                        '--hover-rot': hoverRot,
-                        '--pulse-dur': `${pulseDur}s`,
-                        '--sparkle-del': `${sparkleDel}s`,
-                      }}
-                    >
-                      <div className="marble-sparkle" />
-                      <div className="marble-core" />
-                    </div>
-                    <span className="marble-label" style={{ color: hybridData.accentColor, fontSize: '0.85rem' }}>
-                      {hybridData.isHybrid ? `🌀 ${hybridData.title}` : new Date(memory.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
 
             <div className="shelf-wood" />
           </div>

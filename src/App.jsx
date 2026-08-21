@@ -35,7 +35,9 @@ export default function App() {
     magneticRepulsion: true,
     randomDancing: true,
     hoverSpeed: 5,
-    hoverIntensity: 5
+    hoverIntensity: 5,
+    marbleSize: 5,
+    marbleDensity: 5
   });
 
   // Load initial data from localStorage

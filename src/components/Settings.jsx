@@ -280,6 +280,58 @@ export default function Settings({
                 style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.1)', color: '#fff', width: '60px', outline: 'none', textAlign: 'center', fontFamily: 'inherit', fontWeight: 'bold' }}
               />
             </div>
+
+            <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
+              <div className="settings-info">
+                <h4 style={{ margin: 0, fontWeight: 600 }}>Marble Size (Radius)</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Increase or decrease the spherical size of the marbles (1 to 10).</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <input 
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={marbleSettings?.marbleSize !== undefined ? marbleSettings.marbleSize : 5}
+                  onChange={(e) => handleNumberChange('marbleSize', e.target.value)}
+                  style={{ width: '100px', accentColor: '#c084fc', cursor: 'pointer' }}
+                />
+                <input 
+                  type="number" 
+                  min="1" 
+                  max="10" 
+                  className="no-spinners"
+                  value={marbleSettings?.marbleSize !== undefined ? marbleSettings.marbleSize : 5} 
+                  onChange={(e) => handleNumberChange('marbleSize', e.target.value)}
+                  style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.1)', color: '#fff', width: '55px', outline: 'none', textAlign: 'center', fontFamily: 'inherit', fontWeight: 'bold' }}
+                />
+              </div>
+            </div>
+
+            <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
+              <div className="settings-info">
+                <h4 style={{ margin: 0, fontWeight: 600 }}>Marble Density (Proximity)</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>How close together the marbles sit on the shelf (1 = spaced out, 10 = packed tight).</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <input 
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={marbleSettings?.marbleDensity !== undefined ? marbleSettings.marbleDensity : 5}
+                  onChange={(e) => handleNumberChange('marbleDensity', e.target.value)}
+                  style={{ width: '100px', accentColor: '#60a5fa', cursor: 'pointer' }}
+                />
+                <input 
+                  type="number" 
+                  min="1" 
+                  max="10" 
+                  className="no-spinners"
+                  value={marbleSettings?.marbleDensity !== undefined ? marbleSettings.marbleDensity : 5} 
+                  onChange={(e) => handleNumberChange('marbleDensity', e.target.value)}
+                  style={{ padding: '8px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.1)', color: '#fff', width: '55px', outline: 'none', textAlign: 'center', fontFamily: 'inherit', fontWeight: 'bold' }}
+                />
+              </div>
+            </div>
           </div>
         </div>
 

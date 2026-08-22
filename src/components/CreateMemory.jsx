@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { EMOTIONS, getHybridDetails } from '../data/emotions';
+import logoImg from '../assets/logo.png';
 
 export default function CreateMemory({ allMemories, setAllMemories, triggerNotification }) {
   const [activeTab, setActiveTab] = useState('io1'); // 'io1' or 'io2'
@@ -96,7 +97,10 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
   return (
     <div className="create-memory-section">
       <div className="header-hero" style={{ marginBottom: '2rem' }}>
-        <h1>Create A Memory Marble</h1>
+        <div className="header-hero-title-wrap">
+          <img src={logoImg} alt="Memory Marbles Logo" className="hero-heading-logo" />
+          <h1>Create A Memory Marble</h1>
+        </div>
         <p>Preserve pure feelings or blend complex hybrid memories that swirl with light.</p>
       </div>
 

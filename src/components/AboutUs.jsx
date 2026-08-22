@@ -1,10 +1,14 @@
 import React from 'react';
+import logoImg from '../assets/logo.png';
 
 export default function AboutUs() {
   return (
     <div className="about-sections">
       <div className="header-hero">
-        <h1>Memory Marbles</h1>
+        <div className="header-hero-title-wrap">
+          <img src={logoImg} alt="Memory Marbles Logo" className="hero-heading-logo" />
+          <h1>Memory Marbles</h1>
+        </div>
         <p className="footer-quote" style={{ marginTop: '0', fontSize: '1.05rem' }}>
           "Some memories glow yellow. Some burn red. Some settle into a quiet, aching blue. This is a place for all of them."
         </p>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { EMOTIONS, getHybridDetails } from '../data/emotions';
+import logoImg from '../assets/logo.png';
 
 export default function MyMuseum({ allMemories = [], setActivePage, marbleSettings }) {
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('all'); // 'all', 'pure', 'hybrid'
@@ -132,7 +133,10 @@ export default function MyMuseum({ allMemories = [], setActivePage, marbleSettin
       <div className="stardust-bg" />
 
       <div className="header-hero">
-        <h1>My Museum of Memories</h1>
+        <div className="header-hero-title-wrap">
+          <img src={logoImg} alt="Memory Marbles Logo" className="hero-heading-logo" />
+          <h1>My Museum of Memories</h1>
+        </div>
         <p>Walk through the chambers of your mind and hold your past to the light.</p>
       </div>
 

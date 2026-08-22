@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { EMOTIONS, getHybridDetails } from '../data/emotions';
 import logoImg from '../assets/logo.png';
+import { CONTENT } from '../data/content';
 
 export default function MyMuseum({ allMemories = [], setActivePage, marbleSettings }) {
   const [selectedTypeFilter, setSelectedTypeFilter] = useState('all'); // 'all', 'pure', 'hybrid'
@@ -134,79 +135,78 @@ export default function MyMuseum({ allMemories = [], setActivePage, marbleSettin
 
       <div className="header-hero">
         <div className="header-hero-title-wrap">
-          <img src={logoImg} alt="Memory Marbles Logo" className="hero-heading-logo" />
-          <h1>My Museum of Memories</h1>
+          <h1>{CONTENT.myMuseum.heroTitle}</h1>
         </div>
-        <p>Walk through the chambers of your mind and hold your past to the light.</p>
+        <p>{CONTENT.myMuseum.heroSubtitle}</p>
       </div>
 
       {/* Modern Filter Dashboard */}
       <div className="museum-filters">
         {/* Type Filter: All / Pure / Hybrid */}
         <div className="filter-group">
-          <span className="filter-label">Form:</span>
+          <span className="filter-label">{CONTENT.myMuseum.filters.formLabel}</span>
           <div className="filter-tabs">
             <button
               type="button"
               className={`filter-tab ${selectedTypeFilter === 'all' ? 'active' : ''}`}
               onClick={() => setSelectedTypeFilter('all')}
             >
-              All Types
+              {CONTENT.myMuseum.filters.formOptions.all}
             </button>
             <button
               type="button"
               className={`filter-tab ${selectedTypeFilter === 'pure' ? 'active' : ''}`}
               onClick={() => setSelectedTypeFilter('pure')}
             >
-              Pure Orbs
+              {CONTENT.myMuseum.filters.formOptions.pure}
             </button>
             <button
               type="button"
               className={`filter-tab ${selectedTypeFilter === 'hybrid' ? 'active' : ''}`}
               onClick={() => setSelectedTypeFilter('hybrid')}
             >
-              🌀 Hybrid Swirls
+              {CONTENT.myMuseum.filters.formOptions.hybrid}
             </button>
           </div>
         </div>
 
         {/* Era Filter */}
         <div className="filter-group">
-          <span className="filter-label">Era:</span>
+          <span className="filter-label">{CONTENT.myMuseum.filters.eraLabel}</span>
           <div className="filter-tabs">
             <button
               type="button"
               className={`filter-tab ${selectedEra === 'all' ? 'active' : ''}`}
               onClick={() => { setSelectedEra('all'); setSelectedEmotionFilter('all'); }}
             >
-              All Eras
+              {CONTENT.myMuseum.filters.eraOptions.all}
             </button>
             <button
               type="button"
               className={`filter-tab ${selectedEra === 'io1' ? 'active' : ''}`}
               onClick={() => { setSelectedEra('io1'); setSelectedEmotionFilter('all'); }}
             >
-              Inside Out 1
+              {CONTENT.myMuseum.filters.eraOptions.io1}
             </button>
             <button
               type="button"
               className={`filter-tab ${selectedEra === 'io2' ? 'active' : ''}`}
               onClick={() => { setSelectedEra('io2'); setSelectedEmotionFilter('all'); }}
             >
-              Inside Out 2
+              {CONTENT.myMuseum.filters.eraOptions.io2}
             </button>
           </div>
         </div>
 
         {/* Specific Emotion Filter */}
         <div className="filter-group">
-          <span className="filter-label">Chamber:</span>
+          <span className="filter-label">{CONTENT.myMuseum.filters.chamberLabel}</span>
           <select
             className="filter-select"
             value={selectedEmotionFilter}
             onChange={(e) => setSelectedEmotionFilter(e.target.value)}
           >
-            <option value="all">All Chambers</option>
+            <option value="all">{CONTENT.myMuseum.filters.chamberAll}</option>
             {Object.values(EMOTIONS)
               .filter((e) => selectedEra === 'all' || e.era === selectedEra)
               .map((e) => (
@@ -220,14 +220,14 @@ export default function MyMuseum({ allMemories = [], setActivePage, marbleSettin
 
         {/* Sort */}
         <div className="filter-group">
-          <span className="filter-label">Sort:</span>
+          <span className="filter-label">{CONTENT.myMuseum.filters.sortLabel}</span>
           <select
             className="filter-select"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option value="newest">Recent Memories</option>
-            <option value="oldest">Older Memories</option>
+            <option value="newest">{CONTENT.myMuseum.filters.sortOptions.newest}</option>
+            <option value="oldest">{CONTENT.myMuseum.filters.sortOptions.oldest}</option>
           </select>
         </div>
       </div>
@@ -235,33 +235,33 @@ export default function MyMuseum({ allMemories = [], setActivePage, marbleSettin
       {/* Shelves Layout */}
       {allMemories.length === 0 ? (
         <div className="empty-museum-message">
-          <h3>Your Museum is Empty</h3>
-          <p>You haven't preserved any memories yet. Let's create your first glowing sphere of light!</p>
+          <h3>{CONTENT.myMuseum.emptyMuseum.title}</h3>
+          <p>{CONTENT.myMuseum.emptyMuseum.description}</p>
           <button
             type="button"
             className="btn-premium"
             onClick={() => setActivePage('create')}
           >
-            Craft a Marble
+            {CONTENT.myMuseum.emptyMuseum.button}
           </button>
         </div>
       ) : sortedMemories.length === 0 ? (
         <div className="empty-museum-message">
-          <h3>No Marbles Match Filters</h3>
-          <p>Try resetting your filters to explore your memory catalog.</p>
+          <h3>{CONTENT.myMuseum.emptyFilter.title}</h3>
+          <p>{CONTENT.myMuseum.emptyFilter.description}</p>
           <button
             type="button"
             className="btn-premium"
             onClick={() => { setSelectedTypeFilter('all'); setSelectedEra('all'); setSelectedEmotionFilter('all'); }}
           >
-            Reset Filters
+            {CONTENT.myMuseum.emptyFilter.button}
           </button>
         </div>
       ) : (
         <div className="museum-shelves-container">
           <div className="museum-shelf">
             <div className="shelf-title" style={{ color: '#f8fafc', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
-              All Preserved Memories ({sortedMemories.length})
+              {CONTENT.myMuseum.shelfTitlePrefix} ({sortedMemories.length})
             </div>
 
             {/* Marble Size & Density Calculations */}
@@ -437,7 +437,7 @@ export default function MyMuseum({ allMemories = [], setActivePage, marbleSettin
               </h2>
 
               <div className="modal-date" style={{ marginTop: '5px' }}>
-                Preserved on {new Date(activeModalMemory.date).toLocaleString()}
+                {CONTENT.myMuseum.modal.preservedOnPrefix}{new Date(activeModalMemory.date).toLocaleString()}
               </div>
 
               {activeModalMemory.title && (

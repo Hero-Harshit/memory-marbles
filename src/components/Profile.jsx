@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { EMOTIONS } from '../data/emotions';
+import { CONTENT } from '../data/content';
 
 export default function Profile({ allMemories, userName }) {
   const [isInventoryOpen, setIsInventoryOpen] = useState(true);
@@ -71,8 +72,8 @@ export default function Profile({ allMemories, userName }) {
   return (
     <div className="settings-layout">
       <div className="header-hero">
-        <h1>My Profile</h1>
-        <p>Explore your mind's vault, {userName}. Here is a summary of your core memories.</p>
+        <h1>{CONTENT.profile.heroTitle}</h1>
+        <p>{CONTENT.profile.heroSubtitlePrefix}{userName}{CONTENT.profile.heroSubtitleSuffix}</p>
       </div>
 
       <div className="profile-dashboard-grid">
@@ -80,23 +81,23 @@ export default function Profile({ allMemories, userName }) {
         <div className="profile-column">
           <div className="glass-panel settings-card">
             <div className="settings-info" style={{ marginBottom: '1.25rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
-              <h3 style={{ margin: 0 }}>Your Stats</h3>
-              <p style={{ margin: '4px 0 0 0' }}>A quick overview of your memory collection.</p>
+              <h3 style={{ margin: 0 }}>{CONTENT.profile.stats.title}</h3>
+              <p style={{ margin: '4px 0 0 0' }}>{CONTENT.profile.stats.subtitle}</p>
             </div>
             
-            <p style={{ marginBottom: '0.75rem' }}><strong>Total Memories:</strong> <span>{totalCount} ({pureCount} Pure, {hybridCount} Hybrid)</span></p>
-            <p style={{ margin: 0 }}><strong>Dominant Emotion:</strong> <span style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{dominantEmotion}</span></p>
+            <p style={{ marginBottom: '0.75rem' }}><strong>{CONTENT.profile.stats.totalLabel}</strong> <span>{totalCount} ({pureCount} Pure, {hybridCount} Hybrid)</span></p>
+            <p style={{ margin: 0 }}><strong>{CONTENT.profile.stats.dominantLabel}</strong> <span style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{dominantEmotion}</span></p>
           </div>
 
           <div className="glass-panel settings-card">
             <div className="settings-info" style={{ marginBottom: '1.25rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
-              <h3 style={{ margin: 0 }}>Activity Log</h3>
-              <p style={{ margin: '4px 0 0 0' }}>Keep track of your recent memory entries.</p>
+              <h3 style={{ margin: 0 }}>{CONTENT.profile.activity.title}</h3>
+              <p style={{ margin: '4px 0 0 0' }}>{CONTENT.profile.activity.subtitle}</p>
             </div>
             
             <p style={{ display: 'flex', flexDirection: 'column', gap: '4px', margin: 0 }}>
               <span style={{ fontSize: '0.9rem', opacity: 0.8, fontWeight: 'bold' }}>
-                Last Memory Created:
+                {CONTENT.profile.activity.lastCreatedLabel}
               </span>
               <span style={{ fontSize: '1rem', wordBreak: 'break-all' }}>
                 {lastMemoryTimeStr}
@@ -105,7 +106,7 @@ export default function Profile({ allMemories, userName }) {
           </div>
 
           <div className="glass-panel settings-card" style={{ textAlign: 'center', opacity: 0.75 }}>
-            <p style={{ margin: 0 }}>Your memories are safe, private, and your data stays on your device. 🔮</p>
+            <p style={{ margin: 0 }}>{CONTENT.profile.privacyDisclaimer}</p>
           </div>
         </div>
 
@@ -118,8 +119,8 @@ export default function Profile({ allMemories, userName }) {
               onClick={() => setIsInventoryOpen(!isInventoryOpen)}
             >
               <div>
-                <h3 style={{ margin: 0 }}>Emotional Inventory</h3>
-                {isInventoryOpen && <p style={{ margin: '5px 0 0 0' }}>A breakdown of emotions present in your memories.</p>}
+                <h3 style={{ margin: 0 }}>{CONTENT.profile.inventory.title}</h3>
+                {isInventoryOpen && <p style={{ margin: '5px 0 0 0' }}>{CONTENT.profile.inventory.subtitle}</p>}
               </div>
               <span style={{ fontSize: '1.5rem' }}>{isInventoryOpen ? '▴' : '▾'}</span>
             </div>
@@ -127,7 +128,7 @@ export default function Profile({ allMemories, userName }) {
             {isInventoryOpen && (
               <div style={{ marginTop: '15px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', fontSize: '0.9rem' }}>
-                  <span style={{ opacity: 0.8 }}>Total Spheres: <strong>{totalCount}</strong></span>
+                  <span style={{ opacity: 0.8 }}>{CONTENT.profile.inventory.totalSpheres} <strong>{totalCount}</strong></span>
                   <select 
                     value={sortOrder}
                     onChange={(e) => setSortOrder(e.target.value)}
@@ -141,14 +142,14 @@ export default function Profile({ allMemories, userName }) {
                       cursor: 'pointer'
                     }}
                   >
-                    <option value="descending" style={{ color: '#000' }}>Highest First</option>
-                    <option value="ascending" style={{ color: '#000' }}>Lowest First</option>
+                    <option value="descending" style={{ color: '#000' }}>{CONTENT.profile.inventory.sortHighest}</option>
+                    <option value="ascending" style={{ color: '#000' }}>{CONTENT.profile.inventory.sortLowest}</option>
                   </select>
                 </div>
 
                 {totalCount === 0 ? (
                   <p style={{ textAlign: 'center', fontStyle: 'italic', opacity: 0.6, fontSize: '0.9rem' }}>
-                    No memories preserved yet.
+                    {CONTENT.profile.inventory.empty}
                   </p>
                 ) : (
                   <div className="stats-container" style={{ marginTop: '10px', gap: '15px' }}>

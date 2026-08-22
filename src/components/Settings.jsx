@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FONT_OPTIONS } from '../data/fonts';
 import { generateDemoMemories } from '../data/demoData';
+import { CONTENT } from '../data/content';
 
 export default function Settings({ 
   allMemories, 
@@ -66,7 +67,7 @@ export default function Settings({
     };
     setMarbleSettings(updated);
     localStorage.setItem('marbleSettings', JSON.stringify(updated));
-    triggerNotification(`Setting updated!`, '#66bb6a');
+    triggerNotification(CONTENT.settings.alerts.settingUpdated, '#66bb6a');
   };
 
   const handleChangeSetting = (key, value) => {
@@ -94,7 +95,7 @@ export default function Settings({
   // Export JSON
   const handleExport = () => {
     if (allMemories.length === 0) {
-      triggerNotification('No memories to export.', '#ffa726');
+      triggerNotification(CONTENT.settings.alerts.exportEmpty, '#ffa726');
       return;
     }
 
@@ -112,7 +113,7 @@ export default function Settings({
     link.download = `MyMemories_${dateStr}.json`;
     link.click();
     
-    triggerNotification('Memories exported successfully!', '#66bb6a');
+    triggerNotification(CONTENT.settings.alerts.exportSuccess, '#66bb6a');
   };
 
   // Import JSON
@@ -139,9 +140,9 @@ export default function Settings({
         const otherData = { userName: importedUserName };
         localStorage.setItem('otherdata', JSON.stringify(otherData));
 
-        triggerNotification('Memories imported successfully!', '#66bb6a');
+        triggerNotification(CONTENT.settings.alerts.importSuccess, '#66bb6a');
       } catch (err) {
-        triggerNotification('Failed to import: Invalid JSON file structure.', '#ef5350');
+        triggerNotification(CONTENT.settings.alerts.importError, '#ef5350');
       }
     };
     reader.readAsText(file);
@@ -156,18 +157,18 @@ export default function Settings({
   // Clear Museum
   const handleClearMuseum = () => {
     const confirmed = window.confirm(
-      "⚠️ WARNING: This will permanently delete all your precious memories. This action CANNOT be undone!\n\nAre you absolutely sure you want to proceed?"
+      CONTENT.settings.alerts.clearWarning1
     );
     
     if (confirmed) {
       const doubleConfirmed = window.confirm(
-        "🔥 FINAL CONFIRMATION:\nAre you 100% sure? All memory marbles will be shattered forever."
+        CONTENT.settings.alerts.clearWarning2
       );
       
       if (doubleConfirmed) {
         setAllMemories([]);
         localStorage.setItem('allmemories', JSON.stringify([]));
-        triggerNotification('Museum cleared. All marbles shattered.', '#ef5350');
+        triggerNotification(CONTENT.settings.alerts.clearSuccess, '#ef5350');
       }
     }
   };
@@ -176,8 +177,8 @@ export default function Settings({
   return (
     <div className="settings-layout">
       <div className="header-hero">
-        <h1>Settings & Dashboard</h1>
-        <p>Personalize your mind museum, inspect emotional statistics, and manage your data.</p>
+        <h1>{CONTENT.settings.heroTitle}</h1>
+        <p>{CONTENT.settings.heroSubtitle}</p>
       </div>
 
       <div className="settings-dashboard-grid">
@@ -187,8 +188,8 @@ export default function Settings({
           <div className="glass-panel settings-card">
             <div className="settings-row">
               <div className="settings-info">
-                <h3>Mind Identification</h3>
-                <p>Customize the owner name of this memory vault.</p>
+                <h3>{CONTENT.settings.identification.title}</h3>
+                <p>{CONTENT.settings.identification.description}</p>
               </div>
               <div className="settings-input-group">
                 <input 
@@ -196,7 +197,7 @@ export default function Settings({
                   className="settings-text-input"
                   value={tempName}
                   onChange={handleNameChange}
-                  placeholder="Enter your name"
+                  placeholder={CONTENT.settings.identification.placeholder}
                   maxLength={15}
                 />
               </div>
@@ -206,14 +207,14 @@ export default function Settings({
           {/* Marble Customization Settings */}
           <div className="glass-panel settings-card">
             <div className="settings-info" style={{ marginBottom: '1.5rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
-              <h3>Marble Customization</h3>
-              <p>Toggle the magical effects and interactive features of your memory marbles.</p>
+              <h3>{CONTENT.settings.customization.title}</h3>
+              <p>{CONTENT.settings.customization.description}</p>
             </div>
             
             <div className="settings-row" style={{ marginBottom: '1rem' }}>
               <div className="settings-info">
-                <h4 style={{ margin: 0, fontWeight: 600 }}>Emotion Auras</h4>
-                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Show floating magical dust orbiting around each marble.</p>
+                <h4 style={{ margin: 0, fontWeight: 600 }}>{CONTENT.settings.customization.auras.title}</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>{CONTENT.settings.customization.auras.description}</p>
               </div>
               <div 
                 className={`toggle-switch ${marbleSettings?.showAuras ? 'on' : 'off'}`} 
@@ -225,8 +226,8 @@ export default function Settings({
 
             <div className="settings-row" style={{ marginBottom: '1rem', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
               <div className="settings-info">
-                <h4 style={{ margin: 0, fontWeight: 600 }}>Magnetic Repulsion</h4>
-                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Marbles gently float away from your cursor when you move near them.</p>
+                <h4 style={{ margin: 0, fontWeight: 600 }}>{CONTENT.settings.customization.magnetic.title}</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>{CONTENT.settings.customization.magnetic.description}</p>
               </div>
               <div 
                 className={`toggle-switch ${marbleSettings?.magneticRepulsion ? 'on' : 'off'}`} 
@@ -238,8 +239,8 @@ export default function Settings({
 
             <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
               <div className="settings-info">
-                <h4 style={{ margin: 0, fontWeight: 600 }}>Random Dancing</h4>
-                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Marbles bob and glow randomly. If disabled, they move in sync.</p>
+                <h4 style={{ margin: 0, fontWeight: 600 }}>{CONTENT.settings.customization.dancing.title}</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>{CONTENT.settings.customization.dancing.description}</p>
               </div>
               <div 
                 className={`toggle-switch ${marbleSettings?.randomDancing ? 'on' : 'off'}`} 
@@ -251,8 +252,8 @@ export default function Settings({
 
             <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
               <div className="settings-info">
-                <h4 style={{ margin: 0, fontWeight: 600 }}>Hovering Speed</h4>
-                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>How fast the marbles move (0 to 10).</p>
+                <h4 style={{ margin: 0, fontWeight: 600 }}>{CONTENT.settings.customization.speed.title}</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>{CONTENT.settings.customization.speed.description}</p>
               </div>
               <input 
                 type="number" 
@@ -267,8 +268,8 @@ export default function Settings({
 
             <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
               <div className="settings-info">
-                <h4 style={{ margin: 0, fontWeight: 600 }}>Hovering Intensity</h4>
-                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>How far the marbles move (0 to 10).</p>
+                <h4 style={{ margin: 0, fontWeight: 600 }}>{CONTENT.settings.customization.intensity.title}</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>{CONTENT.settings.customization.intensity.description}</p>
               </div>
               <input 
                 type="number" 
@@ -283,8 +284,8 @@ export default function Settings({
 
             <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
               <div className="settings-info">
-                <h4 style={{ margin: 0, fontWeight: 600 }}>Marble Size (Radius)</h4>
-                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>Increase or decrease the spherical size of the marbles (1 to 10).</p>
+                <h4 style={{ margin: 0, fontWeight: 600 }}>{CONTENT.settings.customization.size.title}</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>{CONTENT.settings.customization.size.description}</p>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <input 
@@ -309,8 +310,8 @@ export default function Settings({
 
             <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1rem' }}>
               <div className="settings-info">
-                <h4 style={{ margin: 0, fontWeight: 600 }}>Marble Density (Proximity)</h4>
-                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>How close together the marbles sit on the shelf (1 = spaced out, 10 = packed tight).</p>
+                <h4 style={{ margin: 0, fontWeight: 600 }}>{CONTENT.settings.customization.density.title}</h4>
+                <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>{CONTENT.settings.customization.density.description}</p>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <input 
@@ -342,21 +343,21 @@ export default function Settings({
             <div className="settings-info" style={{ marginBottom: '1.5rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
                 <div>
-                  <h3 style={{ margin: 0 }}>🔮 Demo Showcase Vault</h3>
-                  <p style={{ margin: '5px 0 0 0' }}>Populate your museum with sample memories to inspect all marble combinations.</p>
+                  <h3 style={{ margin: 0 }}>{CONTENT.settings.demo.title}</h3>
+                  <p style={{ margin: '5px 0 0 0' }}>{CONTENT.settings.demo.description}</p>
                 </div>
                 <span 
                   className="preview-tag"
                   style={{ background: 'rgba(192, 132, 252, 0.25)', color: '#e9d5ff', border: '1px solid rgba(192, 132, 252, 0.35)', padding: '4px 12px', borderRadius: '15px' }}
                 >
-                  55 Total Combinations
+                  {CONTENT.settings.demo.badge}
                 </span>
               </div>
             </div>
 
             <div className="settings-row" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'flex-start' }}>
               <p style={{ margin: 0, opacity: 0.85, fontSize: '0.95rem', lineHeight: '1.5' }}>
-                Generates <strong>10 pure emotion marbles</strong> and all <strong>45 dual-emotion hybrid swirl combinations</strong> with tailored stories and emotional narratives.
+                {CONTENT.settings.demo.text}
               </p>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', width: '100%', marginTop: '0.5rem' }}>
                 <button
@@ -371,7 +372,7 @@ export default function Settings({
                     flex: '1 1 auto'
                   }}
                 >
-                  ✨ Load Complete Vault (55)
+                  {CONTENT.settings.demo.buttonReplace}
                 </button>
                 <button
                   type="button"
@@ -384,7 +385,7 @@ export default function Settings({
                     flex: '1 1 auto'
                   }}
                 >
-                  ➕ Append to Existing
+                  {CONTENT.settings.demo.buttonAppend}
                 </button>
               </div>
             </div>
@@ -394,8 +395,8 @@ export default function Settings({
           <div className="glass-panel settings-card">
             <div className="settings-row" style={{ marginBottom: '1.5rem' }}>
               <div className="settings-info">
-                <h3>Export Collections</h3>
-                <p>Download all your memory marbles as a secure JSON document.</p>
+                <h3>{CONTENT.settings.dataManagement.exportTitle}</h3>
+                <p>{CONTENT.settings.dataManagement.exportDescription}</p>
               </div>
               <button 
                 type="button" 
@@ -409,14 +410,14 @@ export default function Settings({
                   backdropFilter: 'blur(5px)'
                 }}
               >
-                Export Backup
+                {CONTENT.settings.dataManagement.exportButton}
               </button>
             </div>
 
             <div className="settings-row" style={{ marginBottom: '1.5rem', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1.5rem' }}>
               <div className="settings-info">
-                <h3>Import Collections</h3>
-                <p>Restore memories from a previously exported JSON backup.</p>
+                <h3>{CONTENT.settings.dataManagement.importTitle}</h3>
+                <p>{CONTENT.settings.dataManagement.importDescription}</p>
               </div>
               <input 
                 type="file" 
@@ -437,14 +438,14 @@ export default function Settings({
                   backdropFilter: 'blur(5px)'
                 }}
               >
-                Import Backup
+                {CONTENT.settings.dataManagement.importButton}
               </button>
             </div>
 
             <div className="settings-row" style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1.5rem' }}>
               <div className="settings-info">
-                <h3>Marble Reset</h3>
-                <p style={{ color: '#d32f2f', fontWeight: 'bold' }}>Deletes all memories from the museum.</p>
+                <h3>{CONTENT.settings.dataManagement.resetTitle}</h3>
+                <p style={{ color: '#d32f2f', fontWeight: 'bold' }}>{CONTENT.settings.dataManagement.resetDescription}</p>
               </div>
               <button 
                 type="button" 
@@ -458,7 +459,7 @@ export default function Settings({
                   backdropFilter: 'blur(5px)'
                 }}
               >
-                Marble Massacre
+                {CONTENT.settings.dataManagement.resetButton}
               </button>
             </div>
           </div>
@@ -467,8 +468,8 @@ export default function Settings({
         {/* Full-width Row: Typography & Font Style */}
         <div className="settings-card full-width glass-panel" style={{ padding: '2rem' }}>
           <div className="settings-info" style={{ marginBottom: '1.5rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '10px' }}>
-            <h3>Typography & Font Style</h3>
-            <p>Choose a charming theme for titles, notes, and headings across your memory museum.</p>
+            <h3>{CONTENT.settings.typography.title}</h3>
+            <p>{CONTENT.settings.typography.description}</p>
           </div>
 
           <div className="font-options-grid">
@@ -481,7 +482,7 @@ export default function Settings({
                   onClick={() => {
                     if (setSelectedFont) {
                       setSelectedFont(font.id);
-                      triggerNotification(`Theme font set to ${font.name}!`, '#c084fc');
+                      triggerNotification(`${CONTENT.settings.alerts.themeUpdatedPrefix}${font.name}${CONTENT.settings.alerts.themeUpdatedSuffix}`, '#c084fc');
                     }
                   }}
                 >

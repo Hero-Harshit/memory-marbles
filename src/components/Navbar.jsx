@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logoImg from '../assets/logo.png';
+import { CONTENT } from '../data/content';
 
 export default function Navbar({ activePage, setActivePage }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -18,11 +19,11 @@ export default function Navbar({ activePage, setActivePage }) {
   };
 
   const navItems = [
-    { id: 'museum', label: 'My Museum' },
-    { id: 'create', label: 'Create Memory' },
-    { id: 'profile', label: 'My Profile' },
-    { id: 'settings', label: 'Settings' },
-    { id: 'about', label: 'About Us' }
+    { id: 'museum', label: CONTENT.navbar.navItems.museum },
+    { id: 'create', label: CONTENT.navbar.navItems.create },
+    { id: 'profile', label: CONTENT.navbar.navItems.profile },
+    { id: 'settings', label: CONTENT.navbar.navItems.settings },
+    { id: 'about', label: CONTENT.navbar.navItems.about }
   ];
 
   return (
@@ -32,10 +33,10 @@ export default function Navbar({ activePage, setActivePage }) {
         <div 
           className="nav-brand" 
           onClick={() => navigateTo('museum')}
-          title="Memory Marbles Home"
+          title={`${CONTENT.global.brandName} Home`}
         >
-          <img src={logoImg} alt="Memory Marbles Logo" className="nav-brand-logo" />
-          <span className="brand-name">Memory Marbles</span>
+          <img src={logoImg} alt={`${CONTENT.global.brandName} Logo`} className="nav-brand-logo" />
+          <span className="brand-name">{CONTENT.global.brandName}</span>
         </div>
 
         {/* Top-Right Navigation Pill Bar (Always visible on desktop) */}
@@ -76,7 +77,7 @@ export default function Navbar({ activePage, setActivePage }) {
       {/* Right-Side Slide-out Drawer for Mobile */}
       <div className={`drawer drawer-right ${isNavOpen ? 'active' : ''}`}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h3 style={{ margin: 0, paddingBottom: 0 }}>Navigation</h3>
+          <h3 style={{ margin: 0, paddingBottom: 0 }}>{CONTENT.navbar.mobileTitle}</h3>
           <button 
             onClick={closeAll}
             style={{
@@ -105,7 +106,7 @@ export default function Navbar({ activePage, setActivePage }) {
         </div>
 
         <div className="drawer-footer" style={{ marginTop: 'auto', textAlign: 'center', opacity: 0.6, fontSize: '0.85rem' }}>
-          <p style={{ margin: 0 }}>Your data stays on your device</p>
+          <p style={{ margin: 0 }}>{CONTENT.navbar.footerPrivacy}</p>
         </div>
       </div>
     </>

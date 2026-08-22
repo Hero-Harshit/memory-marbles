@@ -4,8 +4,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 2.5rem;
-  position: relative;
-  z-index: 50;
+  position: sticky;
+  top: 0;
+  background: transparent;
+  z-index: 100;
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
@@ -32,19 +34,16 @@
 }
 
 .nav-brand-logo {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   object-fit: cover;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 16px rgba(251, 192, 45, 0.45), 0 0 8px rgba(96, 165, 250, 0.4);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   flex-shrink: 0;
 }
 
 .nav-brand:hover .nav-brand-logo {
-  transform: rotate(20deg) scale(1.1);
-  box-shadow: 0 0 24px rgba(251, 192, 45, 0.7), 0 0 12px rgba(192, 132, 252, 0.6);
+  transform: rotate(15deg) scale(1.05);
 }
 
 .brand-orb {
@@ -67,13 +66,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(18, 18, 30, 0.75);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(20, 16, 42, 0.48) 100%);
   padding: 6px 10px;
   border-radius: 40px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .top-nav-btn {
@@ -487,19 +486,19 @@
   }
 }
 
-/* Create Memory Box (Punches out bold & beautiful) */
+/* Create Memory Box (Translucent Glassmorphism) */
 .create-memory-card {
   max-width: 760px;
   margin: 0 auto;
   border-radius: 32px;
   padding: 2.8rem 2.4rem;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(20, 16, 42, 0.48) 100%);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
   box-shadow:
-    0 24px 60px -12px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+    0 24px 60px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -617,26 +616,26 @@
 .emotion-selector-panel {
   flex: 1;
   max-width: 100%;
-  background: rgba(18, 18, 30, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.07) 0%, rgba(18, 14, 38, 0.52) 100%);
+  backdrop-filter: blur(20px) saturate(135%);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 30px;
   padding: 30px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .memory-composer-panel {
   flex: 1.5;
   display: flex;
   flex-direction: column;
-  background: rgba(18, 18, 30, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.07) 0%, rgba(18, 14, 38, 0.52) 100%);
+  backdrop-filter: blur(20px) saturate(135%);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 30px;
   padding: 30px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 @media (min-width: 1024px) {
@@ -736,11 +735,13 @@
   width: 100%;
   padding: 1.1rem 1.4rem;
   border-radius: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
   font-size: 1.25rem;
   font-weight: 700;
   font-family: inherit;
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #fff;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: all 0.3s;
@@ -753,7 +754,7 @@
 
 .memory-title-input:focus {
   outline: none;
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(15, 23, 42, 0.6);
   border-color: var(--focus-color, #7c3aed);
   box-shadow: 0 0 0 3px var(--focus-glow, rgba(124, 58, 237, 0.3)),
     inset 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -763,11 +764,13 @@
   width: 100%;
   padding: 1.3rem 1.4rem;
   border-radius: 24px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
   font-size: 1.05rem;
   font-weight: 500;
   font-family: var(--font-body);
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #f1f5f9;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
@@ -781,7 +784,7 @@
 
 .description-textarea:focus {
   outline: none;
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(15, 23, 42, 0.6);
   border-color: var(--focus-color, #7c3aed);
   box-shadow: 0 0 0 3px var(--focus-glow, rgba(124, 58, 237, 0.3)),
     0 8px 24px rgba(0, 0, 0, 0.3);

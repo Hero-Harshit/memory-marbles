@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { EMOTIONS, getHybridDetails } from '../data/emotions';
 import logoImg from '../assets/logo.png';
+import { CONTENT } from '../data/content';
 
 export default function CreateMemory({ allMemories, setAllMemories, triggerNotification }) {
   const [activeTab, setActiveTab] = useState('io1'); // 'io1' or 'io2'
@@ -45,22 +46,22 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
     e.preventDefault();
 
     if (!selectedEmotion) {
-      setErrorMsg('Please select a primary emotion for your memory marble.');
+      setErrorMsg(CONTENT.createMemory.errors.missingPrimary);
       return;
     }
 
     if (isHybrid && !secondaryEmotion) {
-      setErrorMsg('Please pick a secondary emotion to blend, or turn off hybrid mode.');
+      setErrorMsg(CONTENT.createMemory.errors.missingSecondary);
       return;
     }
 
     if (!title.trim()) {
-      setErrorMsg('Please give your memory a title.');
+      setErrorMsg(CONTENT.createMemory.errors.missingTitle);
       return;
     }
 
     if (!description.trim()) {
-      setErrorMsg('Please describe your memory before preserving it.');
+      setErrorMsg(CONTENT.createMemory.errors.missingDescription);
       return;
     }
 
@@ -86,8 +87,8 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
 
     // Trigger Success Banner
     const notifMsg = newMemory.secondaryEmotion 
-      ? `Swirled a ${hybridMeta.title} memory into your museum!`
-      : `Memory added to your museum!`;
+      ? `${CONTENT.createMemory.notifications.hybridSuccessPrefix}${hybridMeta.title}${CONTENT.createMemory.notifications.hybridSuccessSuffix}`
+      : CONTENT.createMemory.notifications.pureSuccess;
     triggerNotification(notifMsg, EMOTIONS[newMemory.emotion].color);
   };
 
@@ -98,10 +99,9 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
     <div className="create-memory-section">
       <div className="header-hero" style={{ marginBottom: '2rem' }}>
         <div className="header-hero-title-wrap">
-          <img src={logoImg} alt="Memory Marbles Logo" className="hero-heading-logo" />
-          <h1>Create A Memory Marble</h1>
+          <h1>{CONTENT.createMemory.heroTitle}</h1>
         </div>
-        <p>Preserve pure feelings or blend complex hybrid memories that swirl with light.</p>
+        <p>{CONTENT.createMemory.heroSubtitle}</p>
       </div>
 
       <div className="create-memory-dashboard">
@@ -110,8 +110,8 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
           <div className="emotion-select-header-box">
             <h3 className="emotion-select-header">
               {selectedEmotionData 
-                ? `Primary Feeling: ${selectedEmotionData.name}` 
-                : '1. Select Primary Emotion'
+                ? `${CONTENT.createMemory.stepOneSelectedPrefix}${selectedEmotionData.name}` 
+                : CONTENT.createMemory.stepOneDefault
               }
             </h3>
           </div>
@@ -123,14 +123,14 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
               className={`tab-btn ${activeTab === 'io1' ? 'active' : ''}`}
               onClick={() => setActiveTab('io1')}
             >
-              Inside Out 1
+              {CONTENT.createMemory.tabsIO1}
             </button>
             <button
               type="button"
               className={`tab-btn ${activeTab === 'io2' ? 'active' : ''}`}
               onClick={() => setActiveTab('io2')}
             >
-              Inside Out 2
+              {CONTENT.createMemory.tabsIO2}
             </button>
           </div>
 
@@ -164,10 +164,10 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={() => setIsHybrid(!isHybrid)}>
               <div>
                 <h4 style={{ margin: 0, fontWeight: 700, fontSize: '0.95rem', color: '#f8fafc' }}>
-                  🌀 Blend with a Second Emotion?
+                  {CONTENT.createMemory.hybridToggleTitle}
                 </h4>
                 <p style={{ margin: '3px 0 0 0', opacity: 0.7, fontSize: '0.8rem' }}>
-                  Create an Inside Out 2 style dual-tone swirling marble
+                  {CONTENT.createMemory.hybridToggleSubtitle}
                 </p>
               </div>
               <div className={`toggle-switch ${isHybrid ? 'on' : 'off'}`}>
@@ -185,7 +185,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
                     onClick={() => setSecondaryTab('io1')}
                     style={{ fontSize: '0.75rem', padding: '6px 12px' }}
                   >
-                    IO 1
+                    {CONTENT.createMemory.secondaryTabsIO1}
                   </button>
                   <button
                     type="button"
@@ -193,7 +193,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
                     onClick={() => setSecondaryTab('io2')}
                     style={{ fontSize: '0.75rem', padding: '6px 12px' }}
                   >
-                    IO 2
+                    {CONTENT.createMemory.secondaryTabsIO2}
                   </button>
                 </div>
 
@@ -283,7 +283,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
             <input
               type="text"
               className="memory-title-input"
-              placeholder="Memory Title"
+              placeholder={CONTENT.createMemory.inputTitlePlaceholder}
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
@@ -298,8 +298,8 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
               className="description-textarea"
               placeholder={
                 selectedEmotionData
-                  ? `Write down your ${hybridMeta.title} memory...`
-                  : "How does it feel today? Describe your memory..."
+                  ? `${CONTENT.createMemory.textareaPlaceholderPrefix}${hybridMeta.title}${CONTENT.createMemory.textareaPlaceholderSuffix}`
+                  : CONTENT.createMemory.textareaPlaceholderDefault
               }
               value={description}
               onChange={(e) => {
@@ -334,7 +334,7 @@ export default function CreateMemory({ allMemories, setAllMemories, triggerNotif
                 boxShadow: `0 8px 25px ${hybridMeta.primary.glowColor}`
               }}
             >
-              Preserve {hybridMeta.isHybrid ? 'Hybrid' : ''} Memory
+              {hybridMeta.isHybrid ? CONTENT.createMemory.submitBtnHybrid : CONTENT.createMemory.submitBtnPure}
             </button>
           </div>
         </form>
